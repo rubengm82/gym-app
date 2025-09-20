@@ -14,6 +14,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <!-- 🔹 Repositorios -->
+    <repositories>
+        <!-- Asegura que Maven Central esté disponible -->
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- JavaFX -->
         <dependency>
@@ -25,6 +34,13 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>25</version>
+        </dependency>
+
+        <!-- 🔹 Atlantafx -->
+        <dependency>
+            <groupId>io.github.mkpaz</groupId>
+            <artifactId>atlantafx-base</artifactId>
+            <version>2.1.0</version>
         </dependency>
     </dependencies>
 
