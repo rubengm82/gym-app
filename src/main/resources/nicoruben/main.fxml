@@ -26,7 +26,7 @@
                     <Label fx:id="label" text="Hola JavaFX 25 con Java 23 🚀" />
                     <HBox alignment="CENTER" spacing="20">
                         <Button fx:id="buttonClick" onAction="#onButtonClick" text="Haz clic" />
-                        <Button styleClass="success" text="Success" />
+                        <Button fx:id="buttonGoVentanados" onAction="#onClickGoVentanados" styleClass="success" text="Success" />
                         <Button styleClass="danger" text="Danger" />
                     </HBox>
                 </VBox>

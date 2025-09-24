@@ -1,15 +1,15 @@
 package org.nicoruben;
 
+import atlantafx.base.theme.NordLight;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import javafx.scene.Parent;
-
-// Importa Atlantafx Nord Light
-import atlantafx.base.theme.NordLight;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,6 +20,9 @@ public class Main extends Application {
 
     @FXML
     private Label label;
+
+    @FXML
+    private Button buttonGoVentanados;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -46,6 +49,11 @@ public class Main extends Application {
     @FXML
     protected void onButtonClick() {
         label.setText("¡Botón pulsado desde FXML!");
+    }
+
+    @FXML
+    void onClickGoVentanados(ActionEvent event) throws Exception {
+        SceneUtils.cambiarEscena(buttonGoVentanados, "ventanados.fxml");
     }
 
     private static void testQueryBBDD() {
