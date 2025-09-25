@@ -12,6 +12,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        // CONSTANTES
         final int APP_WIDTH = 1600;
         final int APP_HEIGHT = 900;
 
@@ -22,11 +23,12 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/nicoruben/views/main.fxml"));
         Parent root = fxmlLoader.load();
 
-        // Crea la Stage
         // La App tendra solo un stage con muchas scenes. El tamaño sera 1600px x 900px
+        // Crea la Stage en el centro de la pantalla
         stage.setResizable(false);
         stage.setWidth(APP_WIDTH);
         stage.setHeight(APP_HEIGHT);
+        stage.centerOnScreen();
 
         // Crea la Scene
         Scene scene = new Scene(root, APP_WIDTH, APP_HEIGHT);
@@ -39,7 +41,6 @@ public class Main extends Application {
         // UtilsGlobal.testConexionBBDD();
         // UtilsGlobal.testQueryBBDD();
     }
-
 
     public static void main(String[] args) {
         launch();

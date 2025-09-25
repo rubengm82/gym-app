@@ -21,10 +21,25 @@ public class UtilsGlobal {
      * @param fxmlFile   Nombre del archivo FXML a cargar, ejemplo "xxx.fxml"
      * @throws IOException Si no se encuentra el FXML
      */
-    public static void cambiarEscena(Node sourceNode, String fxmlFile) throws IOException {
+    public static void goToSceneWithButton(Node sourceNode, String fxmlFile) throws IOException {
         Stage stage = (Stage) sourceNode.getScene().getWindow();
-        Scene scene = new Scene(FXMLLoader.load(UtilsGlobal.class.getResource("/nicoruben/" + fxmlFile)), 640, 480);
+        Scene scene = new Scene(FXMLLoader.load(UtilsGlobal.class.getResource("/nicoruben/views/" + fxmlFile + ".fxml")), 640, 480);
         stage.setScene(scene);
+    }
+
+    /**
+     * Test - Conexion a la BBDD
+     */
+    public static void testConexionBBDD() {
+        try (Connection conexion = ConexionBD.conectar()) {
+            if (conexion != null && !conexion.isClosed()) {
+                System.out.println("✅ Conexión exitosa a la base de datos!");
+            } else {
+                System.out.println("❌ No se pudo conectar a la base de datos.");
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Error al conectar: " + e.getMessage());
+        }
     }
 
     /**
@@ -33,7 +48,7 @@ public class UtilsGlobal {
     public static void testQueryBBDD() {
         try (Connection conexion = ConexionBD.conectar();
              Statement stmt = conexion.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT id, nombre, apellido1, apellido2 FROM personas")) {
+             ResultSet rs = stmt.executeQuery("SELECT id, nombre, apellido1, apellido2 FROM Z_testDB")) {
 
             System.out.println("Lista de personas:");
             while (rs.next()) {
@@ -50,20 +65,5 @@ public class UtilsGlobal {
         }
     }
 
-
-    /**
-     * Test - Conexion a la BBDD
-     */
-    public static void testConexionBBDD() {
-        try (Connection conexion = ConexionBD.conectar()) {
-            if (conexion != null && !conexion.isClosed()) {
-                System.out.println("✅ Conexión exitosa a la base de datos!");
-            } else {
-                System.out.println("❌ No se pudo conectar a la base de datos.");
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Error al conectar: " + e.getMessage());
-        }
-    }
 
 }
