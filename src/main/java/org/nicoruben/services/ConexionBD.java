@@ -1,4 +1,4 @@
-package org.nicoruben;
+package org.nicoruben.services;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
