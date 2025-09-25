@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.Main">
+
+    <center>
+        <VBox alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" spacing="20">
+
+            <!-- Tarjeta principal con color de fondo -->
+            <StackPane prefHeight="250" prefWidth="600" style="-fx-background-color: #00000018; -fx-border-color: #00000040; -fx-border-radius: 5; -fx-background-radius: 5;">
+                <VBox alignment="CENTER" spacing="10">
+                    <Label fx:id="label" text="Hola JavaFX 25 con Java 23 🚀" />
+                    <HBox alignment="CENTER" spacing="20">
+                        <Button fx:id="buttonClick" text="Haz clic" />
+                        <Button fx:id="buttonGoVentanados" styleClass="success" text="Success" />
+                        <Button styleClass="danger" text="Danger" />
+                    </HBox>
+                </VBox>
+            </StackPane>
+
+            <!-- Formulario centrado -->
+            <HBox alignment="CENTER" spacing="20">
+                <ComboBox prefWidth="150" promptText="Combo Box" />
+                <DatePicker prefHeight="34.0" prefWidth="171.0" promptText="Elije una fecha" />
+                <TextField prefHeight="34.0" prefWidth="177.0" promptText="Buscar un producto..." />
+            </HBox>
+
+            <!-- Toggle y CheckBox centrados -->
+            <HBox alignment="CENTER" spacing="20">
+                <CheckBox text="CheckBox" />
+                <ToggleButton selected="true" text="ToggleButton" />
+                <RadioButton text="RadioButton" />
+            </HBox>
+
+            <!-- TableView centrado -->
+            <TableView prefHeight="0" prefWidth="600">
+                <columns>
+                    <TableColumn prefWidth="200" text="Nombre" />
+                    <TableColumn prefWidth="200" text="Apellido" />
+                </columns>
+            </TableView>
+
+        </VBox>
+    </center>
+
+</BorderPane>
