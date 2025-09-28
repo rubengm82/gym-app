@@ -41,7 +41,7 @@
 
     <!-- Center: contenido dinámico -->
     <center>
-        <StackPane fx:id="centerPane" style="-fx-background-color: #ffffff; -fx-padding: 20;">
+        <StackPane fx:id="centerPane" style="-fx-background-color: #ffffff; -fx-padding: 10;">
          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../../images/logoTransApp.png" />

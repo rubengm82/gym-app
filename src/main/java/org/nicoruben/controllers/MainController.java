@@ -1,10 +1,15 @@
 package org.nicoruben.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
+import java.io.IOException;
 
 public class MainController {
 
@@ -39,7 +44,8 @@ public class MainController {
             case "Clientes" -> {
                 Button listarClientes = new Button("Listar Clientes");
                 listarClientes.setMaxWidth(Double.MAX_VALUE);
-                listarClientes.setOnAction(e -> showInCenter("Listar Clientes"));
+//                listarClientes.setOnAction(e -> showInCenter("Listar Clientes"));
+                listarClientes.setOnAction(e -> showInCenter("ListarClientes"));
 
                 Button nuevoCliente = new Button("Nuevo Cliente");
                 nuevoCliente.setMaxWidth(Double.MAX_VALUE);
@@ -47,7 +53,7 @@ public class MainController {
 
                 leftMenu.getChildren().addAll(listarClientes, nuevoCliente);
             }
-            case "Actividades" -> {
+            /*case "Actividades" -> {
                 Button listarAct = new Button("Listar Actividades");
                 listarAct.setMaxWidth(Double.MAX_VALUE);
                 listarAct.setOnAction(e -> showInCenter("Listar Actividades"));
@@ -93,13 +99,31 @@ public class MainController {
                 nuevaPlanificacion.setOnAction(e -> showInCenter("Nueva Planificación"));
 
                 leftMenu.getChildren().addAll(listaPlanificacion, nuevaPlanificacion);
-            }
+            }*/
 
         }
     }
 
-    private void showInCenter(String text) {
-        centerPane.getChildren().clear();
-        centerPane.getChildren().add(new Label(text));
+    private void showInCenter(String fxmlFile) {
+//        centerPane.getChildren().clear();
+//        centerPane.getChildren().add(new Label(text));
+        try {
+            // Limpia lo que haya en el centro
+            centerPane.getChildren().clear();
+
+            // Carga el FXML desde la carpeta resources/fxml (ajusta la ruta según tu estructura)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/nicoruben/views/" + fxmlFile + ".fxml"));
+            Node content = loader.load();
+
+            // Hace que el nodo cargado se expanda en el StackPane
+            StackPane.setAlignment(content, Pos.CENTER);
+
+            // Añade el contenido
+            centerPane.getChildren().add(content);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            centerPane.getChildren().add(new Label("Error cargando vista: " + fxmlFile));
+        }
     }
 }
