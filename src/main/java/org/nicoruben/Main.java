@@ -20,7 +20,7 @@ public class Main extends Application {
         Application.setUserAgentStylesheet(new NordLight().getUserAgentStylesheet());
 
         // Carga el FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/nicoruben/views/main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/views/login/login.fxml"));
         Parent root = fxmlLoader.load();
 
         // La App tendra solo un stage con muchas scenes. El tamaño sera 1600px x 900px

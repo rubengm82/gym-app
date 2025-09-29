@@ -16,16 +16,16 @@
             <!-- Imagen a la izquierda -->
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                 <image>
-                    <Image url="@../../images/logoTransApp.png" />
+                    <Image url="@../images/logoTransApp.png" />
                 </image>
             </ImageView>
 
             <!-- Spacer para empujar los botones a la derecha -->
             <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnClientes" onAction="#handleTopButton" styleClass="success" text="Clientes" />
 
             <!-- Botones a la derecha -->
             <Button fx:id="btnActividades" onAction="#handleTopButton" styleClass="success" text="Actividades" />
-            <Button fx:id="btnClientes" onAction="#handleTopButton" styleClass="success" text="Clientes" />
             <Button fx:id="btnInstructores" onAction="#handleTopButton" styleClass="success" text="Instructores" />
             <Button fx:id="btnReservas" onAction="#handleTopButton" styleClass="success" text="Reservas" />
             <Button fx:id="btnPlanificacion" onAction="#handleTopButton" styleClass="success" text="Planificación" />
@@ -44,7 +44,7 @@
         <StackPane fx:id="centerPane" style="-fx-background-color: #ffffff; -fx-padding: 10;">
          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
             <image>
-               <Image url="@../../images/logoTransApp.png" />
+               <Image url="@../images/logoTransApp.png" />
             </image>
          </ImageView>
         </StackPane>

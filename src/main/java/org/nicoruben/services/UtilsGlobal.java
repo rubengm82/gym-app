@@ -23,7 +23,7 @@ public class UtilsGlobal {
      */
     public static void goToSceneWithButton(Node sourceNode, String fxmlFile) throws IOException {
         Stage stage = (Stage) sourceNode.getScene().getWindow();
-        Scene scene = new Scene(FXMLLoader.load(UtilsGlobal.class.getResource("/nicoruben/views/" + fxmlFile + ".fxml")), 640, 480);
+        Scene scene = new Scene(FXMLLoader.load(UtilsGlobal.class.getResource(fxmlFile)), 640, 480);
         stage.setScene(scene);
     }
 

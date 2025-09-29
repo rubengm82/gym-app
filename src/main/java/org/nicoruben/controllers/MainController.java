@@ -40,85 +40,59 @@ public class MainController {
         Button clicked = (Button) event.getSource();
         leftMenu.getChildren().clear();
 
+        // /////////////////////////////////////////
+        // AQUI ESTARAN LOS BOTONES DE TOP Y LEFT //
+        // /////////////////////////////////////////
         switch (clicked.getText()) {
+
+            // BOTON TOP CLIENTES
             case "Clientes" -> {
+                // BOTONES LEFT
                 Button listarClientes = new Button("Listar Clientes");
                 listarClientes.setMaxWidth(Double.MAX_VALUE);
-//                listarClientes.setOnAction(e -> showInCenter("Listar Clientes"));
                 listarClientes.setOnAction(e -> showInCenter("ListarClientes"));
 
                 Button nuevoCliente = new Button("Nuevo Cliente");
                 nuevoCliente.setMaxWidth(Double.MAX_VALUE);
-                nuevoCliente.setOnAction(e -> showInCenter("Nuevo Cliente"));
+                nuevoCliente.setOnAction(e -> showInCenter("NuevoCliente"));
 
+                // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(listarClientes, nuevoCliente);
             }
-            /*case "Actividades" -> {
+
+            // BOTON TOP ACTIVIDADES
+            case "Actividades" -> {
+                // BOTONES LEFT
                 Button listarAct = new Button("Listar Actividades");
                 listarAct.setMaxWidth(Double.MAX_VALUE);
-                listarAct.setOnAction(e -> showInCenter("Listar Actividades"));
+                listarAct.setOnAction(e -> showInCenter("ListarActividades"));
 
                 Button nuevaAct = new Button("Nueva Actividad");
                 nuevaAct.setMaxWidth(Double.MAX_VALUE);
-                nuevaAct.setOnAction(e -> showInCenter("Nueva Actividad"));
+                nuevaAct.setOnAction(e -> showInCenter("NuevaActividad"));
 
+                // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(listarAct, nuevaAct);
             }
 
-            case "Instructores" -> {
-                Button listaInstruc = new Button("Listar Intructores/as");
-                listaInstruc.setMaxWidth(Double.MAX_VALUE);
-                listaInstruc.setOnAction(e -> showInCenter("Listar Intructores/as"));
-
-                Button nuevoInstruc = new Button("Nuevo Intructor/a");
-                nuevoInstruc.setMaxWidth(Double.MAX_VALUE);
-                nuevoInstruc.setOnAction(e -> showInCenter("Nuevo Intructor/a"));
-
-                leftMenu.getChildren().addAll(listaInstruc, nuevoInstruc);
-            }
-
-            case "Reservas" -> {
-                Button listaReserva = new Button("Listar Reservas");
-                listaReserva.setMaxWidth(Double.MAX_VALUE);
-                listaReserva.setOnAction(e -> showInCenter("Listar Reservas"));
-
-                Button nuevaReserva = new Button("Nuevo Reservas");
-                nuevaReserva.setMaxWidth(Double.MAX_VALUE);
-                nuevaReserva.setOnAction(e -> showInCenter("Nueva Reserva"));
-
-                leftMenu.getChildren().addAll(listaReserva, nuevaReserva);
-            }
-
-            case "Planificación" -> {
-                Button listaPlanificacion = new Button("Listar Planificaciones");
-                listaPlanificacion.setMaxWidth(Double.MAX_VALUE);
-                listaPlanificacion.setOnAction(e -> showInCenter("Listar Planificaciones"));
-
-                Button nuevaPlanificacion = new Button("Nueva Planificación");
-                nuevaPlanificacion.setMaxWidth(Double.MAX_VALUE);
-                nuevaPlanificacion.setOnAction(e -> showInCenter("Nueva Planificación"));
-
-                leftMenu.getChildren().addAll(listaPlanificacion, nuevaPlanificacion);
-            }*/
 
         }
     }
 
+    // METODOS DE MainController
     private void showInCenter(String fxmlFile) {
-//        centerPane.getChildren().clear();
-//        centerPane.getChildren().add(new Label(text));
         try {
             // Limpia lo que haya en el centro
             centerPane.getChildren().clear();
 
             // Carga el FXML desde la carpeta resources/fxml (ajusta la ruta según tu estructura)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/nicoruben/views/" + fxmlFile + ".fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/centerPane/" + fxmlFile + ".fxml"));
             Node content = loader.load();
 
             // Hace que el nodo cargado se expanda en el StackPane
             StackPane.setAlignment(content, Pos.CENTER);
 
-            // Añade el contenido
+            // Añade el contenido al centerPane
             centerPane.getChildren().add(content);
 
         } catch (IOException e) {
