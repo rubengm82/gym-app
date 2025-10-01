@@ -50,11 +50,11 @@ public class MainController {
                 // BOTONES LEFT
                 Button listarClientes = new Button("Listar Clientes");
                 listarClientes.setMaxWidth(Double.MAX_VALUE);
-                listarClientes.setOnAction(e -> showInCenter("ListarClientes"));
+                listarClientes.setOnAction(e -> showInCenter("listarClientes"));
 
                 Button nuevoCliente = new Button("Nuevo Cliente");
                 nuevoCliente.setMaxWidth(Double.MAX_VALUE);
-                nuevoCliente.setOnAction(e -> showInCenter("NuevoCliente"));
+                nuevoCliente.setOnAction(e -> showInCenter("nuevoCliente"));
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(listarClientes, nuevoCliente);
@@ -63,19 +63,17 @@ public class MainController {
             // BOTON TOP ACTIVIDADES
             case "Actividades" -> {
                 // BOTONES LEFT
-                Button listarAct = new Button("Listar Actividades");
-                listarAct.setMaxWidth(Double.MAX_VALUE);
-                listarAct.setOnAction(e -> showInCenter("ListarActividades"));
+                Button listarActividades = new Button("Listar Actividades");
+                listarActividades.setMaxWidth(Double.MAX_VALUE);
+                listarActividades.setOnAction(e -> showInCenter("listarActividades"));
 
-                Button nuevaAct = new Button("Nueva Actividad");
-                nuevaAct.setMaxWidth(Double.MAX_VALUE);
-                nuevaAct.setOnAction(e -> showInCenter("NuevaActividad"));
+                Button nuevaActividad = new Button("Nueva Actividad");
+                nuevaActividad.setMaxWidth(Double.MAX_VALUE);
+                nuevaActividad.setOnAction(e -> showInCenter("nuevaActividad"));
 
                 // Añade los botones al leftMenu
-                leftMenu.getChildren().addAll(listarAct, nuevaAct);
+                leftMenu.getChildren().addAll(listarActividades, nuevaActividad);
             }
-
-
         }
     }
 
@@ -100,4 +98,5 @@ public class MainController {
             centerPane.getChildren().add(new Label("Error cargando vista: " + fxmlFile));
         }
     }
+
 }

@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.nicoruben.models.Administradores;
+import org.nicoruben.services.UtilsGlobal;
 
 public class Main extends Application {
 
@@ -36,13 +38,12 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-
-        /* TEST CONEXION Y QUERY A BBDD */
-        // UtilsGlobal.testConexionBBDD();
-        // UtilsGlobal.testQueryBBDD();
+        // Comprobación de conexion con la BBDD
+        UtilsGlobal.testConexionBBDD();
     }
 
     public static void main(String[] args) {
         launch();
     }
+
 }

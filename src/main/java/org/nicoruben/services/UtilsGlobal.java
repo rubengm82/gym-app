@@ -7,9 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 
 public class UtilsGlobal {
@@ -31,39 +29,15 @@ public class UtilsGlobal {
      * Test - Conexion a la BBDD
      */
     public static void testConexionBBDD() {
-        try (Connection conexion = ConexionBD.conectar()) {
-            if (conexion != null && !conexion.isClosed()) {
-                System.out.println("✅ Conexión exitosa a la base de datos!");
+        try (Connection connection = ConexionBD.conectar()) {
+            if (connection != null && !connection.isClosed()) {
+                System.out.println("* Conexión exitosa a la base de datos!");
             } else {
-                System.out.println("❌ No se pudo conectar a la base de datos.");
+                System.out.println("* No se pudo conectar a la base de datos.");
             }
         } catch (SQLException e) {
-            System.out.println("❌ Error al conectar: " + e.getMessage());
+            System.out.println("* Error al conectar: " + e.getMessage());
         }
     }
-
-    /**
-     * Test - Query a BBDD
-     */
-    public static void testQueryBBDD() {
-        try (Connection conexion = ConexionBD.conectar();
-             Statement stmt = conexion.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT id, nombre, apellido1, apellido2 FROM Z_testDB")) {
-
-            System.out.println("Lista de personas:");
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String nombre = rs.getString("nombre");
-                String apellido1 = rs.getString("apellido1");
-                String apellido2 = rs.getString("apellido2");
-
-                System.out.println(id + ": " + nombre + " " + apellido1 + " " + apellido2);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("❌ Error en la consulta: " + e.getMessage());
-        }
-    }
-
 
 }
