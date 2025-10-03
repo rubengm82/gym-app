@@ -9,6 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.sql.PreparedStatement;
+
+
 public class Administradores {
 
     private int id_user;
@@ -24,6 +27,12 @@ public class Administradores {
         this.rol = rol;
         this.password = password;
         this.estado = estado;
+    }
+
+    //Sobre carga del constructor para login
+    public Administradores(String mail, String password) {
+        this.mail = mail;
+        this.password = password;
     }
 
     // SETTER & GETTERS
@@ -92,4 +101,29 @@ public class Administradores {
         return administradores;
     }
 
+
+    //Metodo inicio de session
+    public static int verificarSession(String mail, String password) {
+        String sql = "SELECT COUNT(*) FROM Administradores WHERE mail = ? AND password = ? AND estado = 1";
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, mail);
+            stmt.setString(2, password);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                    //Guardar el objeto ??? revisar mas tarde
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener administradores: " + e.getMessage());
+        }
+        return 0;
+    }
+
+
 }
+
+
