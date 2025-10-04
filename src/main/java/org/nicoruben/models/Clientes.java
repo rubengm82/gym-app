@@ -2,9 +2,9 @@ package org.nicoruben.models;
 
 import org.nicoruben.services.ConexionBD;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Clientes {
 
@@ -95,9 +95,10 @@ public class Clientes {
     }
 
 
+
     // METODOS
     public static void insertarCliente(String nombre, String apellido1, String apellido2, String IBAN, String mail, String telefono, int estado) {
-        String sql = "INSERT INTO Clientes (id_cliente, nombre, apellido1, apellido2, IBAN, email, telefono, estado) " +
+        String sql = "INSERT INTO Clientes (id_cliente, nombre, apellido1, apellido2, IBAN, mail, telefono, estado) " +
                      "VALUES (NULL, '" + nombre + "', '" + apellido1 + "', '" + apellido2 + "', '" + IBAN + "', '" + mail + "', '" + telefono + "', " + estado + ")";
         try (Connection connection = ConexionBD.conectar();
              Statement stmt = connection.createStatement()
@@ -106,6 +107,47 @@ public class Clientes {
         } catch (SQLException e) {
             System.err.println("Error al insertar cliente: " + e.getMessage());
         }
+    }
+
+    public static boolean existeMail(String mail) {
+        boolean existe = false;
+        try (Connection con = ConexionBD.conectar();
+             PreparedStatement ps = con.prepareStatement("SELECT 1 FROM Clientes WHERE mail = ?")) {
+            ps.setString(1, mail);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                existe = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return existe;
+    }
+
+    public static List<Clientes> obtenerTodosClientes() {
+        List<Clientes> clientes = new ArrayList<>();
+        String sql = "SELECT * FROM Clientes WHERE estado = 1";
+
+        try (Connection connection = ConexionBD.conectar();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)
+        ) {
+            while (rs.next()) {
+                Clientes cliente = new Clientes(
+                        rs.getInt("id_cliente"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido1"),
+                        rs.getString("apellido2"),
+                        rs.getString("IBAN"),
+                        rs.getString("mail"),
+                        rs.getString("telefono"),
+                        rs.getInt("estado"));
+                clientes.add(cliente);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener clientes: " + e.getMessage());
+        }
+        return clientes;
     }
 
 }
