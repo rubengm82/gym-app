@@ -126,7 +126,7 @@ public class Clientes {
 
     public static List<Clientes> obtenerTodosClientes() {
         List<Clientes> clientes = new ArrayList<>();
-        String sql = "SELECT * FROM Clientes WHERE estado = 1";
+        String sql = "SELECT * FROM Clientes";
 
         try (Connection connection = ConexionBD.conectar();
              Statement stmt = connection.createStatement();
@@ -148,6 +148,20 @@ public class Clientes {
             System.out.println("Error al obtener clientes: " + e.getMessage());
         }
         return clientes;
+    }
+
+    public static void actualizarEstado(int id_cliente, int nuevoEstado) {
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement stmt = connection.prepareStatement(
+                     "UPDATE Clientes SET estado = ? WHERE id_cliente = ?")) {
+
+            stmt.setInt(1, nuevoEstado);
+            stmt.setInt(2, id_cliente);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
