@@ -10,12 +10,12 @@ public class Instructores {
     private String nombre;
     private String apellido;
     private String apellidos2;
-    private int telefono;
+    private String telefono;
     private String DNI;
     private int estado;
 
     // Constructor
-    public Instructores(int id, String nombre, String apellido, String apellidos2, int telefono, String DNI, int estado) {
+    public Instructores(int id, String nombre, String apellido, String apellidos2, String telefono, String DNI, int estado) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -26,7 +26,7 @@ public class Instructores {
     }
 
     // Sobrecarga del constructor
-    public Instructores(String nombre, String apellido, String apellidos2, int telefono, String DNI, int estado) {
+    public Instructores(String nombre, String apellido, String apellidos2, String telefono, String DNI, int estado) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.apellidos2 = apellidos2;
@@ -36,7 +36,7 @@ public class Instructores {
     }
 
     // Método para crear instructor
-    public static void crearInstructor(String nombre, String apellido, String apellidos2, int telefono, String DNI, int estado) {
+    public static void crearInstructor(String nombre, String apellido, String apellidos2, String telefono, String DNI, int estado) {
         String sql = "INSERT INTO Instructores (nombre, apellido1, apellido2, telefono, DNI, estado) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConexionBD.conectar();
@@ -45,7 +45,7 @@ public class Instructores {
             stmt.setString(1, nombre);
             stmt.setString(2, apellido);
             stmt.setString(3, apellidos2);
-            stmt.setInt(4, telefono);
+            stmt.setString(4, telefono);
             stmt.setString(5, DNI);
             stmt.setInt(6, estado);
 
@@ -75,7 +75,7 @@ public class Instructores {
                         rs.getString("nombre"),
                         rs.getString("apellido1"),
                         rs.getString("apellido2"),
-                        rs.getInt("telefono"),
+                        rs.getString("telefono"),
                         rs.getString("DNI"),
                         rs.getInt("estado"));
                instructores.add(instructor);
@@ -92,7 +92,7 @@ public class Instructores {
     public String getNombre() { return nombre; }
     public String getApellido() { return apellido; }
     public String getApellidos2() { return apellidos2; }
-    public int getTelefono() { return telefono; }
+    public String getTelefono() { return telefono; }
     public String getDNI() { return DNI; }
     public int getEstado() { return estado; }
 
@@ -100,7 +100,7 @@ public class Instructores {
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setApellido(String apellido) { this.apellido = apellido; }
     public void setApellidos2(String apellidos2) { this.apellidos2 = apellidos2; }
-    public void setTelefono(int telefono) { this.telefono = telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
     public void setDNI(String DNI) { this.DNI = DNI; }
     public void setEstado(int estado) { this.estado = estado; }
 }

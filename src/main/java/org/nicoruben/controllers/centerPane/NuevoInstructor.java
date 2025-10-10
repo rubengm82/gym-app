@@ -40,7 +40,7 @@ public class NuevoInstructor {
         String nombre = input_nombre.getText();
         String apellido1 = input_apellido1.getText();
         String apellido2 = input_apellido2.getText();
-        int telefono = Integer.parseInt(input_telefono.getText());
+        String telefono = input_telefono.getText();
         String dni = input_dni.getText();
         int estado = 1;
 
