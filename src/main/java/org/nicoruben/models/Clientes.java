@@ -95,8 +95,9 @@ public class Clientes {
     }
 
 
-
-    // METODOS
+    // ///////////////////
+    // METODOS PROPIOS ///
+    // ///////////////////
     public static void insertarCliente(String nombre, String apellido1, String apellido2, String IBAN, String mail, String telefono, int estado) {
         String sql = "INSERT INTO Clientes (id_cliente, nombre, apellido1, apellido2, IBAN, mail, telefono, estado) " +
                      "VALUES (NULL, '" + nombre + "', '" + apellido1 + "', '" + apellido2 + "', '" + IBAN + "', '" + mail + "', '" + telefono + "', " + estado + ")";
@@ -109,6 +110,7 @@ public class Clientes {
         }
     }
 
+    // Comprobar si exite el email
     public static boolean existeMail(String mail) {
         boolean existe = false;
         try (Connection con = ConexionBD.conectar();
@@ -124,6 +126,7 @@ public class Clientes {
         return existe;
     }
 
+    // LEER
     public static List<Clientes> obtenerTodosClientes() {
         List<Clientes> clientes = new ArrayList<>();
         String sql = "SELECT * FROM Clientes";
@@ -150,6 +153,7 @@ public class Clientes {
         return clientes;
     }
 
+    // EDITAR - UPDATE ESTADO OCULTO
     public static void actualizarEstado(int id_cliente, int nuevoEstado) {
         try (Connection connection = ConexionBD.conectar();
              PreparedStatement stmt = connection.prepareStatement(
@@ -163,5 +167,34 @@ public class Clientes {
             e.printStackTrace();
         }
     }
+
+    // EDITAR - UPDATE
+    public static boolean actualizarCliente(Clientes cliente) {
+        boolean exito = false;
+
+        String sql = "UPDATE Clientes SET nombre = ?, apellido1 = ?, apellido2 = ?, IBAN = ?, mail = ?, telefono = ?, estado = ? " +
+                       "WHERE id_cliente = ?";
+
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, cliente.getNombre());
+            ps.setString(2, cliente.getApellido1());
+            ps.setString(3, cliente.getApellido2());
+            ps.setString(4, cliente.getIBAN());
+            ps.setString(5, cliente.getMail());
+            ps.setString(6, cliente.getTelefono());
+            ps.setInt(7, cliente.getEstado());
+            ps.setInt(8, cliente.getId_cliente());
+
+            exito = ps.executeUpdate() > 0; // true si se actualizó al menos una fila
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar cliente: " + e.getMessage());
+        }
+
+        return exito;
+    }
+
 
 }

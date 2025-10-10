@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.nicoruben.controllers.MainController;
 import org.nicoruben.models.Clientes;
 
 import java.util.ArrayList;
@@ -141,7 +142,18 @@ public class ListarClientes {
 
     @FXML
     void onClickEditar(ActionEvent event) {
+        Clientes clienteSeleccionado = tablaClientes.getSelectionModel().getSelectedItem();
 
+        if (clienteSeleccionado != null) {
+            // Llamamos al MainController para cargar la vista y pasar el cliente
+            MainController.showInCenterWithData("editarCliente", clienteSeleccionado);
+        } else {
+            // Alert en caso de no tener seleccionado algo de la lista
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setContentText("Selecciona un cliente antes de editar.");
+            alert.showAndWait();
+        }
     }
 
 }

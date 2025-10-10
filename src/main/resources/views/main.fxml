@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.MainController">
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.MainController">
     <!-- Top: barra principal -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10; -fx-background-color: #8fc4b7;">
@@ -23,12 +23,13 @@
             <!-- Spacer para empujar los botones a la derecha -->
             <Region HBox.hgrow="ALWAYS" />
             <Button fx:id="btnClientes" onAction="#handleTopButton" styleClass="success" text="Clientes" />
+            <Button fx:id="btnInstructores" onAction="#handleTopButton" styleClass="success" text="Instructores" />
 
             <!-- Botones a la derecha -->
-            <Button fx:id="btnActividades" onAction="#handleTopButton" styleClass="success" text="Actividades" />
-            <Button fx:id="btnInstructores" onAction="#handleTopButton" styleClass="success" text="Instructores" />
+            <Button fx:id="btnActividades" onAction="#handleTopButton" styleClass="success" text="Clases" />
             <Button fx:id="btnReservas" onAction="#handleTopButton" styleClass="success" text="Reservas" />
-            <Button fx:id="btnPlanificacion" onAction="#handleTopButton" styleClass="success" text="Planificación" />
+         <Button fx:id="btnPlanficaciones" onAction="#handleTopButton" styleClass="success" text="Planificaciones" />
+            <Button fx:id="btnInformes" onAction="#handleTopButton" styleClass="success" text="Informes" />
         </HBox>
     </top>
 
