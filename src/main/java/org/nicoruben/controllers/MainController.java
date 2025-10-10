@@ -92,6 +92,20 @@ public class MainController {
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(graficaOne);
             }
+
+            case "Instructores" -> {
+                // BOTONES LEFT
+                Button listarActividades = new Button("Listar Instructores");
+                listarActividades.setMaxWidth(Double.MAX_VALUE);
+                listarActividades.setOnAction(e -> showInCenter("listarInstructores"));
+
+                Button nuevaActividad = new Button("Nuevo Instructor");
+                nuevaActividad.setMaxWidth(Double.MAX_VALUE);
+                nuevaActividad.setOnAction(e -> showInCenter("nuevoInstructor"));
+
+                // Añade los botones al leftMenu
+                leftMenu.getChildren().addAll(listarActividades, nuevaActividad);
+            }
         }
     }
 
