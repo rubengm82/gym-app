@@ -1,9 +1,17 @@
 package org.nicoruben.models;
 
+import org.nicoruben.services.ConexionBD;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Clases {
-    private int idClase;
+    private int id_clase;
     private String nombre;
     private LocalTime duracion;
     private String dia;
@@ -12,21 +20,23 @@ public class Clases {
     private String descripcion;
     private int estado;
 
+    private String nombreInstructorCompleto;
+
     // CONSTRUCTORES
-    public Clases(int idClase, String nombre, LocalTime duracion, String dia, int aforo, int fkIdInst, String descripcion) {
-        this.idClase = idClase;
+    public Clases(int id_clase, String nombre, LocalTime duracion, String dia, int aforo, int fkIdInst, String descripcion, int estado) {
+        this.id_clase = id_clase;
         this.nombre = nombre;
         this.duracion = duracion;
         this.dia = dia;
         this.aforo = aforo;
         this.fkIdInst = fkIdInst;
         this.descripcion = descripcion;
-        this.estado = 1;
+        this.estado = estado;
     }
 
     // SETTERS & GETTERS
-    public int getIdClase() { return idClase; }
-    public void setIdClase(int idClase) { this.idClase = idClase; }
+    public int getId_clase() { return id_clase; }
+    public void setId_clase(int id_clase) { this.id_clase = id_clase; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public LocalTime getDuracion() { return duracion; }
@@ -42,11 +52,43 @@ public class Clases {
     public int getEstado() { return estado; }
     public void setEstado(int estado) { this.estado = estado; }
 
-
+    // Getters y setters EXTRAS
+    public String getNombreInstructorCompleto() {
+        return nombreInstructorCompleto;
+    }
+    public void setNombreInstructorCompleto(String nombreInstructorCompleto) {
+        this.nombreInstructorCompleto = nombreInstructorCompleto;
+    }
 
     // ///////////////////
     // METODOS PROPIOS ///
     // ///////////////////
 
+    // LEER
+    public static List<Clases> obtenerTodasClases() {
+        List<Clases> clases = new ArrayList<>();
+        String sql = "SELECT * FROM Clases";
+
+        try (Connection connection = ConexionBD.conectar();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)
+        ) {
+            while (rs.next()) {
+                Clases clase = new Clases(
+                        rs.getInt("id_clase"),
+                        rs.getString("nombre"),
+                        rs.getObject("duracion", java.time.LocalTime.class),
+                        rs.getString("dia"),
+                        rs.getInt("aforo"),
+                        rs.getInt("fk_id_inst"),
+                        rs.getString("descripcion"),
+                        rs.getInt("estado"));
+                clases.add(clase);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener clases: " + e.getMessage());
+        }
+        return clases;
+    }
 
 }

@@ -14,15 +14,15 @@
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
-      <TableView fx:id="tablaClientes" layoutX="12.0" layoutY="78.0" prefHeight="680.0" prefWidth="1355.0">
+      <TableView fx:id="tablaClases" layoutX="12.0" layoutY="78.0" prefHeight="680.0" prefWidth="1355.0">
         <columns>
           <TableColumn fx:id="campoID" prefWidth="66.0" text="ID" />
           <TableColumn fx:id="campoNombre" prefWidth="243.0" text="NOMBRE" />
-            <TableColumn fx:id="campoApellido1" prefWidth="111.0" text="DURACIÓN" />
-            <TableColumn fx:id="campoApellido2" prefWidth="111.0" text="DÍA" />
-            <TableColumn fx:id="campoIBAN" prefWidth="122.0" text="AFORO" />
-            <TableColumn fx:id="campoMail" prefWidth="293.0" text="INSTRUCTOR" />
-            <TableColumn fx:id="campoTelefono" prefWidth="393.0" text="DESCRIPCIÓN" />
+            <TableColumn fx:id="campoDuracion" prefWidth="111.0" text="DURACIÓN" />
+            <TableColumn fx:id="campoDia" prefWidth="111.0" text="DÍA" />
+            <TableColumn fx:id="campoAforo" prefWidth="122.0" text="AFORO" />
+            <TableColumn fx:id="campoIntructor" prefWidth="293.0" text="INSTRUCTOR/A" />
+            <TableColumn fx:id="campoDescripcion" prefWidth="393.0" text="DESCRIPCIÓN" />
         </columns>
       </TableView>
       <ToggleButton fx:id="buttonToggleVerBajas" layoutX="1191.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickToggleBajas" text="VER CLASES DE BAJA" />
