@@ -20,7 +20,7 @@
       <TextField fx:id="input_mail" layoutX="509.0" layoutY="426.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Email" />
       <TextField fx:id="input_telefono" layoutX="509.0" layoutY="471.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Telefono" />
       <Button fx:id="btn_actualizar" layoutX="573.0" layoutY="595.0" mnemonicParsing="false" onAction="#onClickActualizar" styleClass="success" text="Actualizar" />
-      <Button fx:id="btn_cancelar" layoutX="779.0" layoutY="595.0" mnemonicParsing="false" onAction="#onClickCancelar" text="Atràs" />
+      <Button fx:id="btn_cancelar" layoutX="779.0" layoutY="595.0" mnemonicParsing="false" onAction="#onClickCancelar" text="Atrás" />
       <StackPane layoutY="537.0" minHeight="25.0" minWidth="1380.0">
          <children>
             <Label fx:id="input_error" alignment="CENTER" minHeight="18.0" minWidth="190.0" styleClass="danger" textAlignment="CENTER" />

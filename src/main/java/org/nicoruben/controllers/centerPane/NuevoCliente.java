@@ -81,7 +81,6 @@ public class NuevoCliente {
         }
     }
 
-
     @FXML
     void onClickReset(ActionEvent event) {
         String nombre = input_nombre.getText();

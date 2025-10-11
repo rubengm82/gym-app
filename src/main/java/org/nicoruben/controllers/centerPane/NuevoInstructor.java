@@ -34,6 +34,7 @@ public class NuevoInstructor {
     @FXML
     private TextField input_telefono;
 
+
     @FXML
     void onClickAceptar(ActionEvent event) {
 
@@ -45,7 +46,6 @@ public class NuevoInstructor {
         int estado = 1;
 
         Instructores.insertarInstructor(nombre, apellido1, apellido2, dni,telefono, estado);
-
     }
 
     @FXML
@@ -56,7 +56,6 @@ public class NuevoInstructor {
         input_apellido2.clear();
         input_telefono.clear();
         input_dni.clear();
-
     }
 
 }

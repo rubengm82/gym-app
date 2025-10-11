@@ -64,7 +64,6 @@ public class ListarClientes {
 
         // Mostrar solo activos con (estado = 1)  (1 - ACTIVO || 0 - BAJA)
         mostrarClientesPorEstado(1);
-
     }
 
 

@@ -54,11 +54,11 @@ public class EditarCliente {
         boolean exito = Clientes.actualizarCliente(clienteActual);
 
         if (exito) {
-            input_error.setText("Cliente actualizado correctamente");
+            input_error.setText("Cliente/a actualizado/a correctamente");
             input_error.getStyleClass().removeAll("danger");
             if (!input_error.getStyleClass().contains("success")) input_error.getStyleClass().add("success");
         } else {
-            input_error.setText("Error al actualizar el cliente");
+            input_error.setText("Error al actualizar el cliente/a");
             input_error.getStyleClass().removeAll("success");
             if (!input_error.getStyleClass().contains("danger")) input_error.getStyleClass().add("danger");
         }
@@ -68,6 +68,7 @@ public class EditarCliente {
     void onClickCancelar(ActionEvent event) {
         MainController.showInCenter("listarClientes");
     }
+
 
 
     // /////////////////////////////////////////

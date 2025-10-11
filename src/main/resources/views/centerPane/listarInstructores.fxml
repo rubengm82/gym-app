@@ -10,24 +10,24 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.ListarInstructores">
    <children>
-      <Label fx:id="labelTituloInstructores" layoutX="28.0" layoutY="24.0" text="Listado Clientes Activos">
+      <Label fx:id="labelTituloInstructores" layoutX="28.0" layoutY="24.0" text="Listado Instructores Activos">
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
-      <TableView fx:id="tablaInstructores" layoutX="237.0" layoutY="82.0" prefHeight="680.0" prefWidth="1040.0">
+      <TableView fx:id="tablaInstructores" layoutX="12.0" layoutY="78.0" prefHeight="680.0" prefWidth="1355.0">
         <columns>
           <TableColumn fx:id="campoID" prefWidth="66.0" text="ID" />
-          <TableColumn fx:id="campoNombre" prefWidth="185.0" text="NOMBRE" />
-            <TableColumn fx:id="campoApellido1" prefWidth="219.0" text="APELLIDO 1" />
-            <TableColumn fx:id="campoApellido2" prefWidth="225.0" text="APELLIDO 2" />
-            <TableColumn fx:id="campoDNI" prefWidth="225.0" text="DNI" />
-            <TableColumn fx:id="campoTelefono" prefWidth="108.0" text="TELÉFONO" />
+          <TableColumn fx:id="campoNombre" prefWidth="239.0" text="NOMBRE" />
+            <TableColumn fx:id="campoApellido1" prefWidth="292.0" text="APELLIDO 1" />
+            <TableColumn fx:id="campoApellido2" prefWidth="288.0" text="APELLIDO 2" />
+            <TableColumn fx:id="campoDNI" prefWidth="230.0" text="DNI" />
+            <TableColumn fx:id="campoTelefono" prefWidth="228.0" text="TELÉFONO" />
         </columns>
       </TableView>
-      <ToggleButton fx:id="buttonToggleVerBajas" layoutX="1181.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickToggleBajas" text="VER CLIENTES DE BAJA" />
-      <AnchorPane layoutX="957.0" layoutY="12.0" prefHeight="59.0" prefWidth="204.0" style="-fx-border-color: #bbbbbb;">
+      <ToggleButton fx:id="buttonToggleVerBajas" layoutX="1155.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickToggleBajas" text="VER INSTRUCTORES DE BAJA" />
+      <AnchorPane layoutX="907.0" layoutY="12.0" prefHeight="59.0" prefWidth="204.0" style="-fx-border-color: #bbbbbb;">
          <children>
-            <Button fx:id="buttonEditar" layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#onClickEditar" prefHeight="35.0" prefWidth="63.0" styleClass="success" text="EDITAR" />
+            <Button fx:id="buttonEditar" layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#onClickEditar" styleClass="success" text="EDITAR" />
             <Button fx:id="buttonBajaAlta" layoutX="117.0" layoutY="12.0" mnemonicParsing="false" onAction="#onClickBajaAlta" prefHeight="36.0" prefWidth="73.0" styleClass="danger" text="BAJA" />
          </children>
       </AnchorPane>

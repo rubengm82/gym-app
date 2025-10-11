@@ -149,7 +149,7 @@ public class ListarClases {
                 }
             }
             if (encontrado != null) {
-                clase.setNombreInstructorCompleto (encontrado.getNombre() + " " + encontrado.getApellido() + " " + encontrado.getApellidos2());
+                clase.setNombreInstructorCompleto (encontrado.getNombre() + " " + encontrado.getApellido1() + " " + encontrado.getApellido2());
             } else {
                 clase.setNombreInstructorCompleto("Desconocido");
             }

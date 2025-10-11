@@ -8,9 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import org.nicoruben.models.Clientes;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 public class MainController {
 
@@ -142,24 +142,24 @@ public class MainController {
         try {
             staticCenterPane.getChildren().clear();
 
+            // Crea un FXMLLoader apuntando al archivo FXML dentro de /views/centerPane/
             FXMLLoader loader = new FXMLLoader(MainController.class.getResource("/views/centerPane/" + fxmlFile + ".fxml"));
-            Node content = loader.load();
+            Node content = loader.load(); // Carga la vista FXML y devuelve el nodo raíz
 
+            // Obtiene el controlador asociado a ese FXML
             Object controller = loader.getController();
 
-
             try {
-
-                for (var method : controller.getClass().getMethods()) {
-                    if (method.getName().equals("recogerObjeto") && method.getParameterCount() == 1) {
-                        method.invoke(controller, data);
-                        break;
-                    }
-                }
+                // Intentamos obtener el metodo "recogerObjeto" que acepte exactamente el tipo de 'data' que estamos pasando
+                Method method = controller.getClass().getMethod("recogerObjeto", data.getClass());
+                method.invoke(controller, data);
+            } catch (NoSuchMethodException e) {
+                System.out.println("El controlador no tiene un método recogerObjeto que reciba: " + data.getClass().getSimpleName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
+            // Alinea el contenido en el centro y lo agrega al StackPane
             StackPane.setAlignment(content, Pos.CENTER);
             staticCenterPane.getChildren().add(content);
 
@@ -168,6 +168,5 @@ public class MainController {
             staticCenterPane.getChildren().add(new Label("Error cargando vista: " + fxmlFile));
         }
     }
-
 
 }

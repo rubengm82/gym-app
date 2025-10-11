@@ -13,22 +13,30 @@ public class EditarInstructor {
 
     @FXML
     private TextField input_nombre;
+
     @FXML
     private TextField input_apellido1;
+
     @FXML
     private TextField input_apellido2;
+
     @FXML
     private TextField input_dni;
+
     @FXML
     private TextField input_telefono;
+
     @FXML
     private Label input_error;
+
     @FXML
     private Button btn_actualizar;
+
     @FXML
     private Button btn_cancelar;
 
     private Instructores instructorSeleccionado;
+
 
     // Recibe el instructor desde ListarInstructores
     public void recogerObjeto(Instructores instructor) {
@@ -52,13 +60,11 @@ public class EditarInstructor {
         boolean exito = Instructores.actualizarInstructor(instructorSeleccionado);
 
         if (exito) {
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setHeaderText(null);
-            alerta.setContentText("Instructor actualizado correctamente.");
-            alerta.showAndWait();
-            MainController.showInCenter("listarInstructores");
+            input_error.setText("Instructor/a actualizado/a correctamente");
+            input_error.getStyleClass().removeAll("danger");
+            if (!input_error.getStyleClass().contains("success")) input_error.getStyleClass().add("success");
         } else {
-            input_error.setText("Error al actualizar el instructor.");
+            input_error.setText("Error al actualizar el instructor/a");
         }
     }
 
@@ -66,4 +72,5 @@ public class EditarInstructor {
     void onClickCancelar(ActionEvent event) {
         MainController.showInCenter("listarInstructores");
     }
+
 }

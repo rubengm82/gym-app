@@ -80,7 +80,7 @@ public class NuevaClase {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getNombre() + " " + item.getApellido() + " " + item.getApellidos2());
+                    setText(item.getNombre() + " " + item.getApellido1() + " " + item.getApellido2());
                 }
             }
         });
@@ -93,7 +93,7 @@ public class NuevaClase {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getNombre() + " " + item.getApellido() + " " + item.getApellidos2());
+                    setText(item.getNombre() + " " + item.getApellido1() + " " + item.getApellido2());
                 }
             }
         });

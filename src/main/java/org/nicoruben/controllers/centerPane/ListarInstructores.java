@@ -24,14 +24,19 @@ public class ListarInstructores {
 
     @FXML
     private TableColumn<Instructores, Integer> campoID;
+
     @FXML
     private TableColumn<Instructores, String> campoNombre;
+
     @FXML
     private TableColumn<Instructores, String> campoApellido1;
+
     @FXML
     private TableColumn<Instructores, String> campoApellido2;
+
     @FXML
     private TableColumn<Instructores, String> campoDNI;
+
     @FXML
     private TableColumn<Instructores, String> campoTelefono;
 
@@ -44,6 +49,7 @@ public class ListarInstructores {
     private List<Instructores> listaInstructores;
 
 
+    /* AUTO-LOAD al cargar la vista */
     public void initialize() {
         campoID.setCellValueFactory(new PropertyValueFactory<>("id"));
         campoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -59,7 +65,6 @@ public class ListarInstructores {
         mostrarInstructoresPorEstado(1);
     }
 
-
     private void mostrarInstructoresPorEstado(int estado) {
         List<Instructores> filtrados = new ArrayList<>();
         for (Instructores instructor : listaInstructores) {
@@ -69,8 +74,6 @@ public class ListarInstructores {
         }
         tablaInstructores.setItems(FXCollections.observableArrayList(filtrados));
     }
-
-
 
     // Toggle Activos / Bajas
     @FXML
