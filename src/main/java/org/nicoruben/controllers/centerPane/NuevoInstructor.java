@@ -44,12 +44,18 @@ public class NuevoInstructor {
         String dni = input_dni.getText();
         int estado = 1;
 
-        Instructores.crearInstructor(nombre, apellido1, apellido2, telefono, dni, estado);
+        Instructores.insertarInstructor(nombre, apellido1, apellido2, dni,telefono, estado);
 
     }
 
     @FXML
     void onClickReset(ActionEvent event) {
+
+        input_nombre.clear();
+        input_apellido1.clear();
+        input_apellido2.clear();
+        input_telefono.clear();
+        input_dni.clear();
 
     }
 

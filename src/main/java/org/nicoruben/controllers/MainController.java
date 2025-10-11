@@ -138,21 +138,24 @@ public class MainController {
     }
 
     // Metodo para mostrar el centerPane pero pudiendo enviar un Objeto del tipo que le digamos
-    public static void showInCenterWithData(String fxmlFile, Clientes cliente) {
+    public static void showInCenterWithData(String fxmlFile, Object data) {
         try {
             staticCenterPane.getChildren().clear();
 
             FXMLLoader loader = new FXMLLoader(MainController.class.getResource("/views/centerPane/" + fxmlFile + ".fxml"));
             Node content = loader.load();
 
-            // Obtenemos el controlador del FXML cargado para poder llamar sus métodos
-            // (como recogerObjeto) y pasarle datos que actualicen la vista.
             Object controller = loader.getController();
 
+
             try {
-                controller.getClass().getMethod("recogerObjeto", Clientes.class).invoke(controller, cliente);
-            } catch (NoSuchMethodException ignored) {
-                System.out.println("El controlador " + controller.getClass().getSimpleName() + " no tiene método recogerObjeto(Clientes).");
+
+                for (var method : controller.getClass().getMethods()) {
+                    if (method.getName().equals("recogerObjeto") && method.getParameterCount() == 1) {
+                        method.invoke(controller, data);
+                        break;
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -165,5 +168,6 @@ public class MainController {
             staticCenterPane.getChildren().add(new Label("Error cargando vista: " + fxmlFile));
         }
     }
+
 
 }

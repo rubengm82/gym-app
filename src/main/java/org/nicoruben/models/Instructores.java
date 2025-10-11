@@ -1,106 +1,220 @@
 package org.nicoruben.models;
 
 import org.nicoruben.services.ConexionBD;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Instructores {
-    private int id;
+
+    private int id_inst;
     private String nombre;
-    private String apellido;
-    private String apellidos2;
-    private String telefono;
+    private String apellido1;
+    private String apellido2;
     private String DNI;
+    private String telefono;
     private int estado;
 
-    // Constructor
-    public Instructores(int id, String nombre, String apellido, String apellidos2, String telefono, String DNI, int estado) {
-        this.id = id;
+    // =====================
+    // CONSTRUCTORES
+    // =====================
+    public Instructores(int id_inst, String nombre, String apellido1, String apellido2, String DNI, String telefono, int estado) {
+        this.id_inst = id_inst;
         this.nombre = nombre;
-        this.apellido = apellido;
-        this.apellidos2 = apellidos2;
-        this.telefono = telefono;
+        this.apellido1 = apellido1;
+        this.apellido2 = apellido2;
         this.DNI = DNI;
+        this.telefono = telefono;
         this.estado = estado;
     }
 
-    // Sobrecarga del constructor
-    public Instructores(String nombre, String apellido, String apellidos2, String telefono, String DNI, int estado) {
+    public Instructores(String nombre, String apellido1, String apellido2, String DNI, String telefono, int estado) {
         this.nombre = nombre;
-        this.apellido = apellido;
-        this.apellidos2 = apellidos2;
-        this.telefono = telefono;
+        this.apellido1 = apellido1;
+        this.apellido2 = apellido2;
         this.DNI = DNI;
+        this.telefono = telefono;
         this.estado = estado;
     }
 
-    // Método para crear instructor
-    public static void crearInstructor(String nombre, String apellido, String apellidos2, String telefono, String DNI, int estado) {
-        String sql = "INSERT INTO Instructores (nombre, apellido1, apellido2, telefono, DNI, estado) VALUES (?, ?, ?, ?, ?, ?)";
+    // =====================
+    // GETTERS & SETTERS
+    // =====================
+    public int getId() {
+        return id_inst;
+    }
+
+    public void setId(int id_inst) {
+        this.id_inst = id_inst;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido1() {
+        return apellido1;
+    }
+
+    public void setApellido1(String apellido1) {
+        this.apellido1 = apellido1;
+    }
+
+    public String getApellido2() {
+        return apellido2;
+    }
+
+    public void setApellido2(String apellido2) {
+        this.apellido2 = apellido2;
+    }
+
+    public String getDNI() {
+        return DNI;
+    }
+
+    public void setDNI(String DNI) {
+        this.DNI = DNI;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+
+    // =====================
+    // MÉTODOS DE BASE DE DATOS
+    // =====================
+
+    // INSERTAR NUEVO INSTRUCTOR
+    public static void insertarInstructor(String nombre, String apellido1, String apellido2, String DNI, String telefono, int estado) {
+        String sql = "INSERT INTO Instructores (nombre, apellido1, apellido2, DNI, telefono, estado) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConexionBD.conectar();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            stmt.setString(1, nombre);
-            stmt.setString(2, apellido);
-            stmt.setString(3, apellidos2);
-            stmt.setString(4, telefono);
-            stmt.setString(5, DNI);
-            stmt.setInt(6, estado);
+            ps.setString(1, nombre);
+            ps.setString(2, apellido1);
+            ps.setString(3, apellido2);
+            ps.setString(4, DNI);
+            ps.setString(5, telefono);
+            ps.setInt(6, estado);
 
-            stmt.executeUpdate();
-            System.out.println("insertado correctamente.");
+            ps.executeUpdate();
+            System.out.println("Instructor insertado correctamente.");
 
         } catch (SQLException e) {
-            System.out.println("error" + e.getMessage());
+            System.err.println("Error al insertar instructor: " + e.getMessage());
         }
     }
 
-
-    //metodo para listar instructores
-
-    public static List<Instructores> obtenerInstructores(){
+    // OBTENER TODOS LOS INSTRUCTORES
+    public static List<Instructores> obtenerInstructores() {
         List<Instructores> instructores = new ArrayList<>();
-
         String sql = "SELECT * FROM Instructores";
 
         try (Connection connection = ConexionBD.conectar();
              Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)
-        ) {
+             ResultSet rs = stmt.executeQuery(sql)) {
+
             while (rs.next()) {
                 Instructores instructor = new Instructores(
                         rs.getInt("id_inst"),
                         rs.getString("nombre"),
                         rs.getString("apellido1"),
                         rs.getString("apellido2"),
-                        rs.getString("telefono"),
                         rs.getString("DNI"),
-                        rs.getInt("estado"));
-               instructores.add(instructor);
+                        rs.getString("telefono"),
+                        rs.getInt("estado")
+                );
+                instructores.add(instructor);
             }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener clientes: " + e.getMessage());
-        }
-        return instructores;
 
+        } catch (SQLException e) {
+            System.err.println("Error al obtener instructores: " + e.getMessage());
+        }
+
+        return instructores;
     }
 
-    // Getters y setters
-    public int getId() { return id; }
-    public String getNombre() { return nombre; }
-    public String getApellido() { return apellido; }
-    public String getApellidos2() { return apellidos2; }
-    public String getTelefono() { return telefono; }
-    public String getDNI() { return DNI; }
-    public int getEstado() { return estado; }
+    // ACTUALIZAR ESTADO (BAJA / ALTA)
+    public static void actualizarEstado(int id_inst, int nuevoEstado) {
+        String sql = "UPDATE Instructores SET estado = ? WHERE id_inst = ?";
 
-    public void setId(int id) { this.id = id; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-    public void setApellido(String apellido) { this.apellido = apellido; }
-    public void setApellidos2(String apellidos2) { this.apellidos2 = apellidos2; }
-    public void setTelefono(String telefono) { this.telefono = telefono; }
-    public void setDNI(String DNI) { this.DNI = DNI; }
-    public void setEstado(int estado) { this.estado = estado; }
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, nuevoEstado);
+            ps.setInt(2, id_inst);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar estado del instructor: " + e.getMessage());
+        }
+    }
+
+    // ACTUALIZAR DATOS DE INSTRUCTOR
+    public static boolean actualizarInstructor(Instructores instructor) {
+        boolean exito = false;
+        String sql = "UPDATE Instructores SET nombre = ?, apellido1 = ?, apellido2 = ?, DNI = ?, telefono = ?, estado = ? " +
+                "WHERE id_inst = ?";
+
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, instructor.getNombre());
+            ps.setString(2, instructor.getApellido1());
+            ps.setString(3, instructor.getApellido2());
+            ps.setString(4, instructor.getDNI());
+            ps.setString(5, instructor.getTelefono());
+            ps.setInt(6, instructor.getEstado());
+            ps.setInt(7, instructor.getId());
+
+            exito = ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar instructor: " + e.getMessage());
+        }
+
+        return exito;
+    }
+
+    // COMPROBAR SI EXISTE UN DNI REPETIDO
+    public static boolean existeDNI(String dni) {
+        boolean existe = false;
+        String sql = "SELECT 1 FROM Instructores WHERE DNI = ?";
+
+        try (Connection con = ConexionBD.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, dni);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                existe = true;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al verificar DNI del instructor: " + e.getMessage());
+        }
+
+        return existe;
+    }
+
 }
