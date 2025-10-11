@@ -57,6 +57,8 @@ public class Clases {
         this.nombreInstructorCompleto = nombreInstructorCompleto;
     }
 
+
+    
     // ///////////////////
     // METODOS PROPIOS ///
     // ///////////////////

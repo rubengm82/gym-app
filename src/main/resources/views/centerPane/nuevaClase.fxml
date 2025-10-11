@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.NuevaActividad">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.NuevaClase">
    <children>
-      <Label layoutX="653.0" layoutY="376.0" text="Nueva Clase" />
+      <Label layoutX="628.0" layoutY="136.0" text="NUEVA CLASE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Label>
+      <TextField fx:id="input_nombre" layoutX="509.0" layoutY="246.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Nombre" />
+      <TextField fx:id="input_descripcion" layoutX="509.0" layoutY="443.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Descripcion" />
+      <Button fx:id="btn_aceptar" layoutX="572.0" layoutY="599.0" mnemonicParsing="false" onAction="#onClickAceptar" styleClass="success" text="Aceptar" />
+      <Button fx:id="btn_reset" layoutX="805.0" layoutY="599.0" mnemonicParsing="false" onAction="#onClickReset" text="Reset" />
+      <StackPane layoutY="546.0" minHeight="25.0" minWidth="1380.0" />
+      <Spinner fx:id="spinner_hora" layoutX="557.0" layoutY="300.0" prefHeight="26.0" prefWidth="104.0" />
+      <Spinner fx:id="spinner_minutos" layoutX="805.0" layoutY="300.0" prefHeight="26.0" prefWidth="104.0" />
+      <Label layoutX="509.0" layoutY="304.0" text="Horas" />
+      <Label layoutX="746.0" layoutY="304.0" text="Minutos" />
+      <ComboBox fx:id="combo_dia" layoutX="509.0" layoutY="350.0" prefHeight="36.0" prefWidth="190.0" promptText="Selecciona un Día..." />
+      <ComboBox fx:id="combo_instructor" layoutX="509.0" layoutY="397.0" prefHeight="36.0" prefWidth="400.0" promptText="Selecciona un Instructor/a..." />
+      <Spinner fx:id="spinner_aforo" layoutX="805.0" layoutY="350.0" prefHeight="26.0" prefWidth="104.0" />
+      <Label layoutX="746.0" layoutY="358.0" text="Aforo" />
+      <Label fx:id="input_error" alignment="CENTER" layoutX="608.0" layoutY="530.0" minHeight="18.0" minWidth="190.0" styleClass="danger" textAlignment="CENTER" />
    </children>
 </AnchorPane>
