@@ -22,8 +22,9 @@ Este proyecto es una **aplicación de gestión de gimnasio** desarrollada en **J
 
 - **Java SDK 23**
 - **JavaFX 25**
+- **SceneBuilder 25**
 - **MySQL** para la persistencia de datos
-- **Maven / Gradle** como gestor de dependencias (según implementación)
+- **Maven** como gestor de dependencias (según implementación)
 
 ---
 
