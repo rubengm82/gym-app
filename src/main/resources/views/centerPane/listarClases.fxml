@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.ListarActividades">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.ListarClases">
    <children>
-      <Label layoutX="647.0" layoutY="376.0" text="Listado Clases" />
+      <Label fx:id="labelTituloClientes" layoutX="28.0" layoutY="24.0" text="Listado Clases Activas">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Label>
+      <TableView fx:id="tablaClientes" layoutX="12.0" layoutY="78.0" prefHeight="680.0" prefWidth="1355.0">
+        <columns>
+          <TableColumn fx:id="campoID" prefWidth="66.0" text="ID" />
+          <TableColumn fx:id="campoNombre" prefWidth="243.0" text="NOMBRE" />
+            <TableColumn fx:id="campoApellido1" prefWidth="111.0" text="DURACIÓN" />
+            <TableColumn fx:id="campoApellido2" prefWidth="111.0" text="DÍA" />
+            <TableColumn fx:id="campoIBAN" prefWidth="122.0" text="AFORO" />
+            <TableColumn fx:id="campoMail" prefWidth="293.0" text="INSTRUCTOR" />
+            <TableColumn fx:id="campoTelefono" prefWidth="393.0" text="DESCRIPCIÓN" />
+        </columns>
+      </TableView>
+      <ToggleButton fx:id="buttonToggleVerBajas" layoutX="1191.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickToggleBajas" text="VER CLASES DE BAJA" />
+      <AnchorPane layoutX="957.0" layoutY="12.0" prefHeight="59.0" prefWidth="204.0" style="-fx-border-color: #bbbbbb;">
+         <children>
+            <Button fx:id="buttonEditar" layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#onClickEditar" styleClass="success" text="EDITAR" />
+            <Button fx:id="buttonBajaAlta" layoutX="117.0" layoutY="12.0" mnemonicParsing="false" onAction="#onClickBajaAlta" prefHeight="36.0" prefWidth="73.0" styleClass="danger" text="BAJA" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
