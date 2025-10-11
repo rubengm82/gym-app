@@ -2,10 +2,7 @@ package org.nicoruben.models;
 
 import org.nicoruben.services.ConexionBD;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +86,21 @@ public class Clases {
             System.out.println("Error al obtener clases: " + e.getMessage());
         }
         return clases;
+    }
+
+    // EDITAR - UPDATE ESTADO OCULTO
+    public static void actualizarEstado(int id_clase, int nuevoEstado) {
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement stmt = connection.prepareStatement(
+                     "UPDATE Clases SET estado = ? WHERE id_clase = ?")) {
+
+            stmt.setInt(1, nuevoEstado);
+            stmt.setInt(2, id_clase);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

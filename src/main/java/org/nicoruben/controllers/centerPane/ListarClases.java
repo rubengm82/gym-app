@@ -8,7 +8,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.nicoruben.models.Clases;
 import org.nicoruben.models.Clientes;
 import org.nicoruben.models.Instructores;
+import org.nicoruben.services.ConexionBD;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +56,6 @@ public class ListarClases {
     private Label labelTituloClientes;
 
 
-
-
-
     /* Atributos de la class */
     private List<Clases> todasClases;
     private List<Instructores> todosInstructores = Instructores.obtenerInstructores();
@@ -67,7 +68,48 @@ public class ListarClases {
 
     @FXML
     void onClickBajaAlta(ActionEvent event) {
+        // Obtener la clase seleccionada en la tabla
+        Clases claseSeleccionada = tablaClases.getSelectionModel().getSelectedItem();
 
+        if (claseSeleccionada != null) {
+            // Crear un Alert de confirmación
+            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion.setTitle("Confirmación");
+            confirmacion.setHeaderText(null);
+            String accion = (claseSeleccionada.getEstado() == 1) ? "dar de baja" : "dar de alta";
+            confirmacion.setContentText("¿Seguro que deseas " + accion + " a la clase seleccionada?");
+
+            // Personalizar botones: Aceptar y Cancelar
+            ButtonType btnAceptar = new ButtonType("Aceptar");
+            ButtonType btnCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+            confirmacion.getButtonTypes().setAll(btnAceptar, btnCancelar);
+
+            // Esperar respuesta
+            confirmacion.showAndWait().ifPresent(respuesta -> {
+                if (respuesta == btnAceptar) {
+                    // Cambiar el estado del cliente
+                    int nuevoEstado = (claseSeleccionada.getEstado() == 1) ? 0 : 1;
+                    claseSeleccionada.setEstado(nuevoEstado);
+
+                    // Actualizar en la base de datos
+                    Clases.actualizarEstado(claseSeleccionada.getId_clase(), nuevoEstado);
+
+                    // Refrescar la tabla según el toggle
+                    if (buttonToggleVerBajas.isSelected()) {
+                        mostrarClasesPorEstado(0);
+                    } else {
+                        mostrarClasesPorEstado(1);
+                    }
+                }
+            });
+        } else {
+            // Si no hay cliente seleccionado, mostrar alerta de aviso
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setTitle("Aviso");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Por favor, seleccione una clase primero");
+            alerta.showAndWait();
+        }
     }
 
     @FXML
@@ -77,21 +119,21 @@ public class ListarClases {
 
     @FXML
     void onClickToggleBajas(ActionEvent event) {
-
+        if (buttonToggleVerBajas.isSelected()) {
+            mostrarClasesPorEstado(0); // mostrar bajas
+            buttonBajaAlta.setText("ALTA");
+            labelTituloClientes.setText("Listado Clases de Baja");
+            buttonToggleVerBajas.setText("VER CLASES DE ALTA");
+        } else {
+            mostrarClasesPorEstado(1); // mostrar activos
+            buttonBajaAlta.setText("BAJA");
+            labelTituloClientes.setText("Listado Clases Activas");
+            buttonToggleVerBajas.setText("VER CLASES DE BAJA");
+        }
     }
 
     /* AUTO-LOAD al cargar la vista */
     public void initialize() {
-        // Configurar columnas
-        campoID.setCellValueFactory(new PropertyValueFactory<>("id_clase"));
-        campoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        campoDuracion.setCellValueFactory(new PropertyValueFactory<>("duracion"));
-        campoDia.setCellValueFactory(new PropertyValueFactory<>("dia"));
-        campoAforo.setCellValueFactory(new PropertyValueFactory<>("aforo"));
-        campoDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-
-        // NUEVO: columna del instructor mostrando nombre completo
-        campoIntructor.setCellValueFactory(new PropertyValueFactory<>("nombreInstructorCompleto"));
 
         // Cargar todos los instructores y clases
         todasClases = Clases.obtenerTodasClases();
@@ -112,6 +154,17 @@ public class ListarClases {
                 clase.setNombreInstructorCompleto("Desconocido");
             }
         }
+
+        // Configurar columnas
+        campoID.setCellValueFactory(new PropertyValueFactory<>("id_clase"));
+        campoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        campoDuracion.setCellValueFactory(new PropertyValueFactory<>("duracion"));
+        campoDia.setCellValueFactory(new PropertyValueFactory<>("dia"));
+        campoAforo.setCellValueFactory(new PropertyValueFactory<>("aforo"));
+        campoDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+
+        // NUEVO: columna del instructor mostrando nombre completo
+        campoIntructor.setCellValueFactory(new PropertyValueFactory<>("nombreInstructorCompleto"));
 
         // Mostrar solo activos
         mostrarClasesPorEstado(1);
