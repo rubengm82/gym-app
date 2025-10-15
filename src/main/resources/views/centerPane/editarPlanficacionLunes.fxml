@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.EditarPlanificacionLunes">
+   <children>
+      <Label fx:id="labelTituloClientes" layoutX="28.0" layoutY="24.0" text="Editar Planificacion de los Lunes">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Label>
+      <Label layoutX="75.0" layoutY="105.0" text="7:00" />
+      <Label layoutX="75.0" layoutY="142.0" text="7:15" />
+      <Label layoutX="75.0" layoutY="179.0" text="7:30" />
+      <Label layoutX="75.0" layoutY="216.0" text="7:45" />
+      <Label layoutX="75.0" layoutY="252.0" text="8:00" />
+      <Label layoutX="75.0" layoutY="291.0" text="8:15" />
+      <ComboBox layoutX="116.0" layoutY="101.0" prefWidth="150.0" promptText="BOXEO" />
+      <ComboBox layoutX="116.0" layoutY="138.0" prefWidth="150.0" promptText="BOXEO" />
+      <ComboBox layoutX="116.0" layoutY="175.0" prefWidth="150.0" promptText="BOXEO" />
+      <ComboBox layoutX="116.0" layoutY="212.0" prefWidth="150.0" promptText="LIBRE" />
+      <ComboBox layoutX="116.0" layoutY="248.0" prefWidth="150.0" promptText="YOGA" />
+      <ComboBox layoutX="116.0" layoutY="287.0" prefWidth="150.0" promptText="YOGA" />
+      <Label layoutX="75.0" layoutY="691.0" text="21:00" />
+      <Label layoutX="34.0" layoutY="105.0" text="ID1" />
+      <Label layoutX="34.0" layoutY="142.0" text="ID2" />
+      <Label layoutX="34.0" layoutY="179.0" text="ID3" />
+      <Label layoutX="34.0" layoutY="216.0" text="ID4" />
+      <Label layoutX="34.0" layoutY="252.0" text="ID5" />
+      <Label layoutX="34.0" layoutY="291.0" text="ID6" />
+      <Line endX="-42.0" endY="286.0" layoutX="129.0" layoutY="393.0" startX="-42.0" startY="-66.0" />
+   </children>
+</AnchorPane>

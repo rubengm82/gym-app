@@ -93,6 +93,7 @@ public class MainController {
                 leftMenu.getChildren().addAll(graficaOne);
             }
 
+            // BOTON TOP INSTRUCTORES
             case "Instructores" -> {
                 // BOTONES LEFT
                 Button listarActividades = new Button("Listar Instructores");
@@ -106,9 +107,34 @@ public class MainController {
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(listarActividades, nuevaActividad);
             }
+
+            // BOTON TOP PLANIFICACIONES
+            case "Planificaciones" -> {
+                // BOTONES LEFT
+                Button lunes = new Button("Lunes");
+                lunes.setMaxWidth(Double.MAX_VALUE);
+                lunes.setOnAction(e -> showInCenter("editarPlanficacionLunes"));
+
+                Button martes = new Button("Martes");
+                martes.setMaxWidth(Double.MAX_VALUE);
+
+                // Añade los botones al leftMenu
+                leftMenu.getChildren().addAll(lunes, martes);
+            }
+
+            // BOTON TOP RESERVAS
+            case "Reservas" -> {
+                // BOTONES LEFT
+                Button reservas = new Button("Listar Reservas");
+                reservas.setMaxWidth(Double.MAX_VALUE);
+                reservas.setOnAction(e -> showInCenter("listarReservas"));
+
+                // Añade los botones al leftMenu
+                leftMenu.getChildren().addAll(reservas);
+            }
+
         }
     }
-
 
 
     // ///////////////////
