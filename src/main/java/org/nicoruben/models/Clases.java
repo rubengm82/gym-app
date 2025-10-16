@@ -3,30 +3,23 @@ package org.nicoruben.models;
 import org.nicoruben.services.ConexionBD;
 
 import java.sql.*;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Clases {
     private int id_clase;
     private String nombre;
-    private LocalTime duracion;
-    private String dia;
     private int aforo;
-    private int fkIdInst;
     private String descripcion;
     private int estado;
 
     private String nombreInstructorCompleto;
 
     // CONSTRUCTORES
-    public Clases(int id_clase, String nombre, LocalTime duracion, String dia, int aforo, int fkIdInst, String descripcion, int estado) {
+    public Clases(int id_clase, String nombre, int aforo, String descripcion, int estado) {
         this.id_clase = id_clase;
         this.nombre = nombre;
-        this.duracion = duracion;
-        this.dia = dia;
         this.aforo = aforo;
-        this.fkIdInst = fkIdInst;
         this.descripcion = descripcion;
         this.estado = estado;
     }
@@ -36,14 +29,8 @@ public class Clases {
     public void setId_clase(int id_clase) { this.id_clase = id_clase; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
-    public LocalTime getDuracion() { return duracion; }
-    public void setDuracion(LocalTime duracion) { this.duracion = duracion; }
-    public String getDia() { return dia; }
-    public void setDia(String dia) { this.dia = dia; }
     public int getAforo() { return aforo; }
     public void setAforo(int aforo) { this.aforo = aforo; }
-    public int getFkIdInst() { return fkIdInst; }
-    public void setFkIdInst(int fkIdInst) { this.fkIdInst = fkIdInst; }
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
     public int getEstado() { return estado; }
@@ -76,10 +63,7 @@ public class Clases {
                 Clases clase = new Clases(
                         rs.getInt("id_clase"),
                         rs.getString("nombre"),
-                        rs.getObject("duracion", java.time.LocalTime.class),
-                        rs.getString("dia"),
                         rs.getInt("aforo"),
-                        rs.getInt("fk_id_inst"),
                         rs.getString("descripcion"),
                         rs.getInt("estado"));
                 clases.add(clase);

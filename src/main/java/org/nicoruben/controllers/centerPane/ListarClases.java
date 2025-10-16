@@ -6,14 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.nicoruben.models.Clases;
-import org.nicoruben.models.Clientes;
-import org.nicoruben.models.Instructores;
-import org.nicoruben.services.ConexionBD;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,16 +30,7 @@ public class ListarClases {
     private TableColumn<Clases, String> campoNombre;
 
     @FXML
-    private TableColumn<Clases, LocalTime> campoDuracion;
-
-    @FXML
-    private TableColumn<Clases, String> campoDia;
-
-    @FXML
     private TableColumn<Clases, Integer> campoAforo;
-
-    @FXML
-    private TableColumn<Clases, Integer> campoIntructor;
 
     @FXML
     private TableColumn<Clases, String> campoDescripcion;
@@ -58,14 +41,11 @@ public class ListarClases {
 
     /* Atributos de la class */
     private List<Clases> todasClases;
-    private List<Instructores> todosInstructores = Instructores.obtenerInstructores();
-
 
 
     // ///////////////////
     // METODOS PROPIOS ///
     // ///////////////////
-
     @FXML
     void onClickBajaAlta(ActionEvent event) {
         // Obtener la clase seleccionada en la tabla
@@ -137,34 +117,12 @@ public class ListarClases {
 
         // Cargar todos los instructores y clases
         todasClases = Clases.obtenerTodasClases();
-        todosInstructores = Instructores.obtenerInstructores();
-
-        // Rellenar nombreInstructor en cada clase
-        for (Clases clase : todasClases) {
-            Instructores encontrado = null;
-
-            for (Instructores instructor : todosInstructores) {
-                if (instructor.getId() == clase.getFkIdInst()) {
-                    encontrado = instructor;
-                }
-            }
-            if (encontrado != null) {
-                clase.setNombreInstructorCompleto (encontrado.getNombre() + " " + encontrado.getApellido1() + " " + encontrado.getApellido2());
-            } else {
-                clase.setNombreInstructorCompleto("Desconocido");
-            }
-        }
 
         // Configurar columnas
         campoID.setCellValueFactory(new PropertyValueFactory<>("id_clase"));
         campoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        campoDuracion.setCellValueFactory(new PropertyValueFactory<>("duracion"));
-        campoDia.setCellValueFactory(new PropertyValueFactory<>("dia"));
         campoAforo.setCellValueFactory(new PropertyValueFactory<>("aforo"));
         campoDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-
-        // NUEVO: columna del instructor mostrando nombre completo
-        campoIntructor.setCellValueFactory(new PropertyValueFactory<>("nombreInstructorCompleto"));
 
         // Mostrar solo activos
         mostrarClasesPorEstado(1);
