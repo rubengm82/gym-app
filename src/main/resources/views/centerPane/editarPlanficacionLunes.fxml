@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -12,25 +15,30 @@
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
-      <Label layoutX="75.0" layoutY="105.0" text="7:00" />
-      <Label layoutX="75.0" layoutY="142.0" text="7:15" />
-      <Label layoutX="75.0" layoutY="179.0" text="7:30" />
-      <Label layoutX="75.0" layoutY="216.0" text="7:45" />
-      <Label layoutX="75.0" layoutY="252.0" text="8:00" />
-      <Label layoutX="75.0" layoutY="291.0" text="8:15" />
-      <ComboBox layoutX="116.0" layoutY="101.0" prefWidth="150.0" promptText="BOXEO" />
-      <ComboBox layoutX="116.0" layoutY="138.0" prefWidth="150.0" promptText="BOXEO" />
-      <ComboBox layoutX="116.0" layoutY="175.0" prefWidth="150.0" promptText="BOXEO" />
-      <ComboBox layoutX="116.0" layoutY="212.0" prefWidth="150.0" promptText="LIBRE" />
-      <ComboBox layoutX="116.0" layoutY="248.0" prefWidth="150.0" promptText="YOGA" />
-      <ComboBox layoutX="116.0" layoutY="287.0" prefWidth="150.0" promptText="YOGA" />
-      <Label layoutX="75.0" layoutY="691.0" text="21:00" />
-      <Label layoutX="34.0" layoutY="105.0" text="ID1" />
-      <Label layoutX="34.0" layoutY="142.0" text="ID2" />
-      <Label layoutX="34.0" layoutY="179.0" text="ID3" />
-      <Label layoutX="34.0" layoutY="216.0" text="ID4" />
-      <Label layoutX="34.0" layoutY="252.0" text="ID5" />
-      <Label layoutX="34.0" layoutY="291.0" text="ID6" />
-      <Line endX="-42.0" endY="286.0" layoutX="129.0" layoutY="393.0" startX="-42.0" startY="-66.0" />
+      <ComboBox layoutX="495.0" layoutY="248.0" prefWidth="150.0" promptText="BOXEO" />
+      <ComboBox layoutX="713.0" layoutY="226.0" prefHeight="26.0" prefWidth="81.0" promptText="8" />
+      <ComboBox layoutX="807.0" layoutY="226.0" prefHeight="26.0" prefWidth="81.0" promptText="15" />
+      <Label layoutX="659.0" layoutY="234.0" text="Inicio" />
+      <ComboBox layoutX="713.0" layoutY="270.0" prefHeight="26.0" prefWidth="81.0" promptText="9" />
+      <ComboBox layoutX="807.0" layoutY="270.0" prefHeight="26.0" prefWidth="81.0" promptText="30" />
+      <Label layoutX="659.0" layoutY="260.0" text="Fin" />
+      <Label layoutX="336.0" layoutY="115.0" text="8:15" />
+      <Label layoutX="336.0" layoutY="132.0" text="9:30" />
+      <Label layoutX="377.0" layoutY="122.0" text="BOXEO" />
+      <Line endX="-42.0" endY="286.0" layoutX="511.0" layoutY="134.0" startX="-42.0" startY="-66.0" />
+      <Label layoutX="336.0" layoutY="161.0" text="9:30" />
+      <Label layoutX="332.0" layoutY="179.0" text="10:30" />
+      <Label layoutX="377.0" layoutY="171.0" text="TENIX" />
+      <Button layoutX="747.0" layoutY="372.0" mnemonicParsing="false" text="Agregar" />
+      <Label layoutX="292.0" layoutY="122.0" text="ID39" />
+      <Button layoutX="259.0" layoutY="68.0" mnemonicParsing="false" styleClass="danger" text="BORRAR" />
+      <Label layoutX="292.0" layoutY="171.0" text="ID117" />
+      <TableView layoutX="23.0" layoutY="213.0" prefHeight="504.0" prefWidth="301.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="HORA INICIO" />
+          <TableColumn prefWidth="113.0" text="HORA FIN" />
+            <TableColumn prefWidth="93.0" text="CLASE" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
