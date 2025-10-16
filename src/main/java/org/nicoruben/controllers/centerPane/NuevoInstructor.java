@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import org.nicoruben.models.Clientes;
 import org.nicoruben.models.Instructores;
 public class NuevoInstructor {
 
@@ -45,7 +46,32 @@ public class NuevoInstructor {
         String dni = input_dni.getText();
         int estado = 1;
 
-        Instructores.insertarInstructor(nombre, apellido1, apellido2, dni,telefono, estado);
+        // Variable para almacenar errores
+        String errores = "";
+
+        if (nombre.isEmpty() || apellido1.isEmpty()) {
+            errores += "Debe ingresar al menos nombre y primer apellido\n";
+        }
+
+        if (!errores.isEmpty()) {
+            // Mostrar errores en error_label
+            input_error.setText(errores.trim());
+            input_error.getStyleClass().removeAll("success");
+            if (!input_error.getStyleClass().contains("danger")) {
+                input_error.getStyleClass().add("danger");
+            }
+        } else {
+            // Comprobacion correcta, insertar Instructor!
+            Instructores.insertarInstructor(nombre, apellido1, apellido2, dni,telefono, estado);
+            input_error.setText("Instructor añadido correctamente!");
+            btn_reset.fire();  // Borra todos los campos, hace click virtual en el boton Reset
+            input_error.getStyleClass().removeAll("danger");
+            if (!input_error.getStyleClass().contains("success")) {
+                input_error.getStyleClass().add("success");
+            }
+        }
+
+
     }
 
     @FXML

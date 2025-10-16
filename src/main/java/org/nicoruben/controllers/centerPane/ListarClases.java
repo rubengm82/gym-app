@@ -5,7 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.nicoruben.controllers.MainController;
 import org.nicoruben.models.Clases;
+import org.nicoruben.models.Clientes;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +97,18 @@ public class ListarClases {
 
     @FXML
     void onClickEditar(ActionEvent event) {
+        Clases claseSeleccionada = tablaClases.getSelectionModel().getSelectedItem();
 
+        if (claseSeleccionada != null) {
+            // Llamamos al MainController para cargar la vista y pasar la clase del gym
+            MainController.showInCenterWithData("editarClase", claseSeleccionada);
+        } else {
+            // Alert en caso de no tener seleccionado algo de la lista
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setContentText("Selecciona una clase antes de editar.");
+            alert.showAndWait();
+        }
     }
 
     @FXML

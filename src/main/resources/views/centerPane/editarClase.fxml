@@ -9,15 +9,15 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.NuevaClase">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.EditarClase">
    <children>
-      <Label layoutX="628.0" layoutY="136.0" text="NUEVA CLASE">
+      <Label layoutX="624.0" layoutY="137.0" text="EDITAR CLASE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
       <TextField fx:id="input_nombre" layoutX="507.0" layoutY="266.0" maxHeight="36.0" maxWidth="400.0" prefHeight="36.0" prefWidth="219.0" promptText="Nombre" />
-      <Button fx:id="btn_aceptar" layoutX="553.0" layoutY="599.0" mnemonicParsing="false" onAction="#onClickAceptar" styleClass="success" text="Aceptar" />
-      <Button fx:id="btn_reset" layoutX="819.0" layoutY="599.0" mnemonicParsing="false" onAction="#onClickReset" text="Reset" />
+      <Button fx:id="btn_actualizar" layoutX="553.0" layoutY="599.0" mnemonicParsing="false" onAction="#onClickActualizar" styleClass="success" text="Actualizar" />
+      <Button fx:id="btn_cancelar" layoutX="819.0" layoutY="599.0" mnemonicParsing="false" onAction="#onClickCancelar" text="Atrás" />
       <StackPane layoutY="546.0" minHeight="25.0" minWidth="1380.0">
          <children>
             <Label fx:id="input_error" alignment="CENTER" minHeight="18.0" minWidth="190.0" styleClass="danger" textAlignment="CENTER" />

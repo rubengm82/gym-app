@@ -83,13 +83,6 @@ public class NuevoCliente {
 
     @FXML
     void onClickReset(ActionEvent event) {
-        String nombre = input_nombre.getText();
-        String apellido1 = input_apellido1.getText();
-        String apellido2 = input_apellido2.getText();
-        String IBAN = input_IBAN.getText();
-        String mail = input_mail.getText();
-        String telefono = input_telefono.getText();
-
         input_nombre.clear();
         input_apellido1.clear();
         input_apellido2.clear();

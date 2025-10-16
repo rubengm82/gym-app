@@ -89,4 +89,50 @@ public class Clases {
         }
     }
 
+    // INSERTAR - NUEVA CLASE
+    public static void insertarClase(String nombre, int aforo, String descripcion, int estado) {
+        String sql = "INSERT INTO Clases (nombre, aforo, descripcion, estado) VALUES (?, ?, ?, ?)";
+
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+            ps.setInt(2, aforo);
+            ps.setString(3, descripcion);
+            ps.setInt(4, estado);
+
+            ps.executeUpdate();
+            System.out.println("Clase insertada correctamente.");
+
+        } catch (SQLException e) {
+            System.err.println("Error al insertar clase: " + e.getMessage());
+        }
+    }
+
+    // ACTUALIZAR DATOS DE LA CLASE
+    public static boolean actualizarClase(Clases clase) {
+        boolean exito = false;
+
+        // SQL para actualizar la tabla Clases
+        String sql = "UPDATE Clases SET nombre = ?, aforo = ?, descripcion = ?, estado = ? WHERE id_clase = ?";
+
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, clase.getNombre());
+            ps.setInt(2, clase.getAforo());
+            ps.setString(3, clase.getDescripcion());
+            ps.setInt(4, clase.getEstado());
+            ps.setInt(5, clase.getId_clase());
+
+            exito = ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar clase: " + e.getMessage());
+        }
+
+        return exito;
+    }
+
+
 }
