@@ -19,6 +19,12 @@ public class ListarReservas {
     private Button buttonBorrar;
 
     @FXML
+    private Button buttonHoy;
+
+    @FXML
+    private Button buttonTodasReservas;
+
+    @FXML
     private TableColumn<Clases, String> campoClase;
 
     @FXML
@@ -53,15 +59,29 @@ public class ListarReservas {
     /* AUTO-LOAD al cargar la vista */
     public void initialize() {
         // Columnas de la tablaReservas
-        campoID.setCellValueFactory(new PropertyValueFactory<>("idReserva")); // id_reserva
-        campoCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente")); // nombre + apellido1 + apellido2
-        campoClase.setCellValueFactory(new PropertyValueFactory<>("nombreClase")); // nombre de la clase
-        campoFechaReserva.setCellValueFactory(new PropertyValueFactory<>("fechaReserva")); // LocalDate
-        campoHoraInicio.setCellValueFactory(new PropertyValueFactory<>("horaInicio")); // LocalTime
+        campoID.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
+        campoCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
+        campoClase.setCellValueFactory(new PropertyValueFactory<>("nombreClase"));
+        campoFechaReserva.setCellValueFactory(new PropertyValueFactory<>("fechaReserva"));
+        campoHoraInicio.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
 
-        // Cargar datos en la tablaReservas
-        todasReservas = Reservas.obtenerTodasReservas(); // Metodo que consulta la BBDD y rellena objetos Reserva con cliente y planificacion
+        // Cargar todas las reservas
+        todasReservas = Reservas.obtenerTodasReservas();
         tablaReservas.setItems(FXCollections.observableArrayList(todasReservas));
+
+        // Listener para filtrar por fecha
+        id_datepicker.valueProperty().addListener((obs, oldDate, newDate) -> {
+            if (newDate == null) {
+                // Si no hay fecha seleccionada, mostrar todas
+                tablaReservas.setItems(FXCollections.observableArrayList(todasReservas));
+            } else {
+                // Filtrar solo las reservas que coincidan con la fecha
+                List<Reservas> filtradas = todasReservas.stream()
+                        .filter(r -> r.getFechaReserva().isEqual(newDate))
+                        .toList();
+                tablaReservas.setItems(FXCollections.observableArrayList(filtradas));
+            }
+        });
     }
 
     @FXML
@@ -103,5 +123,15 @@ public class ListarReservas {
         }
     }
 
+    @FXML
+    void onClickHoy(ActionEvent event) {
+        LocalDate hoy = LocalDate.now();
+        id_datepicker.setValue(hoy); // Esto también actualizará la tabla por el listener que ya tienes
+    }
+
+    @FXML
+    void onClickTodasReservas(ActionEvent event) {
+        id_datepicker.setValue(null); // Esto hará que el listener muestre todas las reservas
+    }
 
 }

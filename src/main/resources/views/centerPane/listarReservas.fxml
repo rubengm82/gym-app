@@ -26,5 +26,7 @@
       <DatePicker fx:id="id_datepicker" layoutX="1033.0" layoutY="24.0" />
       <Label layoutX="539.0" layoutY="33.0" />
       <Button fx:id="buttonBorrar" layoutX="1277.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickBajaAlta" prefHeight="36.0" prefWidth="89.0" styleClass="danger" text="BORRAR" />
+      <Button fx:id="buttonHoy" layoutX="957.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickHoy" styleClass="success" text="HOY" />
+      <Button fx:id="buttonTodasReservas" layoutX="763.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickTodasReservas" styleClass="success" text="VER TODAS RESERAVAS" />
    </children>
 </AnchorPane>
