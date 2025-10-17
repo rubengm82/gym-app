@@ -14,26 +14,17 @@
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
-      <TableView fx:id="tablaClases" layoutX="12.0" layoutY="78.0" prefHeight="680.0" prefWidth="1355.0">
+      <TableView fx:id="tablaReservas" layoutX="12.0" layoutY="78.0" prefHeight="680.0" prefWidth="1355.0">
         <columns>
           <TableColumn fx:id="campoID" prefWidth="66.0" text="ID" />
-          <TableColumn fx:id="campoNombre" prefWidth="120.0" text="CLIENTE" />
-            <TableColumn fx:id="campoDuracion" prefWidth="133.0" text="CLASE" />
-            <TableColumn fx:id="campoDia" prefWidth="171.0" text="HORA_INCIO" />
-            <TableColumn fx:id="campoAforo" prefWidth="440.0" text=" FECHA_CLASE (calculado en java y lo usara el datepicker)" />
-            <TableColumn fx:id="campoIntructor" prefWidth="291.0" text=" FECHA_RESERVA (TIME-STAMP NOW())" />
-            <TableColumn fx:id="campoDescripcion" prefWidth="93.0" text="ESTADO" />
+          <TableColumn fx:id="campoCliente" prefWidth="403.0" text="CLIENTE" />
+            <TableColumn fx:id="campoClase" minWidth="0.0" prefWidth="351.0" text="CLASE" />
+            <TableColumn fx:id="campoHoraInicio" prefWidth="273.0" text="HORA_INCIO" />
+            <TableColumn fx:id="campoFechaReserva" prefWidth="252.0" text=" FECHA_RESERVA" />
         </columns>
       </TableView>
-      <DatePicker layoutX="266.0" layoutY="29.0" />
+      <DatePicker fx:id="id_datepicker" layoutX="1033.0" layoutY="24.0" />
       <Label layoutX="539.0" layoutY="33.0" />
-      <AnchorPane layoutX="585.0" layoutY="12.0" prefHeight="59.0" prefWidth="550.0" style="-fx-border-color: #bbbbbb;">
-         <children>
-            <Label layoutX="14.0" layoutY="8.0" text="Boxeo: 18 de 20 (Tambien calculado en java)" />
-            <Label layoutX="14.0" layoutY="31.0" text="Yoga: 11 de 25" />
-         </children>
-      </AnchorPane>
-      <Button fx:id="buttonBajaAlta" layoutX="1293.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickBajaAlta" prefHeight="36.0" prefWidth="73.0" styleClass="danger" text="BAJA" />
-      <Label layoutX="533.0" layoutY="33.0" text="AFORO" />
+      <Button fx:id="buttonBorrar" layoutX="1277.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickBajaAlta" prefHeight="36.0" prefWidth="89.0" styleClass="danger" text="BORRAR" />
    </children>
 </AnchorPane>
