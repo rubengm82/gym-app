@@ -1,6 +1,7 @@
 package org.nicoruben.controllers.centerPane;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -57,12 +58,9 @@ public class ListarReservas {
     @FXML
     private TableView<Reservas> tablaReservas;
 
+    // Usaremos ObservableList para que los cambios se reflejen automáticamente
+    private ObservableList<Reservas> todasReservas;
 
-    /* Atributos de la class */
-    private List<Reservas> todasReservas;
-
-
-    /* AUTO-LOAD al cargar la vista */
     public void initialize() {
         // Columnas de la tablaReservas
         campoID.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
@@ -73,74 +71,58 @@ public class ListarReservas {
         campoHoraInicio.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
         campoHoraFin.setCellValueFactory(new PropertyValueFactory<>("horaFin"));
 
-
         // Cargar todas las reservas
-        todasReservas = Reservas.obtenerTodasReservas();
-        tablaReservas.setItems(FXCollections.observableArrayList(todasReservas));
+        List<Reservas> reservas = Reservas.obtenerTodasReservas();
+        reservas.sort((r1, r2) -> Integer.compare(r2.getIdReserva(), r1.getIdReserva()));
+        todasReservas = FXCollections.observableArrayList(reservas);
+        tablaReservas.setItems(todasReservas);
 
         // Listener para filtrar por fecha
-        id_datepicker.valueProperty().addListener((obs, oldDate, newDate) -> {
-            if (newDate == null) {
-                // Si no hay fecha seleccionada, mostrar todas
-                tablaReservas.setItems(FXCollections.observableArrayList(todasReservas));
-            } else {
-                // Filtrar solo las reservas que coincidan con la fecha
-                List<Reservas> filtradas = todasReservas.stream()
-                        .filter(r -> r.getFechaReserva().isEqual(newDate))
-                        .toList();
-                tablaReservas.setItems(FXCollections.observableArrayList(filtradas));
-            }
-        });
+        id_datepicker.valueProperty().addListener((obs, oldDate, newDate) -> filtrarPorFecha(newDate));
+    }
+
+    private void filtrarPorFecha(LocalDate fecha) {
+        if (fecha == null) {
+            tablaReservas.setItems(todasReservas);
+        } else {
+            ObservableList<Reservas> filtradas = todasReservas.filtered(r -> r.getFechaReserva().isEqual(fecha));
+            tablaReservas.setItems(filtradas);
+        }
     }
 
     @FXML
     void onClickBajaAlta(ActionEvent event) {
-        // Obtenemos la reserva seleccionada
         Reservas seleccionada = tablaReservas.getSelectionModel().getSelectedItem();
 
-        Alert alert;
-
         if (seleccionada == null) {
-            alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Aviso");
-            alert.setHeaderText(null);
-            alert.setContentText("Debes seleccionar una reserva primero.");
-            alert.showAndWait();
-        } else {
-            // Confirmación
-            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmacion.setTitle("Confirmación");
-            confirmacion.setHeaderText(null);
-            confirmacion.setContentText("¿Seguro que quieres borrar esta reserva?");
+            new Alert(Alert.AlertType.WARNING, "Debes seleccionar una reserva primero.", ButtonType.OK).showAndWait();
+            return;
+        }
 
-            if (confirmacion.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-                // Borrar de la base de datos
-                boolean exito = Reservas.borrarReserva(seleccionada.getIdReserva());
+        // Confirmación
+        Alert confirmacion = new Alert(Alert.AlertType.NONE, "  ¿Seguro que quieres borrar esta reserva?", ButtonType.OK, ButtonType.CANCEL);
+        if (confirmacion.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+            boolean exito = Reservas.borrarReserva(seleccionada.getIdReserva());
 
-                if (exito) {
-                    // Quitar de la tabla
-                    tablaReservas.getItems().remove(seleccionada);
-                } else {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("No se pudo borrar la reserva.");
-                    alert.showAndWait();
-                }
+            if (exito) {
+                // Quitar de la lista principal ObservableList
+                todasReservas.remove(seleccionada);
+                // Quitar de la tabla si está filtrada
+                tablaReservas.getItems().remove(seleccionada);
+            } else {
+                new Alert(Alert.AlertType.ERROR, "No se pudo borrar la reserva.", ButtonType.OK).showAndWait();
             }
         }
     }
 
-
     @FXML
     void onClickHoy(ActionEvent event) {
         LocalDate hoy = LocalDate.now();
-        id_datepicker.setValue(hoy); // Esto también actualizará la tabla por el listener que ya tienes
+        id_datepicker.setValue(hoy);
     }
 
     @FXML
     void onClickTodasReservas(ActionEvent event) {
-        id_datepicker.setValue(null); // Esto hará que el listener muestre todas las reservas
+        id_datepicker.setValue(null);
     }
-
 }

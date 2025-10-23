@@ -155,4 +155,28 @@ public class Reservas {
         }
         return exito;
     }
+
+    // Insertar reserva en la base de datos
+    public static boolean insertarReserva(Clientes cliente, Planificaciones planificacion) {
+        String sql = "INSERT INTO Reservas (fk_id_cliente, fk_id_planificacion, fecha_reserva, estado) " +
+                "VALUES (?, ?, ?, ?)";
+        try (Connection con = ConexionBD.conectar();
+             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setInt(1, cliente.getId_cliente());
+            ps.setInt(2, planificacion.getId_planificacion());
+            ps.setDate(3, Date.valueOf(LocalDate.now())); // fecha_reserva = hoy
+            ps.setInt(4, 1); // estado por defecto = 1
+
+            int filas = ps.executeUpdate();
+            if (filas > 0) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al insertar reserva: " + e.getMessage());
+        }
+        return false;
+    }
+
 }
