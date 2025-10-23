@@ -33,9 +33,9 @@
       <Label layoutX="292.0" layoutY="171.0" text="ID117" />
       <TableView layoutX="23.0" layoutY="213.0" prefHeight="504.0" prefWidth="337.0">
         <columns>
-          <TableColumn prefWidth="115.0" text="HORA INICIO" />
-          <TableColumn prefWidth="99.0" text="HORA FIN" />
-            <TableColumn prefWidth="122.0" text="CLASE" />
+          <TableColumn fx:id="table_h_ini" prefWidth="115.0" text="HORA INICIO" />
+          <TableColumn fx:id="table_h_fin" prefWidth="99.0" text="HORA FIN" />
+            <TableColumn fx:id="table_clase" prefWidth="122.0" text="CLASE" />
         </columns>
       </TableView>
       <Label fx:id="labelTituloClientes1" layoutX="601.0" layoutY="465.0" text="Crear planificación">

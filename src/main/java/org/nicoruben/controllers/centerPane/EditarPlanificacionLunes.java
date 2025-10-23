@@ -1,21 +1,15 @@
 package org.nicoruben.controllers.centerPane;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
+import org.nicoruben.models.Clases;
+import org.nicoruben.models.Planificaciones;
 
-
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 public class EditarPlanificacionLunes {
 
@@ -26,16 +20,16 @@ public class EditarPlanificacionLunes {
     private ComboBox<?> combo_instructor;
 
     @FXML
-    private Spinner<Integer> input_fin_h;
+    private Spinner<?> input_fin_h;
 
     @FXML
-    private Spinner<Integer> input_fin_m;
+    private Spinner<?> input_fin_m;
 
     @FXML
-    private Spinner<Integer> input_ini_h;
+    private Spinner<?> input_ini_h;
 
     @FXML
-    private Spinner<Integer> input_ini_m;
+    private Spinner<?> input_ini_m;
 
     @FXML
     private Label labelTituloClientes;
@@ -44,27 +38,21 @@ public class EditarPlanificacionLunes {
     private Label labelTituloClientes1;
 
     @FXML
-    private Button submit_button;
+    private TableColumn<Planificaciones, String> table_clase;
+
+    @FXML
+    private TableColumn<Planificaciones, Date> table_h_fin;
+
+    @FXML
+    private TableColumn<Planificaciones, Date> table_h_ini;
 
 
+    public void initialize(){
 
-    public void initialize()
-    {
-            input_ini_h.setValueFactory(
-                    new SpinnerValueFactory.IntegerSpinnerValueFactory(9, 21, 9, 1)
-            );
+        campoID.setCellValueFactory(new PropertyValueFactory<>("id_clase"));
 
-            input_fin_h.setValueFactory(
-                    new SpinnerValueFactory.IntegerSpinnerValueFactory(9, 21, 9, 1)
-            );
+        table_h_ini.setCellValueFactory(new PropertyValueFactory<>(""));
 
-            input_ini_m.setValueFactory(
-                    new SpinnerValueFactory.IntegerSpinnerValueFactory(0,45, 0, 15)
-            );
-
-            input_fin_m.setValueFactory(
-                    new SpinnerValueFactory.IntegerSpinnerValueFactory(0,45, 0, 15)
-            );
     }
-
 }
+
