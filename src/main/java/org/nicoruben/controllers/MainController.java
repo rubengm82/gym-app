@@ -65,6 +65,8 @@ public class MainController {
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(listarClientes, nuevoCliente);
+
+                showInCenter("listarClientes");
             }
 
             // BOTON TOP CLASES
@@ -80,6 +82,8 @@ public class MainController {
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(listarClases, nuevaClase);
+
+                showInCenter("listarClases");
             }
 
             // BOTON TOP INFORMES
@@ -91,6 +95,8 @@ public class MainController {
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(graficaOne);
+
+                showInCenter("graficaOne");
             }
 
             // BOTON TOP INSTRUCTORES
@@ -106,6 +112,8 @@ public class MainController {
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(listarActividades, nuevaActividad);
+
+                showInCenter("listarInstructores");
             }
 
             // BOTON TOP PLANIFICACIONES
@@ -120,6 +128,8 @@ public class MainController {
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(lunes, martes);
+
+                showInCenter("editarPlanficacionLunes");
             }
 
             // BOTON TOP RESERVAS
@@ -131,6 +141,8 @@ public class MainController {
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(reservas);
+
+                showInCenter("listarReservas");
             }
 
         }
