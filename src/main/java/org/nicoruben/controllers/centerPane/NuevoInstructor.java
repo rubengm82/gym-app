@@ -39,39 +39,49 @@ public class NuevoInstructor {
     @FXML
     void onClickAceptar(ActionEvent event) {
 
-        String nombre = input_nombre.getText();
-        String apellido1 = input_apellido1.getText();
-        String apellido2 = input_apellido2.getText();
-        String telefono = input_telefono.getText();
-        String dni = input_dni.getText();
+        String nombre = input_nombre.getText().trim();
+        String apellido1 = input_apellido1.getText().trim();
+        String apellido2 = input_apellido2.getText().trim();
+        String telefono = input_telefono.getText().trim();
+        String dni = input_dni.getText().trim().toUpperCase();
         int estado = 1;
 
-        // Variable para almacenar errores
         String errores = "";
 
         if (nombre.isEmpty() || apellido1.isEmpty()) {
             errores += "Debe ingresar al menos nombre y primer apellido\n";
         }
 
+        // Validar DNI
+        if (dni.isEmpty()) {
+            errores += "El DNI es obligatorio\n";
+        } else if (!dni.matches("\\d{8}[A-Z]")) {
+            errores += "El DNI no tiene un formato válido (8 dígitos y letra)\n";
+        } else {
+            // Comprobar letra
+            String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+            int numero = Integer.parseInt(dni.substring(0, 8));
+            char letraCorrecta = letras.charAt(numero % 23);
+            if (dni.charAt(8) != letraCorrecta) {
+                errores += "La letra del DNI no es correcta\n";
+            }
+        }
+
         if (!errores.isEmpty()) {
-            // Mostrar errores en error_label
             input_error.setText(errores.trim());
             input_error.getStyleClass().removeAll("success");
             if (!input_error.getStyleClass().contains("danger")) {
                 input_error.getStyleClass().add("danger");
             }
         } else {
-            // Comprobacion correcta, insertar Instructor!
-            Instructores.insertarInstructor(nombre, apellido1, apellido2, dni,telefono, estado);
+            Instructores.insertarInstructor(nombre, apellido1, apellido2, dni, telefono, estado);
             input_error.setText("Instructor añadido correctamente!");
-            btn_reset.fire();  // Borra todos los campos, hace click virtual en el boton Reset
+            btn_reset.fire();
             input_error.getStyleClass().removeAll("danger");
             if (!input_error.getStyleClass().contains("success")) {
                 input_error.getStyleClass().add("success");
             }
         }
-
-
     }
 
     @FXML

@@ -42,7 +42,7 @@ public class NuevoCliente {
         String nombre = input_nombre.getText().trim();
         String apellido1 = input_apellido1.getText().trim();
         String apellido2 = input_apellido2.getText().trim();
-        String IBAN = input_IBAN.getText().trim();
+        String IBAN = input_IBAN.getText().trim().replaceAll("\\s+", "").toUpperCase();
         String mail = input_mail.getText().trim();
         String telefono = input_telefono.getText().trim();
         int estado = 1;
@@ -54,8 +54,16 @@ public class NuevoCliente {
             errores += "Debe ingresar al menos nombre y primer apellido\n";
         }
 
-        if (!mail.isEmpty() && (!mail.contains("@") || mail.startsWith("@") || mail.endsWith("@"))) {
+        if (mail.isEmpty()) {
+            errores += "El correo es obligatorio\n";
+        } else if (!mail.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
             errores += "El correo no es válido\n";
+        } else if (Clientes.existeMail(mail)) {
+            errores += "El correo ya está registrado\n";
+        }
+
+        if (!IBAN.isEmpty() && !IBAN.matches("[a-zA-Z]{2}[0-9]{2}[\\s*]{0,}[0-9]{4}[\\s*]{0,}[0-9]{4}[\\s*]{0,}[0-9]{4}[\\s*]{0,}[0-9]{4}[\\s*]{0,}[0-9]{4}[\\s*]{0,}")) {
+            errores += "El IBAN no es válido\n";
         }
 
         if (Clientes.existeMail(mail)) {
@@ -71,6 +79,7 @@ public class NuevoCliente {
             }
         } else {
             // Comprobacion correcta, insertar cliente!
+            IBAN = IBAN.replaceAll("\\s+", "").toUpperCase();
             Clientes.insertarCliente(nombre, apellido1, apellido2, IBAN, mail, telefono, estado);
             input_error.setText("Cliente añadido correctamente!");
             btn_reset.fire();  // Borra todos los campos, hace click virtual en el boton Reset
