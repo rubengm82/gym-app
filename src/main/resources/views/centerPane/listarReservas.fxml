@@ -18,9 +18,11 @@
         <columns>
           <TableColumn fx:id="campoID" prefWidth="66.0" text="ID" />
           <TableColumn fx:id="campoCliente" prefWidth="403.0" text="CLIENTE" />
-            <TableColumn fx:id="campoClase" minWidth="0.0" prefWidth="351.0" text="CLASE" />
-            <TableColumn fx:id="campoHoraInicio" prefWidth="273.0" text="HORA_INCIO" />
-            <TableColumn fx:id="campoFechaReserva" prefWidth="252.0" text=" FECHA_RESERVA" />
+            <TableColumn fx:id="campoClase" minWidth="0.0" prefWidth="264.0" text="CLASE" />
+            <TableColumn fx:id="campoDia" prefWidth="152.0" text="DIA" />
+            <TableColumn fx:id="campoHoraInicio" prefWidth="166.0" text="HORA_INCIO" />
+            <TableColumn fx:id="campoHoraFin" prefWidth="152.0" text="HORA_FIN" />
+            <TableColumn fx:id="campoFechaReserva" prefWidth="137.0" text=" FECHA_RESERVA" />
         </columns>
       </TableView>
       <DatePicker fx:id="id_datepicker" layoutX="1033.0" layoutY="24.0" />

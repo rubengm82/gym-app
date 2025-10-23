@@ -10,8 +10,7 @@ public class Planificaciones {
     private Instructores instructor;
     private int estado;
 
-    public Planificaciones() {}
-
+    // CONSTRUCTORES
     public Planificaciones(int id_planificacion, String dia, String hora_inicio, String hora_fin, Clases clase, Instructores instructor, int estado) {
         this.id_planificacion = id_planificacion;
         this.dia = dia;
@@ -22,6 +21,10 @@ public class Planificaciones {
         this.estado = estado;
     }
 
+    public Planificaciones() {}
+
+
+    // SETTER & GETTERS
     public int getId_planificacion() { return id_planificacion; }
     public void setId_planificacion(int id_planificacion) { this.id_planificacion = id_planificacion; }
 
@@ -43,6 +46,8 @@ public class Planificaciones {
     public int getEstado() { return estado; }
     public void setEstado(int estado) { this.estado = estado; }
 
+
+    // METODOS
     @Override
     public String toString() {
         return "Planificaciones{" +

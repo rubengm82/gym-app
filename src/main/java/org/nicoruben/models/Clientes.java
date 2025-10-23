@@ -29,6 +29,9 @@ public class Clientes {
         this.estado = estado;
     }
 
+    public Clientes() {}
+
+
     // SETTER & GETTERS
     public int getId_cliente() {
         return id_cliente;

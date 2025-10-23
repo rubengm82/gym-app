@@ -37,7 +37,13 @@ public class ListarReservas {
     private TableColumn<Reservas, LocalDate> campoFechaReserva;
 
     @FXML
-    private TableColumn<?, LocalTime> campoHoraInicio;
+    private TableColumn<Reservas, String> campoDia;
+
+    @FXML
+    private TableColumn<Reservas, LocalTime> campoHoraInicio;
+
+    @FXML
+    private TableColumn<Reservas, LocalTime> campoHoraFin;
 
     @FXML
     private TableColumn<Reservas, Integer> campoID;
@@ -62,8 +68,11 @@ public class ListarReservas {
         campoID.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
         campoCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
         campoClase.setCellValueFactory(new PropertyValueFactory<>("nombreClase"));
+        campoDia.setCellValueFactory(new PropertyValueFactory<>("dia"));
         campoFechaReserva.setCellValueFactory(new PropertyValueFactory<>("fechaReserva"));
         campoHoraInicio.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
+        campoHoraFin.setCellValueFactory(new PropertyValueFactory<>("horaFin"));
+
 
         // Cargar todas las reservas
         todasReservas = Reservas.obtenerTodasReservas();
@@ -89,39 +98,39 @@ public class ListarReservas {
         // Obtenemos la reserva seleccionada
         Reservas seleccionada = tablaReservas.getSelectionModel().getSelectedItem();
 
+        Alert alert;
+
         if (seleccionada == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Aviso");
             alert.setHeaderText(null);
             alert.setContentText("Debes seleccionar una reserva primero.");
             alert.showAndWait();
-            return;
-        }
-
-        // Confirmación
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Confirmación");
-        confirmacion.setHeaderText(null);
-        confirmacion.setContentText("¿Seguro que quieres borrar esta reserva?");
-
-        if (confirmacion.showAndWait().orElse(ButtonType.CANCEL) != ButtonType.OK) {
-            return;
-        }
-
-        // Borrar de la base de datos
-        boolean exito = Reservas.borrarReserva(seleccionada.getIdReserva());
-
-        if (exito) {
-            // Quitar de la tabla
-            tablaReservas.getItems().remove(seleccionada);
         } else {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Error");
-            error.setHeaderText(null);
-            error.setContentText("No se pudo borrar la reserva.");
-            error.showAndWait();
+            // Confirmación
+            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion.setTitle("Confirmación");
+            confirmacion.setHeaderText(null);
+            confirmacion.setContentText("¿Seguro que quieres borrar esta reserva?");
+
+            if (confirmacion.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+                // Borrar de la base de datos
+                boolean exito = Reservas.borrarReserva(seleccionada.getIdReserva());
+
+                if (exito) {
+                    // Quitar de la tabla
+                    tablaReservas.getItems().remove(seleccionada);
+                } else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No se pudo borrar la reserva.");
+                    alert.showAndWait();
+                }
+            }
         }
     }
+
 
     @FXML
     void onClickHoy(ActionEvent event) {

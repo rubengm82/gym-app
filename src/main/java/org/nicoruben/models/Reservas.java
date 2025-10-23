@@ -11,108 +11,86 @@ import java.util.List;
 public class Reservas {
 
     private int idReserva;
-    //private Planificaciones planificacion; // fk_id_planificacion
-    private Clientes cliente;             // fk_id_cliente
+    private Planificaciones planificacion;
+    private Clientes cliente;
     private LocalDate fechaReserva;
     private int estado;
 
-    // Constructor completo
-    public Reservas(int idReserva, Clientes cliente, LocalDate fechaReserva, int estado) {
+    // CONSTRUCTORES
+    public Reservas(int idReserva, Planificaciones planificacion, Clientes cliente, LocalDate fechaReserva, int estado) {
         this.idReserva = idReserva;
-        //this.planificacion = planificacion;
-        this.cliente = cliente;
-        this.fechaReserva = fechaReserva;
-        this.estado = estado;
-    }
-
-    // Getters y setters
-    public int getIdReserva() {
-        return idReserva;
-    }
-
-    public void setIdReserva(int idReserva) {
-        this.idReserva = idReserva;
-    }
-
-    /*public Planificaciones getPlanificacion() {
-        return planificacion;
-    }*/
-
-    /*public void setPlanificacion(Planificacion planificacion) {
         this.planificacion = planificacion;
-    }*/
-
-    public Clientes getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Clientes cliente) {
         this.cliente = cliente;
-    }
-
-    public LocalDate getFechaReserva() {
-        return fechaReserva;
-    }
-
-    public void setFechaReserva(LocalDate fechaReserva) {
         this.fechaReserva = fechaReserva;
-    }
-
-    public int getEstado() {
-        return estado;
-    }
-
-    public void setEstado(int estado) {
         this.estado = estado;
     }
 
-    // Métodos auxiliares para mostrar nombre de clase o cliente en la TableView
+    public Reservas() {}
+
+
+    // SETTER & GETTERS
+    public int getIdReserva() { return idReserva; }
+    public void setIdReserva(int idReserva) { this.idReserva = idReserva; }
+
+    public Planificaciones getPlanificacion() { return planificacion; }
+    public void setPlanificacion(Planificaciones planificacion) { this.planificacion = planificacion; }
+
+    public Clientes getCliente() { return cliente; }
+    public void setCliente(Clientes cliente) { this.cliente = cliente; }
+
+    public LocalDate getFechaReserva() { return fechaReserva; }
+    public void setFechaReserva(LocalDate fechaReserva) { this.fechaReserva = fechaReserva; }
+
+    public int getEstado() { return estado; }
+    public void setEstado(int estado) { this.estado = estado; }
+
+    // Métodos auxiliares
     public String getNombreCliente() {
-        return cliente != null
-                ? cliente.getNombre() + " " + cliente.getApellido1() + " " + cliente.getApellido2()
-                : "";
+        return cliente != null ? cliente.getNombre() + " " + cliente.getApellido1() + " " + cliente.getApellido2() : "";
     }
 
-    /*public String getNombreClase() {
-        return planificacion != null && planificacion.getClase() != null ? planificacion.getClase().getNombre() : "";
-    }*/
-
-    /*public LocalTime getHoraInicio() {
-        return planificacion != null ? planificacion.getHoraInicio() : null;
-    }*/
-
-
-
-    /* ***********************************************************/
-    /* ESTO HAY QUE HACERLO BIEN CON EL MODELO DE PLANFICACIONES */
-    /* ***********************************************************/
-    public LocalTime getHoraInicio() {
-        return LocalTime.of(19, 0); // LocalTime fijo, temporal hasta que Planificaciones esté listo
-    }
     public String getNombreClase() {
-        return "Sin clase - Hacerlo bien con Model Planificaciones"; // o null, o cualquier valor temporal
+        return planificacion != null && planificacion.getClase() != null
+                ? planificacion.getClase().getNombre()
+                : "Sin clase asignada";
     }
-    /* ***********************************************************/
-    /* ***********************************************************/
-    /* ***********************************************************/
 
+    public LocalTime getHoraInicio() {
+        return (planificacion != null && planificacion.getHora_inicio() != null)
+                ? LocalTime.parse(planificacion.getHora_inicio())
+                : null;
+    }
 
+    public LocalTime getHoraFin() {
+        return (planificacion != null && planificacion.getHora_fin() != null)
+                ? LocalTime.parse(planificacion.getHora_fin())
+                : null;
+    }
 
-    // ///////////////////
-    // METODOS PROPIOS ///
-    // ///////////////////
+    public String getDia() {
+        return (planificacion != null) ? planificacion.getDia() : "";
+    }
+
+    // Obtener todas las reservas
     public static List<Reservas> obtenerTodasReservas() {
         List<Reservas> reservas = new ArrayList<>();
         String sql = "SELECT r.id_reserva, r.fecha_reserva, r.estado, " +
-                "c.id_cliente, c.nombre, c.apellido1, c.apellido2, c.IBAN, c.mail, c.telefono, c.estado AS estado_cliente " +
+                "c.id_cliente, c.nombre, c.apellido1, c.apellido2, c.IBAN, c.mail, c.telefono, c.estado AS estado_cliente, " +
+                "p.id_planificacion, p.dia, p.hora_inicio, p.hora_fin, p.estado AS estado_plan, " +
+                "cl.id_clase, cl.nombre AS nombre_clase, " +
+                "i.id_inst, i.nombre AS nombre_instructor " +
                 "FROM Reservas r " +
-                "JOIN Clientes c ON r.fk_id_cliente = c.id_cliente";
+                "JOIN Clientes c ON r.fk_id_cliente = c.id_cliente " +
+                "JOIN Planificaciones p ON r.fk_id_planificacion = p.id_planificacion " +
+                "JOIN Clases cl ON p.fk_id_clase = cl.id_clase " +
+                "JOIN Instructores i ON p.fk_id_inst = i.id_inst";
 
         try (Connection con = ConexionBD.conectar();
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
+                // Cliente
                 Clientes cliente = new Clientes(
                         rs.getInt("id_cliente"),
                         rs.getString("nombre"),
@@ -124,8 +102,31 @@ public class Reservas {
                         rs.getInt("estado_cliente")
                 );
 
+                // Clase
+                Clases clase = new Clases();
+                clase.setId_clase(rs.getInt("id_clase"));
+                clase.setNombre(rs.getString("nombre_clase"));
+
+                // Instructor
+                Instructores instructor = new Instructores();
+                instructor.setId(rs.getInt("id_inst"));
+                instructor.setNombre(rs.getString("nombre_instructor"));
+
+                // Planificación
+                Planificaciones planificacion = new Planificaciones(
+                        rs.getInt("id_planificacion"),
+                        rs.getString("dia"),
+                        rs.getString("hora_inicio"),
+                        rs.getString("hora_fin"),
+                        clase,
+                        instructor,
+                        rs.getInt("estado_plan")
+                );
+
+                // Reserva
                 Reservas reserva = new Reservas(
                         rs.getInt("id_reserva"),
+                        planificacion,
                         cliente,
                         rs.getDate("fecha_reserva").toLocalDate(),
                         rs.getInt("estado")
@@ -137,20 +138,21 @@ public class Reservas {
         } catch (SQLException e) {
             System.err.println("Error al obtener reservas: " + e.getMessage());
         }
+
         return reservas;
     }
 
-    // BORRAR PERMANENTEMENTE de la BBDD una Reserva
+    // Borrar reserva
     public static boolean borrarReserva(int idReserva) {
+        boolean exito = false;
         String sql = "DELETE FROM Reservas WHERE id_reserva = ?";
         try (Connection con = ConexionBD.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idReserva);
-            return ps.executeUpdate() > 0; // true si se borró
+            exito = ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Error al borrar reserva: " + e.getMessage());
-            return false;
         }
+        return exito;
     }
-
 }
