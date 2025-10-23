@@ -104,6 +104,7 @@ public class Administradores {
 
     //Metodo inicio de session
     public static int verificarSession(String mail, String password) {
+        int autenticacion = 0;
         String sql = "SELECT COUNT(*) FROM Administradores WHERE mail = ? AND password = ? AND estado = 1";
         try (Connection connection = ConexionBD.conectar();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -113,14 +114,14 @@ public class Administradores {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getInt(1);
+                    autenticacion = rs.getInt(1);
                     //Guardar el objeto ??? revisar mas tarde
                 }
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener administradores: " + e.getMessage());
         }
-        return 0;
+        return autenticacion;
     }
 
 }

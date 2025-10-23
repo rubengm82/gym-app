@@ -1,16 +1,18 @@
 package org.nicoruben.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import org.nicoruben.services.UtilsGlobal;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Optional;
 
 public class MainController {
 
@@ -36,6 +38,9 @@ public class MainController {
     @FXML
     private Button btnInformes;
 
+    @FXML
+    private Button btnSalir;
+
 
     @FXML
     public void initialize() {
@@ -43,7 +48,7 @@ public class MainController {
     }
 
     @FXML
-    public void handleTopButton(javafx.event.ActionEvent event) {
+    public void handleTopButton(ActionEvent event) {
         Button clicked = (Button) event.getSource();
         leftMenu.getChildren().clear();
 
@@ -147,6 +152,35 @@ public class MainController {
 
         }
     }
+
+    // Metodo para salir de la sesion.
+    @FXML
+    void onClickSalir(ActionEvent event) {
+        // Crear el cuadro de confirmación
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmación de salida");
+        confirmacion.setHeaderText(null);
+        confirmacion.setContentText("¿Seguro que deseas salir de la aplicación?");
+
+        // Personalizar los botones
+        ButtonType btnAceptar = new ButtonType("Salir");
+        ButtonType btnCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirmacion.getButtonTypes().setAll(btnAceptar, btnCancelar);
+
+        // Mostrar la alerta y esperar la respuesta del usuario
+        Optional<ButtonType> resultado = confirmacion.showAndWait();
+
+        // Si el usuario confirma, ejecutar la acción de salir
+        if (resultado.isPresent() && resultado.get() == btnAceptar) {
+            try {
+                UtilsGlobal.goToSceneWithButton(btnSalir, "/views/login/login.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
 
     // ///////////////////
