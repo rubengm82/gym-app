@@ -42,7 +42,8 @@ public class NuevoCliente {
         String nombre = input_nombre.getText().trim();
         String apellido1 = input_apellido1.getText().trim();
         String apellido2 = input_apellido2.getText().trim();
-        String IBAN = input_IBAN.getText().trim().replaceAll("\\s+", "").toUpperCase();
+        String IBANInput = input_IBAN.getText().trim();
+        String IBAN = IBANInput.replaceAll("\\s+", "").toUpperCase();
         String mail = input_mail.getText().trim();
         String telefono = input_telefono.getText().trim();
         int estado = 1;
@@ -62,7 +63,7 @@ public class NuevoCliente {
             errores += "El correo ya está registrado\n";
         }
 
-        if (!IBAN.isEmpty() && !IBAN.matches("[a-zA-Z]{2}[0-9]{2}[\\s*]{0,}[0-9]{4}[\\s*]{0,}[0-9]{4}[\\s*]{0,}[0-9]{4}[\\s*]{0,}[0-9]{4}[\\s*]{0,}[0-9]{4}[\\s*]{0,}")) {
+        if (!IBAN.isEmpty() && !IBAN.matches("[A-Z]{2}[0-9]{22}")) {
             errores += "El IBAN no es válido\n";
         }
 
@@ -79,7 +80,6 @@ public class NuevoCliente {
             }
         } else {
             // Comprobacion correcta, insertar cliente!
-            IBAN = IBAN.replaceAll("\\s+", "").toUpperCase();
             Clientes.insertarCliente(nombre, apellido1, apellido2, IBAN, mail, telefono, estado);
             input_error.setText("Cliente añadido correctamente!");
             btn_reset.fire();  // Borra todos los campos, hace click virtual en el boton Reset
