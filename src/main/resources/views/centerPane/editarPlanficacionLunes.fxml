@@ -31,13 +31,13 @@
       <Label layoutX="292.0" layoutY="122.0" text="ID39" />
       <Button layoutX="259.0" layoutY="68.0" mnemonicParsing="false" styleClass="danger" text="BORRAR" />
       <Label layoutX="292.0" layoutY="171.0" text="ID117" />
-      <TableView layoutX="23.0" layoutY="213.0" prefHeight="504.0" prefWidth="337.0">
-        <columns>
-          <TableColumn fx:id="table_h_ini" prefWidth="115.0" text="HORA INICIO" />
-          <TableColumn fx:id="table_h_fin" prefWidth="99.0" text="HORA FIN" />
-            <TableColumn fx:id="table_clase" prefWidth="122.0" text="CLASE" />
-        </columns>
-      </TableView>
+       <TableView fx:id="table_planificaciones" layoutX="23.0" layoutY="213.0" prefHeight="504.0" prefWidth="337.0">
+           <columns>
+               <TableColumn fx:id="table_h_ini" prefWidth="115.0" text="HORA INICIO" />
+               <TableColumn fx:id="table_h_fin" prefWidth="99.0" text="HORA FIN" />
+               <TableColumn fx:id="table_clase" prefWidth="122.0" text="CLASE" />
+           </columns>
+       </TableView>
       <Label fx:id="labelTituloClientes1" layoutX="601.0" layoutY="465.0" text="Crear planificación">
          <font>
             <Font name="System Bold" size="24.0" />

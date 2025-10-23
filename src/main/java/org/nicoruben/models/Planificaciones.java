@@ -1,13 +1,16 @@
 package org.nicoruben.models;
 
 import org.nicoruben.services.ConexionBD;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+
+
 
 public class Planificaciones {
 
@@ -19,7 +22,6 @@ public class Planificaciones {
     private Instructores instructor;
     private int estado;
 
-    public Planificaciones() {}
 
     public Planificaciones(int id_planificacion, String dia, String hora_inicio, String hora_fin, Clases clase, Instructores instructor, int estado) {
         this.id_planificacion = id_planificacion;
@@ -30,6 +32,17 @@ public class Planificaciones {
         this.instructor = instructor;
         this.estado = estado;
     }
+
+
+    public Planificaciones(String dia, String hora_inicio, String hora_fin, Clases clase, Instructores instructor) {
+        this.dia = dia;
+        this.hora_inicio = hora_inicio;
+        this.hora_fin = hora_fin;
+        this.clase = clase;
+        this.instructor = instructor;
+        this.estado = 1;
+    }
+
 
     public int getId_planificacion() { return id_planificacion; }
     public void setId_planificacion(int id_planificacion) { this.id_planificacion = id_planificacion; }
@@ -65,61 +78,61 @@ public class Planificaciones {
                 '}';
     }
 
-    public static List<Planificaciones> PlanificacionesLunes() {
+
+    public static List<Planificaciones> obtenerPlanificaciones() {
         List<Planificaciones> planificaciones = new ArrayList<>();
-        String sql = "SELECT * FROM Planificaciones WHERE dia = 'Lunes' ORDER BY hora_inicio;";
+        String sql = """
+                SELECT p.*, 
+                       c.id_clase, c.nombre AS nombre_clase, c.aforo, c.descripcion AS desc_clase, c.estado AS estado_clase,
+                       i.id_inst, i.nombre AS nombre_inst, i.apellido1, i.apellido2, i.DNI, i.telefono, i.estado AS estado_inst
+                FROM Planificaciones p
+                JOIN Clases c ON p.fk_id_clase = c.id_clase
+                JOIN Instructores i ON p.fk_id_inst = i.id_inst
+                WHERE p.dia = 'Lunes'
+                ORDER BY p.hora_inicio;
+                """;
 
         try (Connection connection = ConexionBD.conectar();
-             Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String dia = rs.getString("dia");
-                String horaInicio = rs.getTime("hora_inicio").toString();
-                String horaFin = rs.getTime("hora_fin").toString();
+                Clases clase = new Clases(
+                        rs.getInt("id_clase"),
+                        rs.getString("nombre_clase"),
+                        rs.getInt("aforo"),
+                        rs.getString("desc_clase"),
+                        rs.getInt("estado_clase")
+                );
 
-                int idClase = rs.getInt("fk_id_clase");
-                int idInst = rs.getInt("fk_id_inst");
-
-                // Supongamos que tienes métodos para obtener los objetos desde su ID:
-                Clases clase = ClasesDAO.obtenerClasePorId(idClase);
-                Instructores instructor = InstructoresDAO.obtenerInstructorPorId(idInst);
+                Instructores instructor = new Instructores(
+                        rs.getInt("id_inst"),
+                        rs.getString("nombre_inst"),
+                        rs.getString("apellido1"),
+                        rs.getString("apellido2"),
+                        rs.getString("DNI"),
+                        rs.getString("telefono"),
+                        rs.getInt("estado_inst")
+                );
 
                 Planificaciones planificacion = new Planificaciones(
-                        dia, horaInicio, horaFin, clase, instructor
+                        rs.getInt("id_planificacion"),
+                        rs.getString("dia"),
+                        rs.getString("hora_inicio"),
+                        rs.getString("hora_fin"),
+                        clase,
+                        instructor,
+                        rs.getInt("estado")
                 );
 
                 planificaciones.add(planificacion);
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al obtener planificaciones: " + e.getMessage());
+            System.err.println(" Error al obtener planificaciones: " + e.getMessage());
         }
 
         return planificaciones;
-    }
-
-
-    public static List<Clases> obtenerClasePorId(int id) {
-        List<Clases> clases = new ArrayList<>();
-        String sql = "SELECT * FROM Clases WHERE id_clase ="+id+";";
-
-        try (Connection connection = ConexionBD.conectar();
-             Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)
-        ) {
-            while (rs.next()) {
-                Clases clase = new Clases(
-                        rs.getInt("id_clase"),
-                        rs.getString("nombre"),
-                        rs.getInt("aforo"),
-                        rs.getString("descripcion"),
-                        rs.getInt("estado"));
-                clases.add(clase);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener clases: " + e.getMessage());
-        }
-        return clases;
     }
 }
