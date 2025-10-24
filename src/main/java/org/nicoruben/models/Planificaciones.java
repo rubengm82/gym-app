@@ -2,7 +2,9 @@ package org.nicoruben.models;
 
 import org.nicoruben.services.ConexionBD;
 import java.sql.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -88,7 +90,7 @@ public class Planificaciones {
                 FROM Planificaciones p
                 JOIN Clases c ON p.fk_id_clase = c.id_clase
                 JOIN Instructores i ON p.fk_id_inst = i.id_inst
-                WHERE p.dia = 'Lunes'
+                WHERE p.dia = "Lunes"
                 ORDER BY p.hora_inicio;
                 """;
 
@@ -134,5 +136,86 @@ public class Planificaciones {
         }
 
         return planificaciones;
+    }
+
+
+    public static void delPlanificacion(int id) {
+        String sql = "DELETE FROM Planificaciones WHERE id_planificacion = ?";
+
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            int filasEliminadas = ps.executeUpdate(); // ✅ executeUpdate para DELETE
+
+            if (filasEliminadas > 0) {
+                System.out.println("ELIMINADO correctamente.");
+
+            } else {
+                System.out.println("No se encontró la planificación con ID: " + id);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar planificación: " + e.getMessage());
+        }
+    }
+
+
+    public static int verificarPlanificacion(String dia, LocalTime horaInicio, LocalTime horaFin) {
+        int total = 0;
+        String sql = "SELECT COUNT(*) AS total " +
+                "FROM Planificaciones " +
+                "WHERE dia = ? " +
+                "AND (? < hora_fin AND ? > hora_inicio)";
+
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, dia);
+            ps.setTime(3, java.sql.Time.valueOf(horaFin));
+            ps.setTime(2, java.sql.Time.valueOf(horaInicio));
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getInt("total");
+                System.out.println("Conflictos encontrados: " + total);
+                return total;
+
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al verificar planificación: " + e.getMessage());
+        }
+
+        return total;
+
+    }
+
+
+    public static void insertPlanificaciones(LocalTime horaInicio, LocalTime horaFin, int id_clase, int id_instructor){
+
+        String sql = "INSERT INTO Planificaciones (id_planificacion, dia, hora_inicio, hora_fin, fk_id_clase, fk_id_inst, estado) VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+
+
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, "Lunes");
+            ps.setTime(2, java.sql.Time.valueOf(horaInicio)); // <-- aquí va el LocalTime convertido a SQL Time
+            ps.setTime(3, java.sql.Time.valueOf(horaFin));
+            ps.setInt(4, id_clase);
+            ps.setInt(5, id_instructor);
+            ps.setInt(6, 1);
+
+
+            ps.executeUpdate();
+            System.out.println("Planificacion insertada correctamente.");
+
+        } catch (SQLException e) {
+            System.err.println("Error al insertar clase: " + e.getMessage());
+        }
+
     }
 }

@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,39 +16,40 @@
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
-      <ComboBox fx:id="combo_act" layoutX="580.0" layoutY="545.0" prefWidth="150.0" promptText="BOXEO" />
-      <Label layoutX="794.0" layoutY="553.0" text="Inicio" />
-      <Label layoutX="802.0" layoutY="593.0" text="Fin" />
-      <Label layoutX="336.0" layoutY="115.0" text="8:15" />
-      <Label layoutX="336.0" layoutY="132.0" text="9:30" />
-      <Label layoutX="377.0" layoutY="122.0" text="BOXEO" />
+      <ComboBox fx:id="combo_act" layoutX="563.0" layoutY="428.0" prefHeight="36.0" prefWidth="200.0" promptText="Selecciona actividad" />
+      <Label layoutX="779.0" layoutY="436.0" text="Inicio" />
+      <Label layoutX="787.0" layoutY="476.0" text="Fin" />
       <Line endX="-42.0" endY="587.0" layoutX="511.0" layoutY="134.0" startX="-42.0" startY="-66.0" />
-      <Label layoutX="336.0" layoutY="161.0" text="9:30" />
-      <Label layoutX="332.0" layoutY="179.0" text="10:30" />
-      <Label layoutX="377.0" layoutY="171.0" text="TENIX" />
-      <Button layoutX="1072.0" layoutY="558.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="157.0" text="Agregar" />
-      <Label layoutX="292.0" layoutY="122.0" text="ID39" />
-      <Button layoutX="259.0" layoutY="68.0" mnemonicParsing="false" styleClass="danger" text="BORRAR" />
-      <Label layoutX="292.0" layoutY="171.0" text="ID117" />
-       <TableView fx:id="table_planificaciones" layoutX="23.0" layoutY="213.0" prefHeight="504.0" prefWidth="337.0">
+      <Button fx:id="crearPlanificacion" layoutX="1055.0" layoutY="441.0" mnemonicParsing="false" onAction="#crearPlanificacion" prefHeight="44.0" prefWidth="157.0" text="Agregar" />
+      <Button fx:id="delete" layoutX="277.0" layoutY="672.0" mnemonicParsing="false" onAction="#deleteActivity" prefHeight="44.0" prefWidth="113.0" styleClass="danger" text="BORRAR" />
+       <TableView fx:id="table_planificaciones" layoutX="53.0" layoutY="91.0" prefHeight="563.0" prefWidth="337.0">
            <columns>
                <TableColumn fx:id="table_h_ini" prefWidth="115.0" text="HORA INICIO" />
                <TableColumn fx:id="table_h_fin" prefWidth="99.0" text="HORA FIN" />
                <TableColumn fx:id="table_clase" prefWidth="122.0" text="CLASE" />
            </columns>
        </TableView>
-      <Label fx:id="labelTituloClientes1" layoutX="601.0" layoutY="465.0" text="Crear planificación">
+      <Label fx:id="labelTituloClientes1" layoutX="538.0" layoutY="350.0" text="Crear planificación">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="581.0" layoutY="521.0" prefHeight="18.0" prefWidth="81.0" text="Actividad" />
-      <Label layoutX="581.0" layoutY="580.0" prefHeight="18.0" prefWidth="81.0" text="Monitor" />
-      <ComboBox fx:id="combo_instructor" layoutX="581.0" layoutY="602.0" prefHeight="26.0" prefWidth="200.0" promptText="BOXEO" />
-      <SplitPane layoutX="501.0" layoutY="90.0" prefHeight="160.0" prefWidth="200.0" />
-      <Spinner fx:id="input_ini_h" layoutX="840.0" layoutY="549.0" prefHeight="4.0" prefWidth="91.0" />
-      <Spinner fx:id="input_fin_h" layoutX="840.0" layoutY="589.0" prefHeight="4.0" prefWidth="91.0" />
-      <Spinner fx:id="input_ini_m" layoutX="948.0" layoutY="549.0" prefHeight="4.0" prefWidth="91.0" />
-      <Spinner fx:id="input_fin_m" layoutX="948.0" layoutY="589.0" prefHeight="4.0" prefWidth="91.0" />
+      <Label layoutX="566.0" layoutY="404.0" prefHeight="18.0" prefWidth="81.0" text="Actividad" />
+      <Label layoutX="566.0" layoutY="463.0" prefHeight="18.0" prefWidth="81.0" text="Monitor" />
+      <ComboBox fx:id="combo_instructor" layoutX="564.0" layoutY="485.0" prefHeight="26.0" prefWidth="200.0" promptText="Selecciona monitor" />
+      <Spinner fx:id="input_ini_h" layoutX="823.0" layoutY="432.0" prefHeight="4.0" prefWidth="91.0" />
+      <Spinner fx:id="input_fin_h" layoutX="823.0" layoutY="472.0" prefHeight="4.0" prefWidth="91.0" />
+      <Spinner fx:id="input_ini_m" layoutX="931.0" layoutY="432.0" prefHeight="4.0" prefWidth="91.0" />
+      <Spinner fx:id="input_fin_m" layoutX="931.0" layoutY="472.0" prefHeight="4.0" prefWidth="91.0" />
+      <Label fx:id="error_message" layoutX="714.0" layoutY="658.0" prefHeight="18.0" prefWidth="276.0" textFill="RED">
+         <font>
+            <Font size="19.0" />
+         </font></Label>
+      <Label fx:id="labelTituloClientes11" layoutX="883.0" layoutY="106.0" text="Selecciona un dia">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="combo_dia" layoutX="1034.0" layoutY="99.0" prefHeight="36.0" prefWidth="200.0" promptText="Selecciona dia" />
    </children>
 </AnchorPane>
