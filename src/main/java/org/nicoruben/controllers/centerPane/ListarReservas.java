@@ -10,6 +10,7 @@ import org.nicoruben.models.Clases;
 import org.nicoruben.models.Clientes;
 import org.nicoruben.models.Reservas;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -18,12 +19,6 @@ public class ListarReservas {
 
     @FXML
     private Button buttonBorrar;
-
-    @FXML
-    private Button buttonHoy;
-
-    @FXML
-    private Button buttonTodasReservas;
 
     @FXML
     private TableColumn<Clases, String> campoClase;
@@ -50,19 +45,18 @@ public class ListarReservas {
     private TableColumn<Reservas, Integer> campoID;
 
     @FXML
-    private DatePicker id_datepicker;
-
-    @FXML
     private Label labelTituloClientes;
 
     @FXML
     private TableView<Reservas> tablaReservas;
 
-    // Usaremos ObservableList para que los cambios se reflejen automáticamente
     private ObservableList<Reservas> todasReservas;
 
+    @FXML
+    private ComboBox<String> combobox_dia;
+
     public void initialize() {
-        // Columnas de la tablaReservas
+        // Columnas de la tabla
         campoID.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
         campoCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
         campoClase.setCellValueFactory(new PropertyValueFactory<>("nombreClase"));
@@ -77,16 +71,50 @@ public class ListarReservas {
         todasReservas = FXCollections.observableArrayList(reservas);
         tablaReservas.setItems(todasReservas);
 
-        // Listener para filtrar por fecha
-        id_datepicker.valueProperty().addListener((obs, oldDate, newDate) -> filtrarPorFecha(newDate));
+        // Inicializar ComboBox
+        ObservableList<String> dias = FXCollections.observableArrayList(
+                "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Todos"
+        );
+        combobox_dia.setItems(dias);
+
+        // Seleccionar automáticamente el día actual
+        String diaHoy = obtenerDiaSemanaActual();
+        if (dias.contains(diaHoy)) {
+            combobox_dia.setValue(diaHoy);
+        } else {
+            combobox_dia.setValue("Todos");
+        }
+
+        // ✅ Filtrar automáticamente al iniciar
+        filtrarPorDia(diaHoy);
     }
 
-    private void filtrarPorFecha(LocalDate fecha) {
-        if (fecha == null) {
+    private void filtrarPorDia(String diaSeleccionado) {
+        if (diaSeleccionado == null || diaSeleccionado.equals("Todos")) {
             tablaReservas.setItems(todasReservas);
         } else {
-            ObservableList<Reservas> filtradas = todasReservas.filtered(r -> r.getFechaReserva().isEqual(fecha));
+            ObservableList<Reservas> filtradas = todasReservas.filtered(
+                    r -> r.getDia().equalsIgnoreCase(diaSeleccionado)
+            );
             tablaReservas.setItems(filtradas);
+        }
+    }
+
+    private String obtenerDiaSemanaActual() {
+        DayOfWeek dia = LocalDate.now().getDayOfWeek();
+        switch (dia) {
+            case MONDAY:
+                return "Lunes";
+            case TUESDAY:
+                return "Martes";
+            case WEDNESDAY:
+                return "Miércoles";
+            case THURSDAY:
+                return "Jueves";
+            case FRIDAY:
+                return "Viernes";
+            default:
+                return "Todos"; // Por si es sábado o domingo
         }
     }
 
@@ -99,15 +127,12 @@ public class ListarReservas {
             return;
         }
 
-        // Confirmación
-        Alert confirmacion = new Alert(Alert.AlertType.NONE, "  ¿Seguro que quieres borrar esta reserva?", ButtonType.OK, ButtonType.CANCEL);
+        Alert confirmacion = new Alert(Alert.AlertType.NONE, "¿Seguro que quieres borrar esta reserva?", ButtonType.OK, ButtonType.CANCEL);
         if (confirmacion.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             boolean exito = Reservas.borrarReserva(seleccionada.getIdReserva());
 
             if (exito) {
-                // Quitar de la lista principal ObservableList
                 todasReservas.remove(seleccionada);
-                // Quitar de la tabla si está filtrada
                 tablaReservas.getItems().remove(seleccionada);
             } else {
                 new Alert(Alert.AlertType.ERROR, "No se pudo borrar la reserva.", ButtonType.OK).showAndWait();
@@ -116,13 +141,7 @@ public class ListarReservas {
     }
 
     @FXML
-    void onClickHoy(ActionEvent event) {
-        LocalDate hoy = LocalDate.now();
-        id_datepicker.setValue(hoy);
-    }
-
-    @FXML
-    void onClickTodasReservas(ActionEvent event) {
-        id_datepicker.setValue(null);
+    void onclickComboboxDia(ActionEvent event) {
+        filtrarPorDia(combobox_dia.getValue());
     }
 }

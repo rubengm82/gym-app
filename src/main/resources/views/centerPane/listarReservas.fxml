@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -19,16 +19,15 @@
           <TableColumn fx:id="campoID" prefWidth="66.0" text="ID" />
           <TableColumn fx:id="campoCliente" prefWidth="403.0" text="CLIENTE" />
             <TableColumn fx:id="campoClase" minWidth="0.0" prefWidth="264.0" text="CLASE" />
-            <TableColumn fx:id="campoDia" prefWidth="152.0" text="DIA" />
-            <TableColumn fx:id="campoHoraInicio" prefWidth="166.0" text="HORA_INCIO" />
-            <TableColumn fx:id="campoHoraFin" prefWidth="152.0" text="HORA_FIN" />
-            <TableColumn fx:id="campoFechaReserva" prefWidth="137.0" text=" FECHA_RESERVA" />
+            <TableColumn fx:id="campoHoraInicio" prefWidth="223.0" text="HORA INCIO" />
+            <TableColumn fx:id="campoHoraFin" prefWidth="201.0" text="HORA FIN" />
+            <TableColumn fx:id="campoDia" prefWidth="176.0" text="DIA" />
+            <TableColumn fx:id="campoFechaReserva" minWidth="6.0" prefWidth="15.0" text=" FECHA_RESERVA" visible="false" />
         </columns>
       </TableView>
-      <DatePicker fx:id="id_datepicker" layoutX="1033.0" layoutY="24.0" />
       <Label layoutX="539.0" layoutY="33.0" />
       <Button fx:id="buttonBorrar" layoutX="1277.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickBajaAlta" prefHeight="36.0" prefWidth="89.0" styleClass="danger" text="BORRAR" />
-      <Button fx:id="buttonHoy" layoutX="957.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickHoy" styleClass="success" text="HOY" />
-      <Button fx:id="buttonTodasReservas" layoutX="763.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickTodasReservas" styleClass="success" text="VER TODAS RESERAVAS" />
+      <ComboBox fx:id="combobox_dia" layoutX="1053.0" layoutY="25.0" onAction="#onclickComboboxDia" prefHeight="36.0" prefWidth="191.0" />
+      <Label layoutX="1010.0" layoutY="33.0" text="DIA" />
    </children>
 </AnchorPane>
