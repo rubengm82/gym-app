@@ -81,22 +81,22 @@ public class Planificaciones {
     }
 
 
-    public static List<Planificaciones> obtenerPlanificaciones() {
+    public static List<Planificaciones> obtenerPlanificacionesPorDia(String dia) {
         List<Planificaciones> planificaciones = new ArrayList<>();
         String sql = """
-                SELECT p.*, 
-                       c.id_clase, c.nombre AS nombre_clase, c.aforo, c.descripcion AS desc_clase, c.estado AS estado_clase,
-                       i.id_inst, i.nombre AS nombre_inst, i.apellido1, i.apellido2, i.DNI, i.telefono, i.estado AS estado_inst
-                FROM Planificaciones p
-                JOIN Clases c ON p.fk_id_clase = c.id_clase
-                JOIN Instructores i ON p.fk_id_inst = i.id_inst
-                WHERE p.dia = "Lunes"
-                ORDER BY p.hora_inicio;
-                """;
+            SELECT p.*, 
+                   c.id_clase, c.nombre AS nombre_clase, c.aforo, c.descripcion AS desc_clase, c.estado AS estado_clase,
+                   i.id_inst, i.nombre AS nombre_inst, i.apellido1, i.apellido2, i.DNI, i.telefono, i.estado AS estado_inst
+            FROM Planificaciones p
+            JOIN Clases c ON p.fk_id_clase = c.id_clase
+            JOIN Instructores i ON p.fk_id_inst = i.id_inst
+            WHERE p.dia = ?
+            ORDER BY p.hora_inicio;
+            """;
 
         try (Connection connection = ConexionBD.conectar();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
-
+            stmt.setString(1, dia);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -107,7 +107,6 @@ public class Planificaciones {
                         rs.getString("desc_clase"),
                         rs.getInt("estado_clase")
                 );
-
                 Instructores instructor = new Instructores(
                         rs.getInt("id_inst"),
                         rs.getString("nombre_inst"),
@@ -117,7 +116,6 @@ public class Planificaciones {
                         rs.getString("telefono"),
                         rs.getInt("estado_inst")
                 );
-
                 Planificaciones planificacion = new Planificaciones(
                         rs.getInt("id_planificacion"),
                         rs.getString("dia"),
@@ -127,12 +125,10 @@ public class Planificaciones {
                         instructor,
                         rs.getInt("estado")
                 );
-
                 planificaciones.add(planificacion);
             }
-
         } catch (SQLException e) {
-            System.err.println(" Error al obtener planificaciones: " + e.getMessage());
+            System.err.println("Error al obtener planificaciones: " + e.getMessage());
         }
 
         return planificaciones;
@@ -194,28 +190,19 @@ public class Planificaciones {
     }
 
 
-    public static void insertPlanificaciones(LocalTime horaInicio, LocalTime horaFin, int id_clase, int id_instructor){
-
+    public static void insertPlanificaciones(String dia, LocalTime horaInicio, LocalTime horaFin, int id_clase, int id_instructor){
         String sql = "INSERT INTO Planificaciones (id_planificacion, dia, hora_inicio, hora_fin, fk_id_clase, fk_id_inst, estado) VALUES (NULL, ?, ?, ?, ?, ?, ?)";
-
-
         try (Connection connection = ConexionBD.conectar();
              PreparedStatement ps = connection.prepareStatement(sql)) {
-
-            ps.setString(1, "Lunes");
-            ps.setTime(2, java.sql.Time.valueOf(horaInicio)); // <-- aquí va el LocalTime convertido a SQL Time
+            ps.setString(1, dia);
+            ps.setTime(2, java.sql.Time.valueOf(horaInicio));
             ps.setTime(3, java.sql.Time.valueOf(horaFin));
             ps.setInt(4, id_clase);
             ps.setInt(5, id_instructor);
             ps.setInt(6, 1);
-
-
             ps.executeUpdate();
-            System.out.println("Planificacion insertada correctamente.");
-
         } catch (SQLException e) {
             System.err.println("Error al insertar clase: " + e.getMessage());
         }
-
     }
 }

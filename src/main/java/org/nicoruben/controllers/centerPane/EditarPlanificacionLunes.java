@@ -10,13 +10,10 @@ import org.nicoruben.models.Instructores;
 import org.nicoruben.models.Planificaciones;
 
 import javafx.event.ActionEvent;
-
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class EditarPlanificacionLunes {
-
 
     @FXML private Label error_message;
     @FXML private ComboBox<Clases> combo_act;
@@ -29,16 +26,13 @@ public class EditarPlanificacionLunes {
     @FXML private Button btnAgregar, btnBorrar;
     @FXML private Button delete;
 
-
     @FXML
     public void initialize() {
-        // Configurar spinners (horas y minutos)
         input_ini_h.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(8, 20, 8));
         input_fin_h.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(8, 21, 9));
         input_ini_m.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 45, 0, 15));
         input_fin_m.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 45, 0, 15));
 
-        // Configurar columnas de la tabla
         table_h_ini.setCellValueFactory(new PropertyValueFactory<>("hora_inicio"));
         table_h_fin.setCellValueFactory(new PropertyValueFactory<>("hora_fin"));
         table_clase.setCellValueFactory(data -> {
@@ -47,18 +41,21 @@ public class EditarPlanificacionLunes {
             return new SimpleStringProperty(nombre);
         });
 
-
         combo_act.getItems().setAll(Clases.obtenerTodasClases());
         combo_instructor.getItems().setAll(Instructores.obtenerInstructores());
-        combo_dia.setItems(FXCollections.observableArrayList(
-                "Lunes", "Martes", "Miércoles", "Jueves", "Viernes"
-        ));
-        // Cargar datos
-        cargarPlanificacionesEnTabla();
+        combo_dia.setItems(FXCollections.observableArrayList("Lunes", "Martes", "Miércoles", "Jueves", "Viernes"));
+
+        combo_dia.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                cargarPlanificacionesEnTabla(newVal);
+            }
+        });
+
+        combo_dia.getSelectionModel().selectFirst();
     }
 
-    private void cargarPlanificacionesEnTabla() {
-        List<Planificaciones> lista = Planificaciones.obtenerPlanificaciones();
+    private void cargarPlanificacionesEnTabla(String dia) {
+        List<Planificaciones> lista = Planificaciones.obtenerPlanificacionesPorDia(dia);
         if (lista != null) {
             table_planificaciones.getItems().setAll(lista);
         } else {
@@ -66,51 +63,48 @@ public class EditarPlanificacionLunes {
         }
     }
 
-
     @FXML
     void crearPlanificacion(ActionEvent event) {
-
-        if (input_ini_h.getValue() == null ||
-                input_fin_h.getValue() == null ||
-                input_ini_m.getValue() == null ||
-                input_fin_m.getValue() == null) {
-
+        if (input_ini_h.getValue() == null || input_fin_h.getValue() == null || input_ini_m.getValue() == null || input_fin_m.getValue() == null) {
             error_message.setText("Debes ingresar todas las horas y minutos.");
+            return;
         }
-
         if (combo_instructor.getSelectionModel().isEmpty()) {
-
             error_message.setText("Debes ingresar un instructor");
+            return;
         }
-
         if (combo_act.getSelectionModel().isEmpty()) {
             error_message.setText("Debes ingresar una actividad.");
+            return;
         }
 
+        int hora_inicio = input_ini_h.getValue();
+        int hora_fin = input_fin_h.getValue();
+        int min_inicio = input_ini_m.getValue();
+        int min_fin = input_fin_m.getValue();
+        int instructor = combo_instructor.getSelectionModel().getSelectedItem().getId();
+        int classe = combo_act.getSelectionModel().getSelectedItem().getId_clase();
+        String dia = combo_dia.getSelectionModel().getSelectedItem();
 
-            int hora_inicio = input_ini_h.getValue();
-            int hora_fin = input_fin_h.getValue();
-            int min_inicio = input_ini_m.getValue();
-            int min_fin = input_fin_m.getValue();
+        LocalTime inicio = LocalTime.of(hora_inicio, min_inicio);
+        LocalTime fin = LocalTime.of(hora_fin, min_fin);
 
-            int instructor = combo_instructor.getSelectionModel().getSelectedItem().getId();
-            int classe = combo_act.getSelectionModel().getSelectedItem().getId_clase();
-
-            System.out.println("Instructor: " + instructor);
-            System.out.println("Clase: " + classe);
-
-            LocalTime inicio = LocalTime.of(hora_inicio, min_inicio);
-            LocalTime fin = LocalTime.of(hora_fin, min_fin);
-
-            if(Planificaciones.verificarPlanificacion("Lunes",inicio, fin) > 0 ){
-                error_message.setText("Horario ocuapado");
-            }else {
-                Planificaciones.insertPlanificaciones(inicio, fin,classe,instructor);
-            }
-
+        if (Planificaciones.verificarPlanificacion(dia, inicio, fin) > 0) {
+            error_message.setText("Horario ocupado");
+        } else {
+            Planificaciones.insertPlanificaciones(dia, inicio, fin, classe, instructor);
+            cargarPlanificacionesEnTabla(dia);
+        }
     }
 
-
+    @FXML
+    void deleteActivity(ActionEvent event) {
+        Planificaciones planificacionDel = table_planificaciones.getSelectionModel().getSelectedItem();
+        if (planificacionDel != null) {
+            Planificaciones.delPlanificacion(planificacionDel.getId_planificacion());
+            cargarPlanificacionesEnTabla(combo_dia.getSelectionModel().getSelectedItem());
+        }
+    }
 
     private void showAlertError(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -126,15 +120,5 @@ public class EditarPlanificacionLunes {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-
-    @FXML
-    void deleteActivity(ActionEvent event) {
-            Planificaciones planificacionDel = table_planificaciones.getSelectionModel().getSelectedItem();
-
-            Planificaciones.delPlanificacion(planificacionDel.getId_planificacion());
-            cargarPlanificacionesEnTabla();
-
     }
 }
