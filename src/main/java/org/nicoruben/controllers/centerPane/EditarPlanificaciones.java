@@ -26,6 +26,10 @@ public class EditarPlanificaciones {
     @FXML private Button btnAgregar, btnBorrar;
     @FXML private Button delete;
 
+
+    @FXML
+    private Label success_message;
+
     @FXML
     public void initialize() {
         input_ini_h.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(8, 20, 8));
@@ -52,6 +56,8 @@ public class EditarPlanificaciones {
         });
 
         combo_dia.getSelectionModel().selectFirst();
+
+
     }
 
     private void cargarPlanificacionesEnTabla(String dia) {
@@ -94,6 +100,8 @@ public class EditarPlanificaciones {
         } else {
             Planificaciones.insertPlanificaciones(dia, inicio, fin, classe, instructor);
             cargarPlanificacionesEnTabla(dia);
+            error_message.setText("");
+            success_message.setText("Planificacion creada correctamente");
         }
     }
 
