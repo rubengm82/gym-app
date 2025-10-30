@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.nicoruben.controllers.MainController;
 import org.nicoruben.models.Clases;
-import org.nicoruben.models.Clientes;
+
 
 import java.util.ArrayList;
 import java.util.List;

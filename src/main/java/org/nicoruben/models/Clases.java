@@ -44,8 +44,12 @@ public class Clases {
         this.nombreInstructorCompleto = nombreInstructorCompleto;
     }
 
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
 
-    
+
     // ///////////////////
     // METODOS PROPIOS ///
     // ///////////////////

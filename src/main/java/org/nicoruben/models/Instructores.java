@@ -98,6 +98,13 @@ public class Instructores {
     }
 
 
+
+
+    @Override
+    public String toString() {
+        return this.nombre + ' '+ this.apellido1;
+    }
+
     // =====================
     // MÉTODOS DE BASE DE DATOS
     // =====================
