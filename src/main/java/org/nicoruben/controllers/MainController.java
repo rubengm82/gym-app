@@ -94,14 +94,14 @@ public class MainController {
             // BOTON TOP INFORMES
             case "Informes" -> {
                 // BOTONES LEFT
-                Button graficaOne = new Button("Gráfica 01");
+                Button graficaOne = new Button("Aforo");
                 graficaOne.setMaxWidth(Double.MAX_VALUE);
-                graficaOne.setOnAction(e -> showInCenter("graficaOne"));
+                graficaOne.setOnAction(e -> showInCenter("aforo"));
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(graficaOne);
 
-                showInCenter("graficaOne");
+                showInCenter("aforo");
             }
 
             // BOTON TOP INSTRUCTORES
@@ -126,9 +126,15 @@ public class MainController {
                 // BOTONES LEFT
                 Button lunes = new Button("Lunes");
                 lunes.setMaxWidth(Double.MAX_VALUE);
-                lunes.setOnAction(e -> showInCenter("editarPlanficaciones"));
+                lunes.setOnAction(e -> showInCenter("editarPlanficacionLunes"));
 
-                showInCenter("editarPlanficaciones");
+                Button martes = new Button("Martes");
+                martes.setMaxWidth(Double.MAX_VALUE);
+
+                // Añade los botones al leftMenu
+                leftMenu.getChildren().addAll(lunes, martes);
+
+                showInCenter("editarPlanficacionLunes");
             }
 
             // BOTON TOP RESERVAS
