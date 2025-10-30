@@ -205,42 +205,7 @@ public class Planificaciones {
         }
     }
 
-
-    // RUBEN ---- Insertar planificación en la base de datos. Necesario este metodo para Reservas
-    public static boolean insertarPlanificacion(Planificaciones planificacion) {
-        String sql = "INSERT INTO Planificaciones (dia, hora_inicio, hora_fin, fk_id_clase, fk_id_inst, estado) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
-        boolean exito = false; // Variable para controlar el resultado
-
-        try (Connection con = ConexionBD.conectar();
-             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            ps.setString(1, planificacion.getDia());
-            ps.setString(2, planificacion.getHora_inicio());
-            ps.setString(3, planificacion.getHora_fin());
-            ps.setInt(4, planificacion.getClase().getId_clase());
-            ps.setInt(5, planificacion.getInstructor().getId());
-            ps.setInt(6, planificacion.getEstado());
-
-            int filas = ps.executeUpdate();
-            if (filas > 0) {
-                try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        planificacion.setId_planificacion(rs.getInt(1));
-                    }
-                }
-                exito = true; // Actualizar variable
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error al insertar planificación: " + e.getMessage());
-        }
-
-        return exito; // Único return
-    }
-
-
-    // RUBEN ---- Obtener todas las planificaciones en la base de datos. Necesario este metodo para Reservas
+    // Obtener todas las planificaciones en la base de datos. Necesario este metodo para Reservas
     public static List<Planificaciones> obtenerTodasPlanificacionesActivas() {
         List<Planificaciones> planificaciones = new ArrayList<>();
         String sql = "SELECT p.id_planificacion, p.dia, p.hora_inicio, p.hora_fin, p.estado, " +
