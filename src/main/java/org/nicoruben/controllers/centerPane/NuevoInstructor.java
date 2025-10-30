@@ -67,6 +67,11 @@ public class NuevoInstructor {
             }
         }
 
+        // Comprobar si el DNI ya existe
+        if (Instructores.existeDNI(dni)) {
+            errores += "Ya existe un instructor con este DNI\n";
+        }
+
         if (!errores.isEmpty()) {
             input_error.setText(errores.trim());
             input_error.getStyleClass().removeAll("success");
