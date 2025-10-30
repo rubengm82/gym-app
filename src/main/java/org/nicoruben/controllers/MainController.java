@@ -134,12 +134,16 @@ public class MainController {
             // BOTON TOP RESERVAS
             case "Reservas" -> {
                 // BOTONES LEFT
-                Button reservas = new Button("Listar Reservas");
-                reservas.setMaxWidth(Double.MAX_VALUE);
-                reservas.setOnAction(e -> showInCenter("listarReservas"));
+                Button listarReservas = new Button("Listar Reservas");
+                listarReservas.setMaxWidth(Double.MAX_VALUE);
+                listarReservas.setOnAction(e -> showInCenter("listarReservas"));
+
+                Button nuevaReserva = new Button("Nueva Reserva");
+                nuevaReserva.setMaxWidth(Double.MAX_VALUE);
+                nuevaReserva.setOnAction(e -> showInCenter("nuevaReserva"));
 
                 // Añade los botones al leftMenu
-                leftMenu.getChildren().addAll(reservas);
+                leftMenu.getChildren().addAll(listarReservas, nuevaReserva);
 
                 showInCenter("listarReservas");
             }

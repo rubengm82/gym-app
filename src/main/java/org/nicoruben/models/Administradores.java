@@ -29,11 +29,8 @@ public class Administradores {
         this.estado = estado;
     }
 
-    //Sobre carga del constructor para login
-    public Administradores(String mail, String password) {
-        this.mail = mail;
-        this.password = password;
-    }
+    public Administradores() {}
+
 
     // SETTER & GETTERS
     public int getId_user() {

@@ -24,6 +24,8 @@ public class Clases {
         this.estado = estado;
     }
 
+    public Clases() {}
+
     // SETTERS & GETTERS
     public int getId_clase() { return id_clase; }
     public void setId_clase(int id_clase) { this.id_clase = id_clase; }
