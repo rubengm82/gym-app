@@ -13,7 +13,7 @@ import javafx.event.ActionEvent;
 import java.time.LocalTime;
 import java.util.List;
 
-public class EditarPlanificacionLunes {
+public class EditarPlanificaciones {
 
     @FXML private Label error_message;
     @FXML private ComboBox<Clases> combo_act;

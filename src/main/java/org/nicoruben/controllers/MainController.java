@@ -121,15 +121,9 @@ public class MainController {
                 // BOTONES LEFT
                 Button lunes = new Button("Lunes");
                 lunes.setMaxWidth(Double.MAX_VALUE);
-                lunes.setOnAction(e -> showInCenter("editarPlanficacionLunes"));
+                lunes.setOnAction(e -> showInCenter("editarPlanficaciones"));
 
-                Button martes = new Button("Martes");
-                martes.setMaxWidth(Double.MAX_VALUE);
-
-                // Añade los botones al leftMenu
-                leftMenu.getChildren().addAll(lunes, martes);
-
-                showInCenter("editarPlanficacionLunes");
+                showInCenter("editarPlanficaciones");
             }
 
             // BOTON TOP RESERVAS
