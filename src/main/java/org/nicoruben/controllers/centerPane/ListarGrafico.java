@@ -7,7 +7,7 @@ import org.nicoruben.services.Aforo;
 
 import java.util.List;
 
-public class ListarAforo {
+public class ListarGrafico {
 
     @FXML
     private ProgressBar progressYoga, progressCrossfit, progressPilates;

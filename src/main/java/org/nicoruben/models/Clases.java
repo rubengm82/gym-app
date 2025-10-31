@@ -19,7 +19,7 @@ public class Clases {
     public Clases(int id_clase, String nombre, int aforo, String descripcion, int estado) {
         this.id_clase = id_clase;
         this.nombre = nombre;
-        this.aforo = aforo;
+        this.aforo = 10;
         this.descripcion = descripcion;
         this.estado = estado;
     }
@@ -140,5 +140,22 @@ public class Clases {
         return exito;
     }
 
+    public static int obtenerAforoPorIdClase(int idClase) {
+        int aforo = 0;
+        String sql = "SELECT aforo FROM Clases WHERE id_clase = ?";
+
+        try (Connection con = ConexionBD.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idClase);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                aforo = rs.getInt("aforo");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener aforo: " + e.getMessage());
+        }
+
+        return aforo;
+    }
 
 }

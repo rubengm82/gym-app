@@ -179,4 +179,22 @@ public class Reservas {
         return false;
     }
 
+    public static int contarReservasPorPlanificacion(int idPlanificacion) {
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM Reservas WHERE fk_id_planificacion = ? AND estado = 1";
+
+        try (Connection con = ConexionBD.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idPlanificacion);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al contar reservas: " + e.getMessage());
+        }
+
+        return total;
+    }
+
 }
