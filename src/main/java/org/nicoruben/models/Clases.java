@@ -19,7 +19,7 @@ public class Clases {
     public Clases(int id_clase, String nombre, int aforo, String descripcion, int estado) {
         this.id_clase = id_clase;
         this.nombre = nombre;
-        this.aforo = 10;
+        this.aforo = aforo;
         this.descripcion = descripcion;
         this.estado = estado;
     }
