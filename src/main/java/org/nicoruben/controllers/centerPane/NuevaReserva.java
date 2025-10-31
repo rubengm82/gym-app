@@ -5,7 +5,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.nicoruben.models.*;
+import org.nicoruben.services.ConexionBD;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class NuevaReserva {
@@ -100,21 +105,44 @@ public class NuevaReserva {
         Clientes cliente = comboClientes.getValue();
         Planificaciones planificacion = comboPlanificaciones.getValue();
 
-        if (cliente == null || planificacion == null) {
-            new Alert(Alert.AlertType.NONE, "  Debes seleccionar cliente y planificación", ButtonType.OK).showAndWait();
+        boolean datosValidos = cliente != null && planificacion != null;
+        boolean exito = false;
+
+        if (!datosValidos) {
+            new Alert(Alert.AlertType.WARNING, "Debes seleccionar cliente y planificación", ButtonType.OK).showAndWait();
             return;
         }
 
-        boolean exito = Reservas.insertarReserva(cliente, planificacion);
+        int idCliente = cliente.getId_cliente();
+        int idPlan = planificacion.getId_planificacion();
+        int idClase = planificacion.getClase().getId_clase();
+
+        boolean yaReservado = Reservas.existeReservaClienteEnPlanificacion(idCliente, idPlan);
+
+        if (yaReservado) {
+            new Alert(Alert.AlertType.WARNING, "Este cliente ya tiene una reserva en esta planificación", ButtonType.OK).showAndWait();
+            return;
+        }
+
+        int reservasActuales = Reservas.contarReservasPorPlanificacion(idPlan);
+        int aforoMaximo = Clases.obtenerAforoPorIdClase(idClase);
+
+        if (reservasActuales >= aforoMaximo) {
+            new Alert(Alert.AlertType.ERROR, "No se pudo crear la reserva: aforo completo", ButtonType.OK).showAndWait();
+            return;
+        }
+
+        exito = Reservas.insertarReserva(cliente, planificacion);
 
         if (exito) {
-            new Alert(Alert.AlertType.NONE, "  Reserva creada correctamente", ButtonType.OK).showAndWait();
+            new Alert(Alert.AlertType.INFORMATION, "Reserva creada correctamente", ButtonType.OK).showAndWait();
             comboClientes.getSelectionModel().clearSelection();
             comboDia.getSelectionModel().clearSelection();
             comboPlanificaciones.getItems().clear();
             comboPlanificaciones.setDisable(true);
         } else {
-            new Alert(Alert.AlertType.NONE, "  No se pudo crear la reserva", ButtonType.OK).showAndWait();
+            new Alert(Alert.AlertType.ERROR, "No se pudo crear la reserva por error interno", ButtonType.OK).showAndWait();
         }
     }
+
 }

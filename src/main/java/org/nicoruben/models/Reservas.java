@@ -197,4 +197,20 @@ public class Reservas {
         return total;
     }
 
+    public static boolean existeReservaClienteEnPlanificacion(int idCliente, int idPlanificacion) {
+        String sql = "SELECT 1 FROM Reservas WHERE fk_id_cliente = ? AND fk_id_planificacion = ? AND estado = 1";
+
+        try (Connection con = ConexionBD.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idCliente);
+            ps.setInt(2, idPlanificacion);
+            ResultSet rs = ps.executeQuery();
+            return rs.next(); // true si ya existe
+        } catch (SQLException e) {
+            System.err.println("Error al verificar reserva existente: " + e.getMessage());
+        }
+
+        return false;
+    }
+
 }
