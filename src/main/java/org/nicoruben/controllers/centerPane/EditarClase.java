@@ -77,7 +77,7 @@ public class EditarClase {
         claseActual = clase;
 
         input_nombre.setText(clase.getNombre());
-        spinner_aforo.getValueFactory().setValue(clase.getAforo()); // ✅ ahora no es null
+        spinner_aforo.getValueFactory().setValue(clase.getAforo());
         textArea_descripcion.setText(clase.getDescripcion());
     }
 
