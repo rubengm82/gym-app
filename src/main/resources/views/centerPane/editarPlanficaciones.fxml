@@ -41,7 +41,7 @@
       <Spinner fx:id="input_fin_h" layoutX="863.0" layoutY="471.0" prefHeight="4.0" prefWidth="91.0" />
       <Spinner fx:id="input_ini_m" layoutX="971.0" layoutY="431.0" prefHeight="4.0" prefWidth="91.0" />
       <Spinner fx:id="input_fin_m" layoutX="971.0" layoutY="471.0" prefHeight="4.0" prefWidth="91.0" />
-      <Label fx:id="error_message" layoutX="714.0" layoutY="658.0" prefHeight="18.0" prefWidth="276.0" textFill="RED">
+      <Label fx:id="error_message" alignment="CENTER" contentDisplay="CENTER" layoutX="834.0" layoutY="626.0" prefHeight="28.0" prefWidth="265.0" textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="19.0" />
          </font></Label>
@@ -51,5 +51,10 @@
          </font>
       </Label>
       <ComboBox fx:id="combo_dia" layoutX="922.0" layoutY="174.0" prefHeight="36.0" prefWidth="200.0" promptText="Selecciona dia" />
+      <Label fx:id="success_message" layoutX="800.0" layoutY="621.0" prefHeight="28.0" prefWidth="347.0" textFill="#00ff32">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
