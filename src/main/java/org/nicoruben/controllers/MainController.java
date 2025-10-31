@@ -94,14 +94,14 @@ public class MainController {
             // BOTON TOP INFORMES
             case "Informes" -> {
                 // BOTONES LEFT
-                Button graficaOne = new Button("Gráfica 01");
+                Button graficaOne = new Button("Gráfico");
                 graficaOne.setMaxWidth(Double.MAX_VALUE);
-                graficaOne.setOnAction(e -> showInCenter("graficaOne"));
+                graficaOne.setOnAction(e -> showInCenter("grafico"));
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(graficaOne);
 
-                showInCenter("graficaOne");
+                showInCenter("grafico");
             }
 
             // BOTON TOP INSTRUCTORES
@@ -123,29 +123,22 @@ public class MainController {
 
             // BOTON TOP PLANIFICACIONES
             case "Planificaciones" -> {
-                // BOTONES LEFT
-                Button lunes = new Button("Lunes");
-                lunes.setMaxWidth(Double.MAX_VALUE);
-                lunes.setOnAction(e -> showInCenter("editarPlanficacionLunes"));
-
-                Button martes = new Button("Martes");
-                martes.setMaxWidth(Double.MAX_VALUE);
-
-                // Añade los botones al leftMenu
-                leftMenu.getChildren().addAll(lunes, martes);
-
-                showInCenter("editarPlanficacionLunes");
+                showInCenter("editarPlanficaciones");
             }
 
             // BOTON TOP RESERVAS
             case "Reservas" -> {
                 // BOTONES LEFT
-                Button reservas = new Button("Listar Reservas");
-                reservas.setMaxWidth(Double.MAX_VALUE);
-                reservas.setOnAction(e -> showInCenter("listarReservas"));
+                Button listarReservas = new Button("Listar Reservas");
+                listarReservas.setMaxWidth(Double.MAX_VALUE);
+                listarReservas.setOnAction(e -> showInCenter("listarReservas"));
+
+                Button nuevaReserva = new Button("Nueva Reserva");
+                nuevaReserva.setMaxWidth(Double.MAX_VALUE);
+                nuevaReserva.setOnAction(e -> showInCenter("nuevaReserva"));
 
                 // Añade los botones al leftMenu
-                leftMenu.getChildren().addAll(reservas);
+                leftMenu.getChildren().addAll(listarReservas, nuevaReserva);
 
                 showInCenter("listarReservas");
             }

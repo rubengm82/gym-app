@@ -16,9 +16,8 @@ public class Instructores {
     private String telefono;
     private int estado;
 
-    // =====================
+
     // CONSTRUCTORES
-    // =====================
     public Instructores(int id_inst, String nombre, String apellido1, String apellido2, String DNI, String telefono, int estado) {
         this.id_inst = id_inst;
         this.nombre = nombre;
@@ -38,9 +37,10 @@ public class Instructores {
         this.estado = estado;
     }
 
-    // =====================
-    // GETTERS & SETTERS
-    // =====================
+    public Instructores() {}
+
+
+    // SETTER & GETTERS
     public int getId() {
         return id_inst;
     }
@@ -97,6 +97,13 @@ public class Instructores {
         this.estado = estado;
     }
 
+
+
+
+    @Override
+    public String toString() {
+        return this.nombre + ' '+ this.apellido1;
+    }
 
     // =====================
     // MÉTODOS DE BASE DE DATOS

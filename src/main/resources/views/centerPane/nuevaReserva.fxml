@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.NuevaReserva">
+    <children>
+        <Label layoutX="636.0" layoutY="185.0" text="Nueva Reserva">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+
+        <!-- Cliente -->
+        <Label layoutX="465.0" layoutY="288.0" text="Cliente" />
+        <ComboBox fx:id="comboClientes" layoutX="565.0" layoutY="283.0" prefHeight="36.0" prefWidth="350.0" />
+
+        <!-- Día -->
+        <Label layoutX="465.0" layoutY="362.0" text="Día" />
+        <ComboBox fx:id="comboDia" layoutX="565.0" layoutY="357.0" prefHeight="36.0" prefWidth="350.0" />
+
+        <!-- Planificación -->
+        <Label layoutX="465.0" layoutY="441.0" text="Planificación" />
+        <ComboBox fx:id="comboPlanificaciones" layoutX="565.0" layoutY="436.0" prefWidth="350.0" />
+
+        <!-- Botón guardar -->
+        <Button fx:id="buttonGuardar" layoutX="651.0" layoutY="549.0" onAction="#onClickGuardar" prefHeight="36.0" prefWidth="151.0" styleClass="success" text="Crear Reserva" />
+    </children>
+</AnchorPane>

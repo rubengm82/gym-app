@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.ListarGrafico">
+    <children>
+            <HBox layoutX="475.0" layoutY="332.0" spacing="10.0">
+                <Label prefWidth="120" text="Yoga (10/20)" />
+                <ProgressBar fx:id="progressYoga" prefWidth="300" progress="0.5" />
+            </HBox>
+
+            <HBox layoutX="475.0" layoutY="418.0" spacing="10.0">
+                <Label prefWidth="120" text="Crossfit (10/15)" />
+                <ProgressBar fx:id="progressCrossfit" prefWidth="300" progress="0.6667" />
+            </HBox>
+
+            <HBox layoutX="475.0" layoutY="376.0" spacing="10.0">
+                <Label prefWidth="120" text="Pilates (10/18)" />
+                <ProgressBar fx:id="progressPilates" prefWidth="300" progress="0.5556" />
+            </HBox>
+        <Button fx:id="btnSumarYoga" layoutX="317.0" layoutY="324.0" onAction="#onClickSumarYoga" prefHeight="36.0" prefWidth="126.0" text="SUMAR Yoga" />
+        <Button fx:id="btnSumarCrossfit" layoutX="317.0" layoutY="410.0" onAction="#onClickSumarCrossfit" prefHeight="36.0" prefWidth="126.0" text="SUMAR Crossfit" />
+        <Button fx:id="btnSumarPilates" layoutX="317.0" layoutY="368.0" onAction="#onClickSumarPilates" prefHeight="36.0" prefWidth="126.0" text="SUMAR Pilates" />
+    </children>
+</AnchorPane>
