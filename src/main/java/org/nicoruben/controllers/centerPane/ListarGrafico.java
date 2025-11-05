@@ -1,48 +1,69 @@
 package org.nicoruben.controllers.centerPane;
 
-import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.ProgressBar;
-import org.nicoruben.services.Aforo;
+import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import org.nicoruben.models.Planificaciones;
+import org.nicoruben.models.Reservas;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class ListarGrafico {
+public class ListarGrafico implements Initializable {
 
     @FXML
-    private ProgressBar progressYoga, progressCrossfit, progressPilates;
+    private BarChart<String, Number> graficoOcupacion;
 
-    private List<Aforo> clases;
+    @FXML
+    private CategoryAxis xAxis;
 
-    public void initialize() {
-        clases = List.of(
-                new Aforo("Yoga", 12, 20, progressYoga),
-                new Aforo("Crossfit", 10, 15, progressCrossfit),
-                new Aforo("Pilates", 10, 18, progressPilates) // 18 → 10 para poder sumar
-        );
+    @FXML
+    private NumberAxis yAxis;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        inicializarGrafico();
     }
 
-    public void sumarInscrito(String nombre) {
-        for (Aforo clase : clases) {
-            if (clase.getNombre().equals(nombre)) {
-                clase.sumarInscrito();
+    private void inicializarGrafico() {
+
+
+        // Obtener todas las planificaciones activas
+        List<Planificaciones> planificaciones = Planificaciones.obtenerTodasPlanificacionesActivas();
+
+        XYChart.Series<String, Number> serie = new XYChart.Series<>();
+        serie.setName("Reservas por Planificación");
+
+
+        for (Planificaciones p : planificaciones) {
+            try {
+                int reservas = Reservas.contarReservasPorPlanificacion(p.getId_planificacion());
+                String nombreClase = (p.getClase() != null && p.getClase().getNombre() != null)
+                        ? p.getClase().getNombre()
+                        : "Clase sin nombre";
+
+                String etiqueta = nombreClase + " (" + p.getDia() + ")";
+
+
+                serie.getData().add(new XYChart.Data<>(etiqueta, reservas));
+            } catch (Exception e) {
+                System.err.println("Error procesando planificacion ID " + p.getId_planificacion() + ": " + e.getMessage());
             }
         }
-    }
 
-    @FXML
-    void onClickSumarYoga(ActionEvent event) {
-        sumarInscrito("Yoga");
-    }
 
-    @FXML
-    void onClickSumarCrossfit(ActionEvent event) {
-        sumarInscrito("Crossfit");
-    }
+        Platform.runLater(() -> {
+            graficoOcupacion.getData().clear();
+            graficoOcupacion.getData().add(serie);
+            graficoOcupacion.setTitle("Reservas por Planificacin");
+            xAxis.setLabel("Planificacion");
+            yAxis.setLabel("Nº de Reservas");
 
-    @FXML
-    void onClickSumarPilates(ActionEvent event) {
-        sumarInscrito("Pilates");
+        });
     }
-
 }
