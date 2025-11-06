@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.ListarGrafico">
    <children>
-      <BarChart fx:id="graficoOcupacion" layoutX="57.0" layoutY="36.0">
+      <BarChart fx:id="graficoOcupacion" layoutX="57.0" layoutY="36.0" prefHeight="501.0" prefWidth="847.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>
@@ -13,5 +14,6 @@
           <NumberAxis side="LEFT" tickLabelGap="5.0" upperBound="20.0" />
         </yAxis>
       </BarChart>
+      <ComboBox fx:id="combo_dia" layoutX="972.0" layoutY="55.0" onAction="#setDayCombo" prefWidth="150.0" promptText="Selecciona un dia" />
    </children>
 </AnchorPane>
