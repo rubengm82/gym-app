@@ -26,7 +26,7 @@
         </columns>
       </TableView>
       <Label layoutX="539.0" layoutY="33.0" />
-      <Button fx:id="buttonBorrar" layoutX="1197.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickBajaAlta" prefHeight="36.0" prefWidth="169.0" styleClass="danger" text="CANCELAR RESERVA" />
+      <Button fx:id="buttonBorrar" layoutX="1197.0" layoutY="24.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="169.0" styleClass="danger" text="CANCELAR RESERVA" />
       <ComboBox fx:id="combobox_dia" layoutX="985.0" layoutY="25.0" onAction="#onclickComboboxDia" prefHeight="36.0" prefWidth="191.0" />
       <Label layoutX="942.0" layoutY="33.0" text="DIA" />
    </children>

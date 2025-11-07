@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NuevaReserva {
@@ -28,7 +29,52 @@ public class NuevaReserva {
         comboPlanificaciones.setDisable(true);
 
         // Cargar clientes
-        List<Clientes> clientes = Clientes.obtenerTodosClientes();
+        // List<Clientes> clientes = Clientes.obtenerTodosClientes();
+        List<Clientes> clientes = new ArrayList<>();
+
+        clientes.add(new Clientes(
+                24,
+                "Juan",
+                "Real",
+                "López",
+                "ES7620770024003102575766",
+                "juan.perez@email.com",
+                "600111222",
+                0
+        ));
+
+        clientes.add(new Clientes(
+                25,
+                "Anna",
+                "García",
+                "Fernández",
+                "ES9121000418450200051332",
+                "ana.garcia@email.com",
+                "600333444",
+                0
+        ));
+
+        clientes.add(new Clientes(
+                26,
+                "Carlos",
+                "Martínez",
+                "Gómez",
+                "ES4421000418450200051332",
+                "carlos.martinez@email.com",
+                "600555666",
+                0
+        ));
+
+        clientes.add(new Clientes(
+                27,
+                "Laura1",
+                "Sánchez1",
+                "Ruiz1",
+                "ES8121000418450200051332",
+                "laura.sanchez@email.com",
+                "600777888",
+                1
+        ));
 
         clientes.sort((c1, c2) -> {
             int cmp = c1.getApellido1().compareToIgnoreCase(c2.getApellido1());
@@ -57,7 +103,7 @@ public class NuevaReserva {
         comboClientes.setButtonCell(comboClientes.getCellFactory().call(null));
 
         // Días
-        comboDia.setItems(FXCollections.observableArrayList("Lunes","Martes","Miércoles","Jueves","Viernes"));
+        comboDia.setItems(FXCollections.observableArrayList("Jueves","Viernes"));
 
         // Cargar todas las planificaciones activas
         todasPlanificaciones = Planificaciones.obtenerTodasPlanificacionesActivas();

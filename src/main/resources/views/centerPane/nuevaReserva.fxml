@@ -8,25 +8,25 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.NuevaReserva">
     <children>
-        <Label layoutX="636.0" layoutY="185.0" text="Nueva Reserva">
+        <Label layoutX="43.0" layoutY="37.0" text="Nueva Reserva">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
         </Label>
 
         <!-- Cliente -->
-        <Label layoutX="465.0" layoutY="288.0" text="Cliente" />
-        <ComboBox fx:id="comboClientes" layoutX="565.0" layoutY="283.0" prefHeight="36.0" prefWidth="350.0" />
+        <Label layoutX="123.0" layoutY="190.0" text="Cliente" />
+        <ComboBox fx:id="comboClientes" layoutX="223.0" layoutY="185.0" prefHeight="36.0" prefWidth="350.0" />
 
         <!-- Día -->
         <Label layoutX="465.0" layoutY="362.0" text="Día" />
         <ComboBox fx:id="comboDia" layoutX="565.0" layoutY="357.0" prefHeight="36.0" prefWidth="350.0" />
 
         <!-- Planificación -->
-        <Label layoutX="465.0" layoutY="441.0" text="Planificación" />
-        <ComboBox fx:id="comboPlanificaciones" layoutX="565.0" layoutY="436.0" prefWidth="350.0" />
+        <Label layoutX="340.0" layoutY="638.0" text="Planificación" />
+        <ComboBox fx:id="comboPlanificaciones" layoutX="440.0" layoutY="633.0" prefWidth="350.0" />
 
         <!-- Botón guardar -->
-        <Button fx:id="buttonGuardar" layoutX="651.0" layoutY="549.0" onAction="#onClickGuardar" prefHeight="36.0" prefWidth="151.0" styleClass="success" text="Crear Reserva" />
+        <Button fx:id="buttonGuardar" layoutX="1144.0" layoutY="702.0" onAction="#onClickGuardar" prefHeight="36.0" prefWidth="151.0" styleClass="success" text="Crear Reserva" />
     </children>
 </AnchorPane>
