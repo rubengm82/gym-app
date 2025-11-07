@@ -22,7 +22,7 @@ public class EditarPlanificaciones {
     @FXML private Spinner<Integer> input_fin_h, input_fin_m, input_ini_h, input_ini_m;
     @FXML private Label labelTituloClientes, labelTituloClientes1;
     @FXML private TableView<Planificaciones> table_planificaciones;
-    @FXML private TableColumn<Planificaciones, String> table_h_ini, table_h_fin, table_clase;
+    @FXML private TableColumn<Planificaciones, String> table_h_ini, table_h_fin, table_clase, table_instructor;
     @FXML private Button btnAgregar, btnBorrar;
     @FXML private Button delete;
 
@@ -42,6 +42,11 @@ public class EditarPlanificaciones {
         table_clase.setCellValueFactory(data -> {
             Planificaciones p = data.getValue();
             String nombre = (p.getClase() != null) ? p.getClase().getNombre() : "";
+            return new SimpleStringProperty(nombre);
+        });
+        table_instructor.setCellValueFactory(data -> {
+            Planificaciones ins = data.getValue();
+            String nombre = (ins.getInstructor() != null) ? ins.getInstructor().getNombre() + " " +  ins.getInstructor().getApellido1(): "";
             return new SimpleStringProperty(nombre);
         });
 
