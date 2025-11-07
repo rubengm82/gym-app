@@ -16,6 +16,12 @@ public class Reservas {
     private LocalDate fechaReserva;
     private int estado;
 
+    // ESTADOS DE LAS RESERVAS EN EL CAMPO ESTADO DE LA BBDD
+    // -1 CADUCADOS
+    // 0 RESERVA ANULADA
+    // 1 ACTIVOS DEL DIA
+    // 2 RESERVA VERIFICADA
+
     // CONSTRUCTORES
     public Reservas(int idReserva, Planificaciones planificacion, Clientes cliente, LocalDate fechaReserva, int estado) {
         this.idReserva = idReserva;
@@ -142,17 +148,21 @@ public class Reservas {
         return reservas;
     }
 
-    // Borrar reserva
-    public static boolean borrarReserva(int idReserva) {
+    // Cancelar reserva
+    public static boolean cancelarReserva(int idReserva) {
         boolean exito = false;
-        String sql = "DELETE FROM Reservas WHERE id_reserva = ?";
+        String sql = "UPDATE Reservas SET estado = 0 WHERE id_reserva = ?";
+
         try (Connection con = ConexionBD.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idReserva);
             exito = ps.executeUpdate() > 0;
+
         } catch (SQLException e) {
-            System.err.println("Error al borrar reserva: " + e.getMessage());
+            System.err.println("Error al anular reserva: " + e.getMessage());
         }
+
         return exito;
     }
 

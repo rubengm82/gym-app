@@ -136,15 +136,15 @@ public class ListarReservas {
             return;
         }
 
-        Alert confirmacion = new Alert(Alert.AlertType.NONE, "¿Seguro que quieres borrar esta reserva?", ButtonType.OK, ButtonType.CANCEL);
+        Alert confirmacion = new Alert(Alert.AlertType.NONE, "¿Seguro que quieres cancelar esta reserva?", ButtonType.OK, ButtonType.CANCEL);
         if (confirmacion.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-            boolean exito = Reservas.borrarReserva(seleccionada.getIdReserva());
+            boolean exito = Reservas.cancelarReserva(seleccionada.getIdReserva());
 
             if (exito) {
                 todasReservas.remove(seleccionada);
                 tablaReservas.getItems().remove(seleccionada);
             } else {
-                new Alert(Alert.AlertType.ERROR, "No se pudo borrar la reserva.", ButtonType.OK).showAndWait();
+                new Alert(Alert.AlertType.ERROR, "No se pudo cancelar la reserva.", ButtonType.OK).showAndWait();
             }
         }
     }
