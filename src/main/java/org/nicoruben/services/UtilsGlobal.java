@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 
@@ -37,6 +38,23 @@ public class UtilsGlobal {
             }
         } catch (SQLException e) {
             System.out.println("* Error al conectar: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Purga los dias anteriores de las reservas del día actual al iniciar la App
+     */
+    public static void actualizarReservasExpiradas() {
+        String sql = "UPDATE Reservas SET estado = -1 WHERE fecha_reserva < CURDATE() AND (estado = 1 OR estado = 2)";
+
+        try (Connection con = ConexionBD.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            int actualizadas = ps.executeUpdate();
+            System.out.println("Reservas caducadas actualizadas a estado -1: " + actualizadas);
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar reservas caducadas: " + e.getMessage());
         }
     }
 

@@ -13,6 +13,7 @@ import org.nicoruben.models.Reservas;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListarReservas {
@@ -65,11 +66,20 @@ public class ListarReservas {
         campoHoraInicio.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
         campoHoraFin.setCellValueFactory(new PropertyValueFactory<>("horaFin"));
 
-        // Cargar todas las reservas
+        // Cargar todas las reservas ACTIVAS
         List<Reservas> reservas = Reservas.obtenerTodasReservas();
-        reservas.sort((r1, r2) -> Integer.compare(r2.getIdReserva(), r1.getIdReserva()));
-        todasReservas = FXCollections.observableArrayList(reservas);
+        List<Reservas> activas = new ArrayList<>();
+
+        for (Reservas r : reservas) {
+            if (r.getEstado() == 1) {
+                activas.add(r);
+            }
+        }
+
+        activas.sort((r1, r2) -> Integer.compare(r2.getIdReserva(), r1.getIdReserva()));
+        todasReservas = FXCollections.observableArrayList(activas);
         tablaReservas.setItems(todasReservas);
+
 
         // Inicializar ComboBox
         ObservableList<String> dias = FXCollections.observableArrayList(
@@ -126,15 +136,15 @@ public class ListarReservas {
             return;
         }
 
-        Alert confirmacion = new Alert(Alert.AlertType.NONE, "¿Seguro que quieres borrar esta reserva?", ButtonType.OK, ButtonType.CANCEL);
+        Alert confirmacion = new Alert(Alert.AlertType.NONE, "¿Seguro que quieres cancelar esta reserva?", ButtonType.OK, ButtonType.CANCEL);
         if (confirmacion.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-            boolean exito = Reservas.borrarReserva(seleccionada.getIdReserva());
+            boolean exito = Reservas.cancelarReserva(seleccionada.getIdReserva());
 
             if (exito) {
                 todasReservas.remove(seleccionada);
                 tablaReservas.getItems().remove(seleccionada);
             } else {
-                new Alert(Alert.AlertType.ERROR, "No se pudo borrar la reserva.", ButtonType.OK).showAndWait();
+                new Alert(Alert.AlertType.ERROR, "No se pudo cancelar la reserva.", ButtonType.OK).showAndWait();
             }
         }
     }
