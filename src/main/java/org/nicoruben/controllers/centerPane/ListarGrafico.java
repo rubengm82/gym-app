@@ -2,15 +2,15 @@ package org.nicoruben.controllers.centerPane;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.ComboBox;
 import org.nicoruben.models.Planificaciones;
 import org.nicoruben.models.Reservas;
+
 
 import java.net.URL;
 import java.util.List;
@@ -30,6 +30,15 @@ public class ListarGrafico implements Initializable {
     @FXML
     private NumberAxis yAxis;
 
+    @FXML
+    private ComboBox<Planificaciones> combo_planificacion;
+
+
+    @FXML
+    private PieChart asistenciaChart;
+
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         combo_dia.setItems(FXCollections.observableArrayList(
@@ -38,6 +47,43 @@ public class ListarGrafico implements Initializable {
         combo_dia.getSelectionModel().selectFirst();
         actualizarGrafico(combo_dia.getValue());
         combo_dia.setOnAction(event -> setDayCombo());
+
+        List<Planificaciones> planificaciones = Planificaciones.obtenerTodasPlanificacionesActivas();
+
+
+        ObservableList<Planificaciones> listaObservable = FXCollections.observableArrayList(planificaciones);
+
+        combo_planificacion.setItems(listaObservable);
+
+
+        combo_planificacion.setConverter(new javafx.util.StringConverter<Planificaciones>() {
+            @Override
+            public String toString(Planificaciones p) {
+                if (p == null) return "";
+                return p.getClase().getNombre() + " - " + p.getDia();
+            }
+
+            @Override
+            public Planificaciones fromString(String string) {
+                return null; // no se usa
+            }
+        });
+
+
+        combo_planificacion.setCellFactory(lv -> new javafx.scene.control.ListCell<Planificaciones>() {
+            @Override
+            protected void updateItem(Planificaciones p, boolean empty) {
+                super.updateItem(p, empty);
+
+                if (empty || p == null || p.getClase() == null) {
+                    setText(null);
+                } else {
+                    setText(p.getClase().getNombre() + " - " + p.getDia());
+                }
+            }
+        });
+
+
     }
 
     @FXML
@@ -69,5 +115,19 @@ public class ListarGrafico implements Initializable {
             xAxis.setLabel("Planificación (Clase - Hora)");
             yAxis.setLabel("Número de Reservas");
         });
+    }
+
+
+    public void asistenciaChartAc(ActionEvent actionEvent) {
+        Planificaciones selectedPlanificacion = combo_planificacion.getValue();
+        System.out.println(selectedPlanificacion.getId_planificacion());
+
+        int usadas = Reservas.contarReservasPorPlanificacionGrafi(selectedPlanificacion.getId_planificacion());
+        int nousdas = Reservas.contarReservasPorPlanificacion(selectedPlanificacion.getId_planificacion());
+
+        System.out.println(usadas);
+
+
+
     }
 }

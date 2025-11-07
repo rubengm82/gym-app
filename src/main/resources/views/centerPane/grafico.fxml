@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.ListarGrafico">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.ListarGrafico">
    <children>
-      <BarChart fx:id="graficoOcupacion" layoutX="57.0" layoutY="36.0" prefHeight="501.0" prefWidth="847.0">
+      <BarChart fx:id="graficoOcupacion" layoutX="50.0" layoutY="105.0" prefHeight="401.0" prefWidth="629.0">
         <xAxis>
-          <CategoryAxis side="BOTTOM" />
+          <CategoryAxis side="BOTTOM"  fx:id="xAxis"/>
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" tickLabelGap="5.0" upperBound="20.0" />
+          <NumberAxis side="LEFT" tickLabelGap="5.0" upperBound="20.0" fx:id="yAxis"/>
         </yAxis>
       </BarChart>
-      <ComboBox fx:id="combo_dia" layoutX="972.0" layoutY="55.0" onAction="#setDayCombo" prefWidth="150.0" promptText="Selecciona un dia" />
+      <ComboBox fx:id="combo_dia" layoutX="515.0" layoutY="48.0" onAction="#setDayCombo" prefWidth="150.0" promptText="Selecciona un dia" />
+      <PieChart fx:id="asistenciaChart" layoutX="799.0" layoutY="106.0" />
+      <ComboBox fx:id="combo_planificacion" layoutX="1190.0" layoutY="48.0" onAction="#asistenciaChartAc" prefWidth="150.0" />
    </children>
 </AnchorPane>
