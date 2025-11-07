@@ -40,6 +40,9 @@ public class Main extends Application {
 
         // Comprobación de conexion con la BBDD
         UtilsGlobal.testConexionBBDD();
+
+        // Purgado de reservas del dia anterior al actual
+        UtilsGlobal.actualizarReservasExpiradas();
     }
 
     public static void main(String[] args) {
