@@ -189,7 +189,7 @@ public class Reservas {
         return false;
     }
 
-    public static int contarReservasPorPlanificacion(int idPlanificacion, int estado) {
+    public static int contarReservasPorPlanificacionParaGrafica(int idPlanificacion, int estado) {
         int total = 0;
         String sql = "SELECT COUNT(*) FROM Reservas WHERE fk_id_planificacion = ? AND estado = ?";
 
@@ -210,9 +210,9 @@ public class Reservas {
 
     // funcion para graficos
 
-    public static int contarReservasPorPlanificacionGrafi(int idPlanificacion) {
+    public static int contarReservasPorPlanificacion(int idPlanificacion) {
         int total = 0;
-        String sql = "SELECT COUNT(*) FROM Reservas WHERE fk_id_planificacion = ? AND estado = 0";
+        String sql = "SELECT COUNT(*) FROM Reservas WHERE fk_id_planificacion = ? AND estado = 1";
 
         try (Connection con = ConexionBD.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
