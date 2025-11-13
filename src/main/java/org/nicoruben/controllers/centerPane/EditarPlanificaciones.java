@@ -112,12 +112,43 @@ public class EditarPlanificaciones {
 
     @FXML
     void deleteActivity(ActionEvent event) {
+
+        //el pop up
         Planificaciones planificacionDel = table_planificaciones.getSelectionModel().getSelectedItem();
+
         if (planificacionDel != null) {
-            Planificaciones.delPlanificacion(planificacionDel.getId_planificacion());
-            cargarPlanificacionesEnTabla(combo_dia.getSelectionModel().getSelectedItem());
+
+            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion.setTitle("Confirmación");
+            confirmacion.setHeaderText(null);
+
+            confirmacion.setContentText("¿Seguro que deseas borrar la clase?");
+
+            ButtonType btnAceptar = new ButtonType("Aceptar");
+            ButtonType btnCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+            confirmacion.getButtonTypes().setAll(btnAceptar, btnCancelar);
+
+            confirmacion.showAndWait().ifPresent(respuesta ->{
+                if(respuesta == btnAceptar){
+                    Planificaciones.delPlanificacion(planificacionDel.getId_planificacion());
+                    cargarPlanificacionesEnTabla(combo_dia.getSelectionModel().getSelectedItem());
+                }
+            });
+
+
+            //Planificaciones.delPlanificacion(planificacionDel.getId_planificacion());
+            //cargarPlanificacionesEnTabla(combo_dia.getSelectionModel().getSelectedItem());
+        }else{
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setTitle("Aviso");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Por favor, selecciona una planificacion antes.");
+            alerta.showAndWait();
         }
-    }
+
+        }
+
+
 
     private void showAlertError(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
