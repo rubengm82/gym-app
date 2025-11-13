@@ -100,7 +100,7 @@ public class ListarGrafico implements Initializable {
         serie.setName("Reservas del " + dia);
 
         for (Planificaciones p : planificaciones) {
-            int reservas = Reservas.contarReservasPorPlanificacion(p.getId_planificacion());
+            int reservas = Reservas.contarReservasPorPlanificacion(p.getId_planificacion(),1);
             String nombreClase = (p.getClase() != null && p.getClase().getNombre() != null)
                     ? p.getClase().getNombre()
                     : "Clase sin nombre";
@@ -118,16 +118,37 @@ public class ListarGrafico implements Initializable {
     }
 
 
+    @FXML
     public void asistenciaChartAc(ActionEvent actionEvent) {
         Planificaciones selectedPlanificacion = combo_planificacion.getValue();
-        System.out.println(selectedPlanificacion.getId_planificacion());
 
-        int usadas = Reservas.contarReservasPorPlanificacionGrafi(selectedPlanificacion.getId_planificacion());
-        int nousdas = Reservas.contarReservasPorPlanificacion(selectedPlanificacion.getId_planificacion());
+        if (selectedPlanificacion == null) {
+            System.out.println("No se seleccionó ninguna planificación.");
+            return;
+        }
 
-        System.out.println(usadas);
+        int noUsadas = Reservas.contarReservasPorPlanificacion(selectedPlanificacion.getId_planificacion(), 1);
+        int usadas = Reservas.contarReservasPorPlanificacion(selectedPlanificacion.getId_planificacion(), 2);
+        int total = usadas + noUsadas;
+
+        System.out.println("Usadas: " + usadas);
+        System.out.println("No usadas: " + noUsadas);
+        System.out.println("Total: " + total);
 
 
+        asistenciaChart.getData().clear();
+
+        if(total == 0){
+
+            System.out.println("d");
+
+        }else{
+            PieChart.Data asistentes = new PieChart.Data("Confirmadas", usadas);
+            PieChart.Data noAsistentes = new PieChart.Data("No confirmadas", noUsadas);
+            asistenciaChart.getData().addAll(asistentes, noAsistentes);
+            asistenciaChart.setTitle("% de asistencia a la clase");
+        }
 
     }
+
 }
