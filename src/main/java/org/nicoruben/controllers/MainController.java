@@ -92,14 +92,8 @@ public class MainController {
             }
 
             // BOTON TOP INFORMES
-            case "Informes" -> {
-                // BOTONES LEFT
-                Button graficaOne = new Button("Gráfico");
-                graficaOne.setMaxWidth(Double.MAX_VALUE);
-                graficaOne.setOnAction(e -> showInCenter("grafico"));
+            case "Gráficas" -> {
 
-                // Añade los botones al leftMenu
-                leftMenu.getChildren().addAll(graficaOne);
 
                 showInCenter("grafico");
             }
