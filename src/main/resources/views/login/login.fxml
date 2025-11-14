@@ -29,7 +29,7 @@
             <Button fx:id="buttonEntrar" mnemonicParsing="false" onAction="#onClickEntrar" styleClass="success" text="Iniciar de session" />
          </children>
       </VBox>
-      <Label layoutX="1504.0" layoutY="809.0" text="Version 0.5b">
+      <Label layoutX="1504.0" layoutY="809.0" text="Version 1.0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
