@@ -117,7 +117,7 @@ public class ListarGrafico implements Initializable {
     private void actualizarGrafico(String dia) {
         List<Planificaciones> planificaciones = Planificaciones.obtenerPlanificacionesPorDia(dia);
         XYChart.Series<String, Number> serie = new XYChart.Series<>();
-        //serie.setName("Reservas del " + dia);  //  Nombre del grafico
+        serie.setName("Reservas del " + dia);
 
         for (Planificaciones p : planificaciones) {
             int noUsadas = Reservas.contarReservasPorPlanificacionParaGrafica(p.getId_planificacion(), 1);
@@ -133,7 +133,7 @@ public class ListarGrafico implements Initializable {
         Platform.runLater(() -> {
             graficoOcupacion.getData().clear();
             graficoOcupacion.getData().add(serie);
-            graficoOcupacion.setTitle("Reservas del " + dia);
+            // graficoOcupacion.setTitle("Reservas del " + dia);  //  Nombre del grafico
             xAxis.setLabel("Planificación (Clase - Hora)");
             yAxis.setLabel("Número de Reservas");
         });
