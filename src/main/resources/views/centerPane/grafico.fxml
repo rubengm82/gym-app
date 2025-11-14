@@ -11,21 +11,40 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.ListarGrafico">
    <children>
-      <BarChart fx:id="graficoOcupacion" layoutX="50.0" layoutY="105.0" prefHeight="401.0" prefWidth="629.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" fx:id="xAxis" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis fx:id="yAxis" side="LEFT" tickLabelGap="5.0" upperBound="20.0" />
-        </yAxis>
-      </BarChart>
-      <ComboBox fx:id="combo_dia" layoutX="515.0" layoutY="48.0" onAction="#setDayCombo" prefWidth="150.0" promptText="Selecciona un dia" />
-      <PieChart fx:id="asistenciaChart" layoutX="799.0" layoutY="106.0" />
-      <ComboBox fx:id="combo_planificacion" layoutX="1112.0" layoutY="48.0" onAction="#asistenciaChartAc" prefHeight="26.0" prefWidth="228.0" promptText="Selecciona una planificacion" />
-      <Label fx:id="infoPieChart" alignment="CENTER" contentDisplay="CENTER" layoutX="815.0" layoutY="290.0" prefHeight="33.0" prefWidth="451.0" textAlignment="JUSTIFY">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
+      <AnchorPane layoutX="726.0" layoutY="61.0" prefHeight="643.0" prefWidth="613.0" style="-fx-border-color: gray;">
+         <children>
+            <ComboBox fx:id="combo_planificacion" layoutX="29.0" layoutY="94.0" onAction="#asistenciaChartAc" prefHeight="26.0" prefWidth="303.0" promptText="Selecciona una planificacion" />
+            <PieChart fx:id="asistenciaChart" layoutX="9.0" layoutY="125.0" prefHeight="488.0" prefWidth="599.0" />
+            <Label fx:id="titleAsis" contentDisplay="CENTER" layoutX="17.0" layoutY="30.0" prefHeight="48.0" prefWidth="582.0" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="infoPieChart" alignment="CENTER" contentDisplay="CENTER" layoutX="81.0" layoutY="305.0" prefHeight="33.0" prefWidth="451.0" textAlignment="JUSTIFY">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="combo_dia_asi" layoutX="39.0" layoutY="94.0" onAction="#setDayCombo2" prefHeight="25.0" prefWidth="179.0" promptText="Selecciona un dia" visible="false" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="28.0" layoutY="61.0" prefHeight="643.0" prefWidth="682.0" style="-fx-border-color: gray;">
+         <children>
+            <BarChart fx:id="graficoOcupacion" layoutX="14.0" layoutY="133.0" prefHeight="468.0" prefWidth="645.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis fx:id="yAxis" side="LEFT" tickLabelGap="5.0" upperBound="20.0" />
+              </yAxis>
+            </BarChart>
+            <ComboBox fx:id="combo_dia" layoutX="34.0" layoutY="96.0" onAction="#setDayCombo" prefHeight="25.0" prefWidth="179.0" promptText="Selecciona un dia" visible="false" />
+            <Label fx:id="titleDay" contentDisplay="CENTER" layoutX="34.0" layoutY="33.0" prefHeight="48.0" prefWidth="627.0" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

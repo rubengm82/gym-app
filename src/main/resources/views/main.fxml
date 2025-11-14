@@ -29,7 +29,7 @@
             <Button fx:id="btnActividades" onAction="#handleTopButton" styleClass="success" text="Clases" />
          <Button fx:id="btnPlanficaciones" onAction="#handleTopButton" styleClass="success" text="Planificaciones" />
             <Button fx:id="btnReservas" onAction="#handleTopButton" styleClass="success" text="Reservas" />
-            <Button fx:id="btnInformes" onAction="#handleTopButton" styleClass="success" text="Informes" />
+            <Button fx:id="btnInformes" onAction="#handleTopButton" styleClass="success" text="Gráficas" />
          <Button fx:id="btnSalir" onAction="#onClickSalir" styleClass="danger" text="SALIR SESIÓN" />
         </HBox>
     </top>

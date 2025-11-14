@@ -11,9 +11,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import org.nicoruben.models.Planificaciones;
 import org.nicoruben.models.Reservas;
-
-
 import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -21,27 +21,24 @@ public class ListarGrafico implements Initializable {
 
     @FXML
     private BarChart<String, Number> graficoOcupacion;
-
     @FXML
     private ComboBox<String> combo_dia;
-
     @FXML
     private CategoryAxis xAxis;
-
     @FXML
     private NumberAxis yAxis;
-
     @FXML
     private ComboBox<Planificaciones> combo_planificacion;
-
-
+    @FXML
+    private ComboBox<String> combo_dia_asi;
     @FXML
     private PieChart asistenciaChart;
-
-
-
     @FXML
     private Label infoPieChart;
+    @FXML
+    private Label titleAsis;
+    @FXML
+    private Label titleDay;
 
 
 
@@ -51,44 +48,23 @@ public class ListarGrafico implements Initializable {
                 "Lunes", "Martes", "Miércoles", "Jueves", "Viernes"
         ));
         combo_dia.getSelectionModel().selectFirst();
-        actualizarGrafico(combo_dia.getValue());
         combo_dia.setOnAction(event -> setDayCombo());
 
-        List<Planificaciones> planificaciones = Planificaciones.obtenerTodasPlanificacionesActivas();
 
+        combo_dia_asi.setItems(FXCollections.observableArrayList(
+                "Lunes", "Martes", "Miércoles", "Jueves", "Viernes"
+        ));
+        combo_dia_asi.getSelectionModel().selectFirst();
+        combo_dia_asi.setOnAction(event -> setDayCombo2());
 
-        ObservableList<Planificaciones> listaObservable = FXCollections.observableArrayList(planificaciones);
+        String diaHoy = obtenerDiaSemanaActual();
+        titleDay.setText("Numero de reservas por planificación del "+diaHoy);
+        titleAsis.setText("Porcentaje de asistencia por actividad del "+diaHoy);
+        combo_dia.setValue(diaHoy);
+        combo_dia_asi.setValue(diaHoy);
 
-        combo_planificacion.setItems(listaObservable);
-
-
-        combo_planificacion.setConverter(new javafx.util.StringConverter<Planificaciones>() {
-            @Override
-            public String toString(Planificaciones p) {
-                if (p == null) return "";
-                return p.getClase().getNombre() + " - " + p.getDia();
-            }
-
-            @Override
-            public Planificaciones fromString(String string) {
-                return null; // no se usa
-            }
-        });
-
-
-        combo_planificacion.setCellFactory(lv -> new javafx.scene.control.ListCell<Planificaciones>() {
-            @Override
-            protected void updateItem(Planificaciones p, boolean empty) {
-                super.updateItem(p, empty);
-
-                if (empty || p == null || p.getClase() == null) {
-                    setText(null);
-                } else {
-                    setText(p.getClase().getNombre() + " - " + p.getDia());
-                }
-            }
-        });
-
+        setDayCombo2();
+        actualizarGrafico(combo_dia.getValue());
 
     }
 
@@ -100,18 +76,58 @@ public class ListarGrafico implements Initializable {
         }
     }
 
+    @FXML
+    void setDayCombo2() {
+        String diaSeleccionado = combo_dia_asi.getValue();
+
+        if (diaSeleccionado != null && !diaSeleccionado.isEmpty()) {
+            List<Planificaciones> planificaciones = Planificaciones.obtenerPlanificacionesPorDia(diaSeleccionado);
+            ObservableList<Planificaciones> listaObservable = FXCollections.observableArrayList(planificaciones);
+            combo_planificacion.setItems(listaObservable);
+            combo_planificacion.setConverter(new javafx.util.StringConverter<Planificaciones>() {
+                @Override
+                public String toString(Planificaciones p) {
+                    if (p == null) return "";
+                    return p.getClase().getNombre() + " - " + p.getHora_inicio();
+                }
+
+                @Override
+                public Planificaciones fromString(String string) {
+                    return null; // no se usa
+                }
+            });
+
+
+            combo_planificacion.setCellFactory(lv -> new javafx.scene.control.ListCell<Planificaciones>() {
+                @Override
+                protected void updateItem(Planificaciones p, boolean empty) {
+                    super.updateItem(p, empty);
+
+                    if (empty || p == null || p.getClase() == null) {
+                        setText(null);
+                    } else {
+                        setText(p.getClase().getNombre() + " - " + p.getHora_inicio());
+                    }
+                }
+            });
+        }
+
+    }
+
     private void actualizarGrafico(String dia) {
         List<Planificaciones> planificaciones = Planificaciones.obtenerPlanificacionesPorDia(dia);
         XYChart.Series<String, Number> serie = new XYChart.Series<>();
-        serie.setName("Reservas del " + dia);
+        //serie.setName("Reservas del " + dia);  //  Nombre del grafico
 
         for (Planificaciones p : planificaciones) {
-            int reservas = Reservas.contarReservasPorPlanificacionParaGrafica(p.getId_planificacion(),1);
+            int noUsadas = Reservas.contarReservasPorPlanificacionParaGrafica(p.getId_planificacion(), 1);
+            int usadas = Reservas.contarReservasPorPlanificacionParaGrafica(p.getId_planificacion(), 2);
+            int total = usadas + noUsadas;
             String nombreClase = (p.getClase() != null && p.getClase().getNombre() != null)
                     ? p.getClase().getNombre()
                     : "Clase sin nombre";
             String etiqueta = nombreClase + " (" + p.getHora_inicio() + ")";
-            serie.getData().add(new XYChart.Data<>(etiqueta, reservas));
+            serie.getData().add(new XYChart.Data<>(etiqueta, total));
         }
 
         Platform.runLater(() -> {
@@ -130,16 +146,19 @@ public class ListarGrafico implements Initializable {
     public void asistenciaChartAc(ActionEvent actionEvent) {
         Planificaciones selectedPlanificacion = combo_planificacion.getValue();
         infoPieChart.setText("");
-        asistenciaChart.setTitle("% de asistencia a la clase");
+
 
         if (selectedPlanificacion == null) {
             System.out.println("No se seleccionó ninguna planificación.");
             return;
         }
 //Cambiar a el nombre de la nueva funcion
-        int noUsadas = Reservas.contarReservasPorPlanificacionParaGrafica(selectedPlanificacion.getId_planificacion(), 1);
-        int usadas = Reservas.contarReservasPorPlanificacionParaGrafica(selectedPlanificacion.getId_planificacion(), 2);
-        int total = usadas + noUsadas;
+        float noUsadas = Reservas.contarReservasPorPlanificacionParaGrafica(selectedPlanificacion.getId_planificacion(), 1);
+        float usadas = Reservas.contarReservasPorPlanificacionParaGrafica(selectedPlanificacion.getId_planificacion(), 2);
+        float total = usadas + noUsadas;
+
+        double porcentajeUsadas = usadas / total * 100;
+        double porcentajeNoUsadas = noUsadas / total * 100;
 
         asistenciaChart.getData().clear();
 
@@ -148,11 +167,31 @@ public class ListarGrafico implements Initializable {
             infoPieChart.setText("No hay ninguna reserva para esta planificacion");
 
         }else{
-            PieChart.Data asistentes = new PieChart.Data("Confirmadas", usadas);
-            PieChart.Data noAsistentes = new PieChart.Data("No confirmadas", noUsadas);
+            PieChart.Data asistentes = new PieChart.Data("Confirmada (" + String.format("%.1f", porcentajeUsadas) + "%)", usadas);
+            PieChart.Data noAsistentes = new PieChart.Data("No confirmada (" + String.format("%.1f", porcentajeNoUsadas) + "%)", noUsadas);
+
             asistenciaChart.getData().addAll(asistentes, noAsistentes);
         }
 
+    }
+
+
+    private String obtenerDiaSemanaActual() {
+        DayOfWeek dia = LocalDate.now().getDayOfWeek();
+        switch (dia) {
+            case MONDAY:
+                return "Lunes";
+            case TUESDAY:
+                return "Martes";
+            case WEDNESDAY:
+                return "Miércoles";
+            case THURSDAY:
+                return "Jueves";
+            case FRIDAY:
+                return "Viernes";
+            default:
+                return "Todos"; // Por si es sábado o domingo
+        }
     }
 
 }
