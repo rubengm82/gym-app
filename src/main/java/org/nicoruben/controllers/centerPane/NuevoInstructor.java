@@ -4,9 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.nicoruben.models.Clientes;
 import org.nicoruben.models.Instructores;
 public class NuevoInstructor {
@@ -49,27 +47,28 @@ public class NuevoInstructor {
         String errores = "";
 
         if (nombre.isEmpty() || apellido1.isEmpty()) {
-            errores += "Debe ingresar al menos nombre y primer apellido\n";
+            errores += "·Debe ingresar un Nombre\n";
+            errores += "·Debe ingresar un Apellido\n";
         }
 
         // Validar DNI
         if (dni.isEmpty()) {
-            errores += "El DNI es obligatorio\n";
+            errores += "·El DNI es obligatorio\n";
         } else if (!dni.matches("\\d{8}[A-Z]")) {
-            errores += "El DNI no tiene un formato válido (8 dígitos y letra)\n";
+            errores += "·El DNI no tiene un formato válido (8 dígitos y letra)\n";
         } else {
             // Comprobar letra
             String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
             int numero = Integer.parseInt(dni.substring(0, 8));
             char letraCorrecta = letras.charAt(numero % 23);
             if (dni.charAt(8) != letraCorrecta) {
-                errores += "La letra del DNI no es correcta\n";
+                errores += "· La letra del DNI no es correcta\n";
             }
         }
 
         // Comprobar si el DNI ya existe
-        if (Instructores.existeDNI(dni)) {
-            errores += "Ya existe un instructor con este DNI\n";
+        if (Instructores.existeDNI(dni) && !dni.isEmpty()) {
+            errores += "·Ya existe un instructor con este DNI\n";
         }
 
         if (!errores.isEmpty()) {
@@ -80,12 +79,13 @@ public class NuevoInstructor {
             }
         } else {
             Instructores.insertarInstructor(nombre, apellido1, apellido2, dni, telefono, estado);
-            input_error.setText("Instructor añadido correctamente!");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "Instructor/a añadido/a correctamente!",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
             btn_reset.fire();
-            input_error.getStyleClass().removeAll("danger");
-            if (!input_error.getStyleClass().contains("success")) {
-                input_error.getStyleClass().add("success");
-            }
+
         }
     }
 

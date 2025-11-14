@@ -2,9 +2,7 @@ package org.nicoruben.controllers.centerPane;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.nicoruben.models.Clientes;
 
 public class NuevoCliente {
@@ -52,23 +50,23 @@ public class NuevoCliente {
         String errores = "";
 
         if (nombre.isEmpty() || apellido1.isEmpty()) {
-            errores += "Debe ingresar al menos nombre y primer apellido\n";
+            errores += "·Debe ingresar al menos nombre y primer apellido\n";
         }
 
         if (mail.isEmpty()) {
-            errores += "El correo es obligatorio\n";
+            errores += "·Debe ingresar al menos un correo\n";
         } else if (!mail.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
-            errores += "El correo no es válido\n";
+            errores += "·El correo no es válido\n";
         } else if (Clientes.existeMail(mail)) {
-            errores += "El correo ya está registrado\n";
+            errores += "·El correo ya está registrado\n";
         }
 
         if (!IBAN.isEmpty() && !IBAN.matches("[A-Z]{2}[0-9]{22}")) {
-            errores += "El IBAN no es válido\n";
+            errores += "·El IBAN no es válido\n";
         }
 
-        if (Clientes.existeMail(mail)) {
-            errores += "El correo ya está registrado\n";
+        if (!mail.isEmpty() && Clientes.existeMail(mail)) {
+            errores += "·El correo ya está registrado\n";
         }
 
         if (!errores.isEmpty()) {
@@ -81,12 +79,12 @@ public class NuevoCliente {
         } else {
             // Comprobacion correcta, insertar cliente!
             Clientes.insertarCliente(nombre, apellido1, apellido2, IBAN, mail, telefono, estado);
-            input_error.setText("Cliente añadido correctamente!");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "Cliente/a añadido/a correctamente!",
+                new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+                alert.setHeaderText(null);
+                alert.showAndWait();
             btn_reset.fire();  // Borra todos los campos, hace click virtual en el boton Reset
-            input_error.getStyleClass().removeAll("danger");
-            if (!input_error.getStyleClass().contains("success")) {
-                input_error.getStyleClass().add("success");
-            }
         }
     }
 

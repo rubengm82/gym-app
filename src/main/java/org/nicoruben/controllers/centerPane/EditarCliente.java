@@ -2,9 +2,7 @@ package org.nicoruben.controllers.centerPane;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.nicoruben.controllers.MainController;
 import org.nicoruben.models.Clientes;
 
@@ -52,11 +50,19 @@ public class EditarCliente {
         boolean exito = Clientes.actualizarCliente(clienteActual);
 
         if (exito) {
-            input_error.setText("Cliente actualizado correctamente");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "Cliente actualizado correctamente",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
             input_error.getStyleClass().removeAll("danger");
             if (!input_error.getStyleClass().contains("success")) input_error.getStyleClass().add("success");
         } else {
-            input_error.setText("Error al actualizar el cliente");
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Error al actualizar el cliente",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
             input_error.getStyleClass().removeAll("success");
             if (!input_error.getStyleClass().contains("danger")) input_error.getStyleClass().add("danger");
         }

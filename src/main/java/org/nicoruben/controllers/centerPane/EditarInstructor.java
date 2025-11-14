@@ -2,10 +2,7 @@ package org.nicoruben.controllers.centerPane;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.nicoruben.controllers.MainController;
 import org.nicoruben.models.Instructores;
 
@@ -60,11 +57,19 @@ public class EditarInstructor {
         boolean exito = Instructores.actualizarInstructor(instructorSeleccionado);
 
         if (exito) {
-            input_error.setText("Instructor/a actualizado/a correctamente");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "Instructor/a actualizado/a correctamente",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
             input_error.getStyleClass().removeAll("danger");
             if (!input_error.getStyleClass().contains("success")) input_error.getStyleClass().add("success");
         } else {
-            input_error.setText("Error al actualizar el instructor/a");
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Error al actualizar el instructor/a",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
         }
     }
 

@@ -31,7 +31,7 @@ public class NuevaClase {
     public void initialize() {
         /* SPINNERS */
         // Spinner de personas en el aforo -- AFORO
-        spinner_aforo.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 25, 25));
+        spinner_aforo.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 10));
     }
 
 
@@ -49,7 +49,7 @@ public class NuevaClase {
         String errores = "";
 
         if (nombre.isEmpty()) {
-            errores += "Debe ingresar al menos nombre\n";
+            errores += "·Debe ingresar al menos el nombre de la clase\n";
         }
 
         if (!errores.isEmpty()) {
@@ -62,12 +62,12 @@ public class NuevaClase {
         } else {
             // Comprobacion correcta, insertar clase!
             Clases.insertarClase(nombre, aforo, descripcion, estado);
-            input_error.setText("Clase añadida correctamente!");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "Clase añadida correctamente!",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
             btn_reset.fire();  // Borra todos los campos, hace click virtual en el boton Reset
-            input_error.getStyleClass().removeAll("danger");
-            if (!input_error.getStyleClass().contains("success")) {
-                input_error.getStyleClass().add("success");
-            }
         }
     }
 

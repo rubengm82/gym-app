@@ -9,18 +9,18 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.NuevoCliente">
    <children>
-      <Label layoutX="602.0" layoutY="141.0" text="NUEVO CLIENTE">
+      <Label layoutX="602.0" layoutY="141.0" text="NUEVO CLIENTE/A">
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
-      <TextField fx:id="input_nombre" layoutX="509.0" layoutY="237.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Nombre" />
-      <TextField fx:id="input_apellido1" layoutX="509.0" layoutY="285.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Apellido Primero" />
+      <TextField fx:id="input_nombre" layoutX="509.0" layoutY="237.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Nombre (*)" />
+      <TextField fx:id="input_apellido1" layoutX="509.0" layoutY="285.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Apellido Primero (*)" />
       <TextField fx:id="input_apellido2" layoutX="509.0" layoutY="332.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Apellido Segundo" />
-      <TextField fx:id="input_mail" layoutX="509.0" layoutY="378.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Email" />
+      <TextField fx:id="input_mail" layoutX="509.0" layoutY="378.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Email (*)" />
       <TextField fx:id="input_telefono" layoutX="509.0" layoutY="423.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Telefono" />
       <TextField fx:id="input_IBAN" layoutX="509.0" layoutY="471.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="IBAN" />
-      <Button fx:id="btn_aceptar" layoutX="573.0" layoutY="595.0" mnemonicParsing="false" onAction="#onClickAceptar" styleClass="success" text="Aceptar" />
-      <Button fx:id="btn_reset" layoutX="796.0" layoutY="595.0" mnemonicParsing="false" onAction="#onClickReset" text="Reset" />
+      <Button fx:id="btn_aceptar" layoutX="509.0" layoutY="644.0" mnemonicParsing="false" onAction="#onClickAceptar" styleClass="success" text="Aceptar" />
+      <Button fx:id="btn_reset" layoutX="848.0" layoutY="644.0" mnemonicParsing="false" onAction="#onClickReset" text="Reset" />
       <StackPane layoutY="537.0" minHeight="25.0" minWidth="1380.0">
          <children>
             <Label fx:id="input_error" alignment="CENTER" minHeight="18.0" minWidth="190.0" styleClass="danger" textAlignment="CENTER" />

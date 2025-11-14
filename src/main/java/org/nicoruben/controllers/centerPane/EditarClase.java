@@ -50,11 +50,19 @@ public class EditarClase {
         boolean exito = Clases.actualizarClase(claseActual);
 
         if (exito) {
-            input_error.setText("Clase actualizada correctamente");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "Clase actualizada correctamente",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
             input_error.getStyleClass().removeAll("danger");
             if (!input_error.getStyleClass().contains("success")) input_error.getStyleClass().add("success");
         } else {
-            input_error.setText("Error al actualizar la clase");
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Error al actualizar la clase",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
             input_error.getStyleClass().removeAll("success");
             if (!input_error.getStyleClass().contains("danger")) input_error.getStyleClass().add("danger");
         }

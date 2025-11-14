@@ -64,7 +64,7 @@ public class MainController {
                 listarClientes.setMaxWidth(Double.MAX_VALUE);
                 listarClientes.setOnAction(e -> showInCenter("listarClientes"));
 
-                Button nuevoCliente = new Button("Nuevo Cliente");
+                Button nuevoCliente = new Button("Nuevo/a Cliente/a");
                 nuevoCliente.setMaxWidth(Double.MAX_VALUE);
                 nuevoCliente.setOnAction(e -> showInCenter("nuevoCliente"));
 
@@ -111,7 +111,7 @@ public class MainController {
                 listarActividades.setMaxWidth(Double.MAX_VALUE);
                 listarActividades.setOnAction(e -> showInCenter("listarInstructores"));
 
-                Button nuevaActividad = new Button("Nuevo Instructor");
+                Button nuevaActividad = new Button("Nuevo Instructor/a");
                 nuevaActividad.setMaxWidth(Double.MAX_VALUE);
                 nuevaActividad.setOnAction(e -> showInCenter("nuevoInstructor"));
 

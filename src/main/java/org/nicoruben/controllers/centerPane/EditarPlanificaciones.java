@@ -80,12 +80,20 @@ public class EditarPlanificaciones {
             error_message.setText("Debes ingresar todas las horas y minutos.");
             return;
         }
-        if (combo_instructor.getSelectionModel().isEmpty()) {
-            error_message.setText("Debes ingresar un instructor");
+        if (combo_act.getSelectionModel().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Debes ingresar una clase",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
             return;
         }
-        if (combo_act.getSelectionModel().isEmpty()) {
-            error_message.setText("Debes ingresar una actividad.");
+        if (combo_instructor.getSelectionModel().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Debes ingresar un instructor",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
             return;
         }
 
@@ -106,7 +114,11 @@ public class EditarPlanificaciones {
             Planificaciones.insertPlanificaciones(dia, inicio, fin, classe, instructor);
             cargarPlanificacionesEnTabla(dia);
             error_message.setText("");
-            success_message.setText("Planificacion creada correctamente");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    "Planificacion creada correctamente",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
         }
     }
 
