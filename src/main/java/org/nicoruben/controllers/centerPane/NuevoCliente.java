@@ -108,6 +108,9 @@ public class NuevoCliente {
         input_IBAN.clear();
         input_mail.clear();
         input_telefono.clear();
+
+        input_error.setText("");
+        input_error.getStyleClass().removeAll("danger");
     }
 
 }
