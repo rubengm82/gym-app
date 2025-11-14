@@ -168,16 +168,14 @@ public class Planificaciones {
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, dia);
-            ps.setTime(3, java.sql.Time.valueOf(horaFin));
             ps.setTime(2, java.sql.Time.valueOf(horaInicio));
+            ps.setTime(3, java.sql.Time.valueOf(horaFin));
 
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                total = rs.getInt("total");
-                System.out.println("Conflictos encontrados: " + total);
-                return total;
-
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getInt("total");
+                    System.out.println("Conflictos encontrados: " + total);
+                }
             }
 
         } catch (SQLException e) {
@@ -185,7 +183,6 @@ public class Planificaciones {
         }
 
         return total;
-
     }
 
 

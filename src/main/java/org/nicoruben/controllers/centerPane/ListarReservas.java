@@ -131,20 +131,31 @@ public class ListarReservas {
     void onClickBajaAlta(ActionEvent event) {
         Reservas seleccionada = tablaReservas.getSelectionModel().getSelectedItem();
 
-        if (seleccionada == null) {
-            new Alert(Alert.AlertType.WARNING, "Debes seleccionar una reserva primero.", ButtonType.OK).showAndWait();
-            return;
-        }
+        boolean seleccionValida = (seleccionada != null);
 
-        Alert confirmacion = new Alert(Alert.AlertType.NONE, "¿Seguro que quieres cancelar esta reserva?", ButtonType.OK, ButtonType.CANCEL);
-        if (confirmacion.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-            boolean exito = Reservas.cancelarReserva(seleccionada.getIdReserva());
+        if (!seleccionValida) {
+            new Alert(Alert.AlertType.WARNING, "Debes seleccionar una reserva primero.", ButtonType.OK)
+                    .showAndWait();
+        } else {
+            Alert confirmacion = new Alert(
+                    Alert.AlertType.NONE,
+                    "  ¿Seguro que quieres cancelar esta reserva?",
+                    ButtonType.OK,
+                    ButtonType.CANCEL
+            );
 
-            if (exito) {
-                todasReservas.remove(seleccionada);
-                tablaReservas.getItems().remove(seleccionada);
-            } else {
-                new Alert(Alert.AlertType.ERROR, "No se pudo cancelar la reserva.", ButtonType.OK).showAndWait();
+            boolean confirmo = (confirmacion.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK);
+
+            if (confirmo) {
+                boolean exito = Reservas.cancelarReserva(seleccionada.getIdReserva());
+
+                if (exito) {
+                    todasReservas.remove(seleccionada);
+                    tablaReservas.getItems().remove(seleccionada);
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "No se pudo cancelar la reserva.", ButtonType.OK)
+                            .showAndWait();
+                }
             }
         }
     }

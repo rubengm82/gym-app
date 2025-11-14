@@ -39,16 +39,19 @@ public class EditarPlanificaciones {
 
         table_h_ini.setCellValueFactory(new PropertyValueFactory<>("hora_inicio"));
         table_h_fin.setCellValueFactory(new PropertyValueFactory<>("hora_fin"));
-        table_clase.setCellValueFactory(data -> {
-            Planificaciones p = data.getValue();
-            String nombre = (p.getClase() != null) ? p.getClase().getNombre() : "";
-            return new SimpleStringProperty(nombre);
-        });
-        table_instructor.setCellValueFactory(data -> {
-            Planificaciones ins = data.getValue();
-            String nombre = (ins.getInstructor() != null) ? ins.getInstructor().getNombre() + " " +  ins.getInstructor().getApellido1(): "";
-            return new SimpleStringProperty(nombre);
-        });
+        table_clase.setCellValueFactory(data ->
+                new SimpleStringProperty(
+                        (data.getValue().getClase() != null) ? data.getValue().getClase().getNombre() : ""
+                )
+        );
+
+        table_instructor.setCellValueFactory(data ->
+                new SimpleStringProperty(
+                        (data.getValue().getInstructor() != null)
+                                ? data.getValue().getInstructor().getNombre() + " " + data.getValue().getInstructor().getApellido1()
+                                : ""
+                )
+        );
 
         combo_act.getItems().setAll(Clases.obtenerTodasClases());
         combo_instructor.getItems().setAll(Instructores.obtenerInstructores());
@@ -76,49 +79,51 @@ public class EditarPlanificaciones {
 
     @FXML
     void crearPlanificacion(ActionEvent event) {
-        if (input_ini_h.getValue() == null || input_fin_h.getValue() == null || input_ini_m.getValue() == null || input_fin_m.getValue() == null) {
+        boolean datosValidos = input_ini_h.getValue() != null && input_fin_h.getValue() != null
+                && input_ini_m.getValue() != null && input_fin_m.getValue() != null;
+
+        if (!datosValidos) {
             error_message.setText("Debes ingresar todas las horas y minutos.");
-            return;
-        }
-        if (combo_act.getSelectionModel().isEmpty()) {
+        } else if (combo_act.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Debes ingresar una clase",
                     new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
             alert.setHeaderText(null);
             alert.showAndWait();
-            return;
-        }
-        if (combo_instructor.getSelectionModel().isEmpty()) {
+        } else if (combo_instructor.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Debes ingresar un instructor",
                     new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
             alert.setHeaderText(null);
             alert.showAndWait();
-            return;
-        }
-
-        int hora_inicio = input_ini_h.getValue();
-        int hora_fin = input_fin_h.getValue();
-        int min_inicio = input_ini_m.getValue();
-        int min_fin = input_fin_m.getValue();
-        int instructor = combo_instructor.getSelectionModel().getSelectedItem().getId();
-        int classe = combo_act.getSelectionModel().getSelectedItem().getId_clase();
-        String dia = combo_dia.getSelectionModel().getSelectedItem();
-
-        LocalTime inicio = LocalTime.of(hora_inicio, min_inicio);
-        LocalTime fin = LocalTime.of(hora_fin, min_fin);
-
-        if (Planificaciones.verificarPlanificacion(dia, inicio, fin) > 0) {
-            error_message.setText("Horario ocupado");
         } else {
-            Planificaciones.insertPlanificaciones(dia, inicio, fin, classe, instructor);
-            cargarPlanificacionesEnTabla(dia);
-            error_message.setText("");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    "Planificacion creada correctamente",
-                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
-            alert.setHeaderText(null);
-            alert.showAndWait();
+            int hora_inicio = input_ini_h.getValue();
+            int hora_fin = input_fin_h.getValue();
+            int min_inicio = input_ini_m.getValue();
+            int min_fin = input_fin_m.getValue();
+            int instructor = combo_instructor.getSelectionModel().getSelectedItem().getId();
+            int classe = combo_act.getSelectionModel().getSelectedItem().getId_clase();
+            String dia = combo_dia.getSelectionModel().getSelectedItem();
+
+            LocalTime inicio = LocalTime.of(hora_inicio, min_inicio);
+            LocalTime fin = LocalTime.of(hora_fin, min_fin);
+
+            if (Planificaciones.verificarPlanificacion(dia, inicio, fin) > 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                        "Horario Ocupado por otra planificación",
+                        new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+                alert.setHeaderText(null);
+                alert.showAndWait();
+            } else {
+                Planificaciones.insertPlanificaciones(dia, inicio, fin, classe, instructor);
+                cargarPlanificacionesEnTabla(dia);
+                error_message.setText("");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        "Planificacion creada correctamente",
+                        new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+                alert.setHeaderText(null);
+                alert.showAndWait();
+            }
         }
     }
 
@@ -157,10 +162,7 @@ public class EditarPlanificaciones {
             alerta.setContentText("Por favor, selecciona una planificacion antes.");
             alerta.showAndWait();
         }
-
-        }
-
-
+    }
 
     private void showAlertError(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -177,4 +179,5 @@ public class EditarPlanificaciones {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }
