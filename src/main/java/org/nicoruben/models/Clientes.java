@@ -199,4 +199,27 @@ public class Clientes {
         return exito;
     }
 
+    public static int contarClientesPorEstado(int estado) {
+        int total = 0;
+
+        String sql = "SELECT COUNT(*) FROM Clientes WHERE estado = ?";
+
+        try (Connection con = ConexionBD.conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, estado);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al contar clientes: " + e.getMessage());
+        }
+
+        return total;
+    }
+
+
 }
