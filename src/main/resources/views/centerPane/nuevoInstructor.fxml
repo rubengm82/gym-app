@@ -16,7 +16,7 @@
         <TextField fx:id="input_nombre" layoutX="480.0" layoutY="237.0" maxHeight="36.0" maxWidth="459.0" prefHeight="36.0" prefWidth="420.0" promptText="Nombre (*)" />
         <TextField fx:id="input_apellido1" layoutX="480.0" layoutY="285.0" maxHeight="36.0" maxWidth="459.0" prefHeight="36.0" prefWidth="420.0" promptText="Apellido Primero (*)" />
         <TextField fx:id="input_apellido2" layoutX="480.0" layoutY="332.0" maxHeight="36.0" maxWidth="459.0" prefHeight="36.0" prefWidth="420.0" promptText="Apellido Segundo" />
-        <TextField fx:id="input_dni" layoutX="480.0" layoutY="382.0" maxHeight="36.0" maxWidth="459.0" prefHeight="36.0" prefWidth="420.0" promptText="DNI (*)" />
+        <TextField fx:id="input_dni" layoutX="480.0" layoutY="382.0" maxHeight="36.0" maxWidth="459.0" prefHeight="36.0" prefWidth="420.0" promptText="DNI / NIE (*)" />
         <TextField fx:id="input_telefono" layoutX="480.0" layoutY="432.0" maxHeight="36.0" maxWidth="459.0" prefHeight="36.0" prefWidth="420.0" promptText="Telefono" />
         <Button fx:id="btn_aceptar" layoutX="480.0" layoutY="613.0" mnemonicParsing="false" onAction="#onClickAceptar" styleClass="success" text="Aceptar" />
         <Button fx:id="btn_reset" layoutX="839.0" layoutY="613.0" mnemonicParsing="false" onAction="#onClickReset" text="Reset" />

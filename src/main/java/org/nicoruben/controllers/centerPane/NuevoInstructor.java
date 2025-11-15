@@ -51,26 +51,35 @@ public class NuevoInstructor {
             errores += "·Debe ingresar un Apellido\n";
         }
 
-        // Validar DNI
+        // Validar DNI o NIE
         if (dni.isEmpty()) {
-            errores += "·El DNI es obligatorio\n";
-        } else if (!dni.matches("\\d{8}[A-Z]")) {
-            errores += "·El DNI no tiene un formato válido (8 dígitos y letra)\n";
+            errores += "·El DNI/NIE es obligatorio\n";
+        } else if (!dni.matches("([XYZ]\\d{7}[A-Z])|(\\d{8}[A-Z])")) {
+            errores += "·Formato de DNI/NIE no válido\n";
         } else {
-            // Comprobar letra
             String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
-            int numero = Integer.parseInt(dni.substring(0, 8));
+            String numeroStr = dni.substring(0, dni.length() - 1);
+            char letra = dni.charAt(dni.length() - 1);
+
+            // Convertir NIE → número
+            if (numeroStr.charAt(0) == 'X') numeroStr = "0" + numeroStr.substring(1);
+            else if (numeroStr.charAt(0) == 'Y') numeroStr = "1" + numeroStr.substring(1);
+            else if (numeroStr.charAt(0) == 'Z') numeroStr = "2" + numeroStr.substring(1);
+
+            int numero = Integer.parseInt(numeroStr);
             char letraCorrecta = letras.charAt(numero % 23);
-            if (dni.charAt(8) != letraCorrecta) {
-                errores += "· La letra del DNI no es correcta\n";
+
+            if (letra != letraCorrecta) {
+                errores += "·La letra del DNI/NIE no es correcta\n";
             }
         }
 
-        // Comprobar si el DNI ya existe
-        if (Instructores.existeDNI(dni) && !dni.isEmpty()) {
-            errores += "·Ya existe un instructor con este DNI\n";
+        // Comprobar si el DNI/NIE ya existe
+        if (Instructores.existeDNI(dni)) {
+            errores += "·Ya existe un instructor con este DNI/NIE\n";
         }
 
+        // Mostrar errores si hay alguno
         if (!errores.isEmpty()) {
             input_error.setText(errores.trim());
             input_error.getStyleClass().removeAll("success");
@@ -78,14 +87,18 @@ public class NuevoInstructor {
                 input_error.getStyleClass().add("danger");
             }
         } else {
+            // Solo se inserta si no hay errores
             Instructores.insertarInstructor(nombre, apellido1, apellido2, dni, telefono, estado);
+
+            input_error.setText("");
+            input_error.getStyleClass().removeAll("danger");
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
                     "Instructor/a añadido/a correctamente!",
                     new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
             alert.setHeaderText(null);
             alert.showAndWait();
             btn_reset.fire();
-
         }
     }
 
@@ -97,6 +110,9 @@ public class NuevoInstructor {
         input_apellido2.clear();
         input_telefono.clear();
         input_dni.clear();
+
+        input_error.setText("");
+        input_error.getStyleClass().removeAll("danger");
     }
 
 }

@@ -39,32 +39,82 @@ public class EditarCliente {
 
     @FXML
     void onClickActualizar(ActionEvent event) {
-        clienteActual.setNombre(input_nombre.getText().trim());
-        clienteActual.setApellido1(input_apellido1.getText().trim());
-        clienteActual.setApellido2(input_apellido2.getText().trim());
-        clienteActual.setIBAN(input_IBAN.getText().trim());
-        clienteActual.setMail(input_mail.getText().trim());
-        clienteActual.setTelefono(input_telefono.getText().trim());
-        clienteActual.setEstado(1); // Mantiene su estado activo porque solo edita sus campos
+        // Recoger datos
+        String nombre = input_nombre.getText().trim();
+        String apellido1 = input_apellido1.getText().trim();
+        String apellido2 = input_apellido2.getText().trim();
+        String IBANInput = input_IBAN.getText().trim();
+        String IBAN = IBANInput.replaceAll("\\s+", "").toUpperCase();
+        String mail = input_mail.getText().trim();
+        String telefono = input_telefono.getText().trim();
+        int estado = 1; // Mantener activo
 
-        boolean exito = Clientes.actualizarCliente(clienteActual);
+        String errores = "";
 
-        if (exito) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    "Cliente actualizado correctamente",
-                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
-            alert.setHeaderText(null);
-            alert.showAndWait();
-            input_error.getStyleClass().removeAll("danger");
-            if (!input_error.getStyleClass().contains("success")) input_error.getStyleClass().add("success");
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Error al actualizar el cliente",
-                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
-            alert.setHeaderText(null);
-            alert.showAndWait();
+        // Validar nombre y primer apellido
+        if (nombre.isEmpty() || apellido1.isEmpty()) {
+            errores += "·Debe ingresar al menos nombre y primer apellido\n";
+        }
+
+        // Validar correo
+        if (mail.isEmpty()) {
+            errores += "·Debe ingresar al menos un correo\n";
+        } else if (!mail.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+            errores += "·El correo no es válido\n";
+        } else if (!mail.equals(clienteActual.getMail()) && Clientes.existeMail(mail)) {
+            errores += "·El correo ya está registrado\n";
+        }
+
+        // Validar IBAN si se ingresó
+        if (!IBAN.isEmpty() && !IBAN.matches("[A-Z]{2}[0-9]{22}")) {
+            errores += "·El IBAN no es válido\n";
+        }
+
+        // Mostrar errores si los hay
+        if (!errores.isEmpty()) {
+            input_error.setText(errores.trim());
             input_error.getStyleClass().removeAll("success");
-            if (!input_error.getStyleClass().contains("danger")) input_error.getStyleClass().add("danger");
+            if (!input_error.getStyleClass().contains("danger")) {
+                input_error.getStyleClass().add("danger");
+            }
+        } else {
+            // Solo actualizamos si no hay errores
+            clienteActual.setNombre(nombre);
+            clienteActual.setApellido1(apellido1);
+            clienteActual.setApellido2(apellido2);
+            clienteActual.setIBAN(IBAN);
+            clienteActual.setMail(mail);
+            clienteActual.setTelefono(telefono);
+            clienteActual.setEstado(estado);
+
+            boolean exito = Clientes.actualizarCliente(clienteActual);
+
+            if (exito) {
+                // Limpiar errores y aplicar estilo success
+                input_error.setText("");
+                input_error.getStyleClass().removeAll("danger");
+                if (!input_error.getStyleClass().contains("success")) {
+                    input_error.getStyleClass().add("success");
+                }
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        "Cliente/a actualizado/a correctamente!",
+                        new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+                alert.setHeaderText(null);
+                alert.showAndWait();
+            } else {
+                // Mostrar error de actualización
+                input_error.getStyleClass().removeAll("success");
+                if (!input_error.getStyleClass().contains("danger")) {
+                    input_error.getStyleClass().add("danger");
+                }
+
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                        "Error al actualizar el cliente/a",
+                        new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+                alert.setHeaderText(null);
+                alert.showAndWait();
+            }
         }
     }
 

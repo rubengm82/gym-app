@@ -37,6 +37,7 @@ public class NuevoCliente {
 
     @FXML
     void onClickAceptar(ActionEvent event) {
+        // Recoger datos
         String nombre = input_nombre.getText().trim();
         String apellido1 = input_apellido1.getText().trim();
         String apellido2 = input_apellido2.getText().trim();
@@ -49,10 +50,12 @@ public class NuevoCliente {
         // Variable para almacenar errores
         String errores = "";
 
+        // Validar nombre y primer apellido
         if (nombre.isEmpty() || apellido1.isEmpty()) {
             errores += "·Debe ingresar al menos nombre y primer apellido\n";
         }
 
+        // Validar correo
         if (mail.isEmpty()) {
             errores += "·Debe ingresar al menos un correo\n";
         } else if (!mail.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
@@ -61,32 +64,41 @@ public class NuevoCliente {
             errores += "·El correo ya está registrado\n";
         }
 
+        // Validar IBAN si se ingresó
         if (!IBAN.isEmpty() && !IBAN.matches("[A-Z]{2}[0-9]{22}")) {
             errores += "·El IBAN no es válido\n";
         }
 
-        if (!mail.isEmpty() && Clientes.existeMail(mail)) {
-            errores += "·El correo ya está registrado\n";
-        }
-
+        // Mostrar errores si hay alguno
         if (!errores.isEmpty()) {
-            // Mostrar errores en error_label
             input_error.setText(errores.trim());
             input_error.getStyleClass().removeAll("success");
             if (!input_error.getStyleClass().contains("danger")) {
                 input_error.getStyleClass().add("danger");
             }
         } else {
-            // Comprobacion correcta, insertar cliente!
+            // No hay errores, insertar cliente
             Clientes.insertarCliente(nombre, apellido1, apellido2, IBAN, mail, telefono, estado);
+
+            // Limpiar errores y estilos
+            input_error.setText("");
+            input_error.getStyleClass().removeAll("danger");
+            if (!input_error.getStyleClass().contains("success")) {
+                input_error.getStyleClass().add("success");
+            }
+
+            // Mostrar alerta de éxito
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                "Cliente/a añadido/a correctamente!",
-                new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
-                alert.setHeaderText(null);
-                alert.showAndWait();
-            btn_reset.fire();  // Borra todos los campos, hace click virtual en el boton Reset
+                    "Cliente/a añadido/a correctamente!",
+                    new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
+            alert.setHeaderText(null);
+            alert.showAndWait();
+
+            // Limpiar formulario
+            btn_reset.fire();
         }
     }
+
 
     @FXML
     void onClickReset(ActionEvent event) {

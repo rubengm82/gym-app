@@ -7,38 +7,28 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="770.0" prefWidth="1380.0"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.nicoruben.controllers.centerPane.EditarInstructor">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1380.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nicoruben.controllers.centerPane.EditarInstructor">
 
     <children>
         <Label layoutX="580.0" layoutY="140.0" text="EDITAR INSTRUCTOR">
             <font>
-                <Font name="System Bold" size="24.0"/>
+                <Font name="System Bold" size="24.0" />
             </font>
         </Label>
 
         <!-- Campos de texto -->
-        <TextField fx:id="input_nombre" layoutX="509.0" layoutY="237.0" prefHeight="34.0" prefWidth="400.0" promptText="Nombre"/>
-        <TextField fx:id="input_apellido1" layoutX="509.0" layoutY="285.0" prefHeight="34.0" prefWidth="400.0" promptText="Primer Apellido"/>
-        <TextField fx:id="input_apellido2" layoutX="509.0" layoutY="332.0" prefHeight="34.0" prefWidth="400.0" promptText="Segundo Apellido"/>
-        <TextField fx:id="input_dni" layoutX="509.0" layoutY="378.0" prefHeight="34.0" prefWidth="400.0" promptText="DNI"/>
-        <TextField fx:id="input_telefono" layoutX="509.0" layoutY="426.0" prefHeight="34.0" prefWidth="400.0" promptText="Teléfono"/>
+        <TextField fx:id="input_nombre" layoutX="509.0" layoutY="237.0" prefHeight="34.0" prefWidth="400.0" promptText="Nombre" />
+        <TextField fx:id="input_apellido1" layoutX="509.0" layoutY="285.0" prefHeight="34.0" prefWidth="400.0" promptText="Primer Apellido" />
+        <TextField fx:id="input_apellido2" layoutX="509.0" layoutY="332.0" prefHeight="34.0" prefWidth="400.0" promptText="Segundo Apellido" />
+        <TextField fx:id="input_dni" layoutX="509.0" layoutY="378.0" prefHeight="34.0" prefWidth="400.0" promptText="DNI" />
+        <TextField fx:id="input_telefono" layoutX="509.0" layoutY="426.0" prefHeight="34.0" prefWidth="400.0" promptText="Teléfono" />
 
         <!-- Botones -->
-        <Button fx:id="btn_actualizar" layoutX="573.0" layoutY="595.0" mnemonicParsing="false"
-                onAction="#onClickActualizar" styleClass="success" text="Actualizar"/>
-        <Button fx:id="btn_cancelar" layoutX="779.0" layoutY="595.0" mnemonicParsing="false"
-                onAction="#onClickCancelar" text="Atrás"/>
+        <Button fx:id="btn_actualizar" layoutX="509.0" layoutY="595.0" mnemonicParsing="false" onAction="#onClickActualizar" styleClass="success" text="Actualizar" />
+        <Button fx:id="btn_cancelar" layoutX="850.0" layoutY="595.0" mnemonicParsing="false" onAction="#onClickCancelar" text="Atrás" />
 
         <!-- Etiqueta de error -->
-        <StackPane layoutY="537.0" minHeight="25.0" minWidth="1380.0">
-            <children>
-                <Label fx:id="input_error" alignment="CENTER" minHeight="18.0" minWidth="190.0"
-                       styleClass="danger" textAlignment="CENTER"/>
-            </children>
-        </StackPane>
+        <StackPane layoutY="537.0" minHeight="25.0" minWidth="1380.0" />
+          <Label fx:id="input_error" alignment="TOP_LEFT" layoutX="595.0" layoutY="496.0" minHeight="18.0" minWidth="190.0" styleClass="danger" textAlignment="CENTER" />
     </children>
 </AnchorPane>
