@@ -62,16 +62,16 @@ public class MainController {
                 // BOTONES LEFT
                 Button listarClientes = new Button("Listar Clientes");
                 listarClientes.setMaxWidth(Double.MAX_VALUE);
-                listarClientes.setOnAction(e -> showInCenter("listarClientes"));
+                listarClientes.setOnAction(e -> showInCenter("listarClientes", null));
 
                 Button nuevoCliente = new Button("Nuevo/a Cliente/a");
                 nuevoCliente.setMaxWidth(Double.MAX_VALUE);
-                nuevoCliente.setOnAction(e -> showInCenter("nuevoCliente"));
+                nuevoCliente.setOnAction(e -> showInCenter("nuevoCliente", null));
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(listarClientes, nuevoCliente);
 
-                showInCenter("listarClientes");
+                showInCenter("listarClientes", null);
             }
 
             // BOTON TOP CLASES
@@ -79,23 +79,23 @@ public class MainController {
                 // BOTONES LEFT
                 Button listarClases = new Button("Listar Clases");
                 listarClases.setMaxWidth(Double.MAX_VALUE);
-                listarClases.setOnAction(e -> showInCenter("listarClases"));
+                listarClases.setOnAction(e -> showInCenter("listarClases", null));
 
                 Button nuevaClase = new Button("Nueva Clase");
                 nuevaClase.setMaxWidth(Double.MAX_VALUE);
-                nuevaClase.setOnAction(e -> showInCenter("nuevaClase"));
+                nuevaClase.setOnAction(e -> showInCenter("nuevaClase", null));
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(listarClases, nuevaClase);
 
-                showInCenter("listarClases");
+                showInCenter("listarClases", null);
             }
 
             // BOTON TOP INFORMES
             case "Gráficas" -> {
 
 
-                showInCenter("grafico");
+                showInCenter("grafico", null);
             }
 
             // BOTON TOP INSTRUCTORES
@@ -103,21 +103,21 @@ public class MainController {
                 // BOTONES LEFT
                 Button listarActividades = new Button("Listar Instructores");
                 listarActividades.setMaxWidth(Double.MAX_VALUE);
-                listarActividades.setOnAction(e -> showInCenter("listarInstructores"));
+                listarActividades.setOnAction(e -> showInCenter("listarInstructores", null));
 
                 Button nuevaActividad = new Button("Nuevo Instructor/a");
                 nuevaActividad.setMaxWidth(Double.MAX_VALUE);
-                nuevaActividad.setOnAction(e -> showInCenter("nuevoInstructor"));
+                nuevaActividad.setOnAction(e -> showInCenter("nuevoInstructor", null));
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(listarActividades, nuevaActividad);
 
-                showInCenter("listarInstructores");
+                showInCenter("listarInstructores", null);
             }
 
             // BOTON TOP PLANIFICACIONES
             case "Planificaciones" -> {
-                showInCenter("editarPlanficaciones");
+                showInCenter("editarPlanficaciones", null);
             }
 
             // BOTON TOP RESERVAS
@@ -125,16 +125,16 @@ public class MainController {
                 // BOTONES LEFT
                 Button listarReservas = new Button("Listar Reservas");
                 listarReservas.setMaxWidth(Double.MAX_VALUE);
-                listarReservas.setOnAction(e -> showInCenter("listarReservas"));
+                listarReservas.setOnAction(e -> showInCenter("listarReservas", null));
 
                 Button nuevaReserva = new Button("Nueva Reserva");
                 nuevaReserva.setMaxWidth(Double.MAX_VALUE);
-                nuevaReserva.setOnAction(e -> showInCenter("nuevaReserva"));
+                nuevaReserva.setOnAction(e -> showInCenter("nuevaReserva", null));
 
                 // Añade los botones al leftMenu
                 leftMenu.getChildren().addAll(listarReservas, nuevaReserva);
 
-                showInCenter("listarReservas");
+                showInCenter("listarReservas", null);
             }
 
         }
@@ -169,56 +169,41 @@ public class MainController {
 
 
 
-
     // ///////////////////
     // METODOS PROPIOS ///
     // ///////////////////
 
-    // Metodo para mostrar el centerPane sin enviar objeto
-    public static void showInCenter(String fxmlFile) {
+    public static void showInCenter(String fxmlFile, Object data) {
         try {
-            // Limpia lo que haya en el centro
             staticCenterPane.getChildren().clear();
 
-            // Carga el FXML desde la carpeta resources/fxml (ajusta la ruta según tu estructura)
             FXMLLoader loader = new FXMLLoader(MainController.class.getResource("/views/centerPane/" + fxmlFile + ".fxml"));
             Node content = loader.load();
 
-            // Hace que el nodo cargado se expanda en el StackPane
-            StackPane.setAlignment(content, Pos.CENTER);
+            if (data != null) {
+                Object controller = loader.getController();
+                boolean encontroMetodo = false;
 
-            // Añade el contenido al centerPane
-            staticCenterPane.getChildren().add(content);
+                for (Method method : controller.getClass().getMethods()) {
+                    if (method.getName().equals("recogerObjeto") &&
+                            method.getParameterCount() == 1 &&
+                            method.getParameters()[0].getType().isAssignableFrom(data.getClass())) {
+                        try {
+                            method.invoke(controller, data);
+                            encontroMetodo = true;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("Error invocando recogerObjeto en " + controller.getClass().getSimpleName());
+                        }
+                    }
+                }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            staticCenterPane.getChildren().add(new Label("Error cargando vista: " + fxmlFile));
-        }
-    }
-
-    // Metodo para mostrar el centerPane pero pudiendo enviar un Objeto del tipo que le digamos
-    public static void showInCenterWithData(String fxmlFile, Object data) {
-        try {
-            staticCenterPane.getChildren().clear();
-
-            // Crea un FXMLLoader apuntando al archivo FXML dentro de /views/centerPane/
-            FXMLLoader loader = new FXMLLoader(MainController.class.getResource("/views/centerPane/" + fxmlFile + ".fxml"));
-            Node content = loader.load(); // Carga la vista FXML y devuelve el nodo raíz
-
-            // Obtiene el controlador asociado a ese FXML
-            Object controller = loader.getController();
-
-            try {
-                // Intentamos obtener el metodo "recogerObjeto" que acepte exactamente el tipo de 'data' que estamos pasando
-                Method method = controller.getClass().getMethod("recogerObjeto", data.getClass());
-                method.invoke(controller, data);
-            } catch (NoSuchMethodException e) {
-                System.out.println("El controlador no tiene un método recogerObjeto que reciba: " + data.getClass().getSimpleName());
-            } catch (Exception e) {
-                e.printStackTrace();
+                if (!encontroMetodo) {
+                    System.out.println("El controlador " + controller.getClass().getSimpleName() +
+                            " no tiene un método recogerObjeto compatible con: " + data.getClass().getSimpleName());
+                }
             }
 
-            // Alinea el contenido en el centro y lo agrega al StackPane
             StackPane.setAlignment(content, Pos.CENTER);
             staticCenterPane.getChildren().add(content);
 

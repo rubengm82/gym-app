@@ -139,7 +139,7 @@ public class ListarInstructores {
         Instructores instructorSeleccionado = tablaInstructores.getSelectionModel().getSelectedItem();
 
         if (instructorSeleccionado != null) {
-            MainController.showInCenterWithData("editarInstructor", instructorSeleccionado);
+            MainController.showInCenter("editarInstructor", instructorSeleccionado);
         } else {
             Alert alerta = new Alert(Alert.AlertType.WARNING);
             alerta.setHeaderText(null);

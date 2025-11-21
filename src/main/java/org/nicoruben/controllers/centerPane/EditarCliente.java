@@ -120,7 +120,7 @@ public class EditarCliente {
 
     @FXML
     void onClickCancelar(ActionEvent event) {
-        MainController.showInCenter("listarClientes");
+        MainController.showInCenter("listarClientes", null);
     }
 
 

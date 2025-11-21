@@ -70,7 +70,7 @@ public class EditarClase {
 
     @FXML
     void onClickCancelar(ActionEvent event) {
-        MainController.showInCenter("listarClases");
+        MainController.showInCenter("listarClases", null);
     }
 
 

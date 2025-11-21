@@ -101,7 +101,7 @@ public class ListarClases {
 
         if (claseSeleccionada != null) {
             // Llamamos al MainController para cargar la vista y pasar la clase del gym
-            MainController.showInCenterWithData("editarClase", claseSeleccionada);
+            MainController.showInCenter("editarClase", claseSeleccionada);
         } else {
             // Alert en caso de no tener seleccionado algo de la lista
             Alert alert = new Alert(Alert.AlertType.WARNING);

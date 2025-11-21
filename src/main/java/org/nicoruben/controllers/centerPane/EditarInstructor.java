@@ -126,7 +126,7 @@ public class EditarInstructor {
 
     @FXML
     void onClickCancelar(ActionEvent event) {
-        MainController.showInCenter("listarInstructores");
+        MainController.showInCenter("listarInstructores", null);
     }
 
 }
