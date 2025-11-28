@@ -119,27 +119,41 @@ public class ListarGrafico implements Initializable {
     }
 
     private void actualizarGrafico(String dia) {
-        List<Planificaciones> planificaciones = Planificaciones.obtenerPlanificacionesPorDia(dia);
-        XYChart.Series<String, Number> serie = new XYChart.Series<>();
-        serie.setName("Reservas del " + dia);
+        boolean mostrarDatos = true;
 
-        for (Planificaciones p : planificaciones) {
-            int reservas = Reservas.contarReservasPorPlanificacionParaGrafica(p.getId_planificacion(), 1);
-
-            String nombreClase = (p.getClase() != null && p.getClase().getNombre() != null)
-                    ? p.getClase().getNombre()
-                    : "Clase sin nombre";
-
-            String etiqueta = nombreClase + " (" + p.getHora_inicio() + ")";
-            serie.getData().add(new XYChart.Data<>(etiqueta, reservas));
+        if (dia.equals("Fin de semana")) {
+            mostrarDatos = false;
         }
 
-        Platform.runLater(() -> {
-            graficoOcupacion.getData().clear();
-            graficoOcupacion.getData().add(serie);
-            xAxis.setLabel("Planificación (Clase - Hora)");
-            yAxis.setLabel("Número de Reservas");
-        });
+        if (mostrarDatos) {
+            List<Planificaciones> planificaciones = Planificaciones.obtenerPlanificacionesPorDia(dia);
+            XYChart.Series<String, Number> serie = new XYChart.Series<>();
+            serie.setName("Reservas del " + dia);
+
+            for (Planificaciones p : planificaciones) {
+                int reservas = Reservas.contarReservasPorPlanificacionParaGrafica(p.getId_planificacion(), 1);
+                String nombreClase = (p.getClase() != null && p.getClase().getNombre() != null) ? p.getClase().getNombre() : "Clase sin nombre";
+                String etiqueta = nombreClase + " (" + p.getHora_inicio() + ")";
+                serie.getData().add(new XYChart.Data<>(etiqueta, reservas));
+            }
+
+            Platform.runLater(() -> {
+                graficoOcupacion.getData().clear();
+                graficoOcupacion.getData().add(serie);
+                xAxis.setLabel("Planificación (Clase - Hora)");
+                yAxis.setLabel("Número de Reservas");
+                titleDay.setText("Número de reservas por planificación del " + dia);
+            });
+
+        } else {
+            // Fin de semana Texto en Label
+            Platform.runLater(() -> {
+                graficoOcupacion.getData().clear();
+                xAxis.setLabel("");
+                yAxis.setLabel("");
+                titleDay.setText("No hay planificaciones fines de semana");
+            });
+        }
     }
 
     @FXML
@@ -175,7 +189,7 @@ public class ListarGrafico implements Initializable {
             case WEDNESDAY -> "Miércoles";
             case THURSDAY -> "Jueves";
             case FRIDAY -> "Viernes";
-            default -> "Todos";
+            default -> "Fin de semana";
         };
     }
 }
