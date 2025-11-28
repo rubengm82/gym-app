@@ -8,6 +8,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.nicoruben.models.Instructores;
 import org.nicoruben.controllers.MainController;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,9 @@ public class ListarInstructores {
     @FXML
     private TableView<Instructores> tablaInstructores;
 
+    @FXML
+    private TextField searchBar;
+
     private List<Instructores> listaInstructores;
 
 
@@ -63,6 +67,11 @@ public class ListarInstructores {
 
         // Mostrar solo activos (estado = 1)
         mostrarInstructoresPorEstado(1);
+
+        // Filtra search bar
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtrarTabla(newValue);
+        });
     }
 
     private void mostrarInstructoresPorEstado(int estado) {
@@ -146,5 +155,53 @@ public class ListarInstructores {
             alerta.setContentText("Selecciona un instructor antes de editar.");
             alerta.showAndWait();
         }
+    }
+
+    // Filtrado Tabla searchBar
+    private void filtrarTabla(String filtro) {
+        if (filtro == null) filtro = "";
+
+        // Normalizar filtro (quitar acentos y pasar a minúsculas)
+        String filtroNormalizado = Normalizer.normalize(filtro, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "")
+                .toLowerCase();
+
+        int estadoBuscado = buttonToggleVerBajas.isSelected() ? 0 : 1;
+
+        List<Instructores> filtrados = new ArrayList<>();
+
+        for (Instructores instructor : listaInstructores) {
+
+            boolean coincide = false;
+
+            // Filtrar por estado
+            if (instructor.getEstado() == estadoBuscado) {
+
+                if (filtro.isEmpty()) {
+                    coincide = true;
+                } else {
+                    for (TableColumn<Instructores, ?> col : tablaInstructores.getColumns()) {
+
+                        Object cellValue = col.getCellObservableValue(instructor).getValue();
+                        if (cellValue != null) {
+
+                            String valorNormalizado = Normalizer.normalize(cellValue.toString(), Normalizer.Form.NFD)
+                                    .replaceAll("\\p{M}", "")
+                                    .toLowerCase();
+
+                            // Marcar coincidencia si contiene el filtro
+                            coincide = coincide || valorNormalizado.contains(filtroNormalizado);
+                        }
+                    }
+                }
+            }
+
+            // Añadir a la lista filtrada si coincide
+            if (coincide) {
+                filtrados.add(instructor);
+            }
+        }
+
+        tablaInstructores.setItems(FXCollections.observableArrayList(filtrados));
     }
 }

@@ -8,6 +8,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.nicoruben.controllers.MainController;
 import org.nicoruben.models.Clientes;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,8 @@ public class ListarClientes {
     private TableColumn<Clientes, String> campoMail;
     @FXML
     private TableColumn<Clientes, String> campoTelefono;
+    @FXML
+    private TextField searchBar;
 
 
     /* Atributos de la class */
@@ -64,6 +67,11 @@ public class ListarClientes {
 
         // Mostrar solo activos con (estado = 1)  (1 - ACTIVO || 0 - BAJA)
         mostrarClientesPorEstado(1);
+
+        // Filtra search bar
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtrarTabla(newValue);
+        });
     }
 
 
@@ -154,5 +162,51 @@ public class ListarClientes {
             alert.showAndWait();
         }
     }
+
+    // Filtrado Tabla searchBar
+    private void filtrarTabla(String filtro) {
+        if (filtro == null) filtro = "";
+        // Normalizar filtro (quitar acentos y pasar a minúsculas)
+        String filtroNormalizado = Normalizer.normalize(filtro, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "")
+                .toLowerCase();
+
+        int estadoBuscado = buttonToggleVerBajas.isSelected() ? 0 : 1;
+
+        List<Clientes> filtrados = new ArrayList<>();
+
+        for (Clientes cliente : todosClientes) {
+
+            boolean coincide = false;
+
+            // Filtrar por estado
+            if (cliente.getEstado() == estadoBuscado) {
+
+                if (filtro.isEmpty()) {
+                    coincide = true;
+                } else {
+                    for (TableColumn<Clientes, ?> col : tablaClientes.getColumns()) {
+
+                        Object cellValue = col.getCellObservableValue(cliente).getValue();
+                        if (cellValue != null) {
+
+                            String valorNormalizado = Normalizer.normalize(cellValue.toString(), Normalizer.Form.NFD)
+                                    .replaceAll("\\p{M}", "")
+                                    .toLowerCase();
+
+                            coincide = coincide || valorNormalizado.contains(filtroNormalizado);
+                        }
+                    }
+                }
+            }
+
+            if (coincide) {
+                filtrados.add(cliente);
+            }
+        }
+
+        tablaClientes.setItems(FXCollections.observableArrayList(filtrados));
+    }
+
 
 }

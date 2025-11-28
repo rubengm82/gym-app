@@ -10,6 +10,7 @@ import org.nicoruben.models.Clases;
 import org.nicoruben.models.Clientes;
 import org.nicoruben.models.Reservas;
 
+import java.text.Normalizer;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -56,6 +57,9 @@ public class ListarReservas {
     @FXML
     private ComboBox<String> combobox_dia;
 
+    @FXML
+    private TextField searchBar;
+
     public void initialize() {
         // Columnas de la tabla
         campoID.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
@@ -96,6 +100,11 @@ public class ListarReservas {
         }
 
         filtrarPorDia(diaHoy);
+
+        // Filtra search bar
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtrarTabla(newValue);
+        });
     }
 
     private void filtrarPorDia(String diaSeleccionado) {
@@ -163,5 +172,48 @@ public class ListarReservas {
     @FXML
     void onclickComboboxDia(ActionEvent event) {
         filtrarPorDia(combobox_dia.getValue());
+    }
+
+    // Filtrado Tabla searchBar
+    private void filtrarTabla(String filtro) {
+        if (filtro == null) filtro = "";
+
+        // Normalizar filtro: quitar acentos y pasar a minúsculas
+        String filtroNormalizado = Normalizer.normalize(filtro, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "")
+                .toLowerCase();
+
+        List<Reservas> filtrados = new ArrayList<>();
+
+        for (Reservas reserva : todasReservas) {
+
+            boolean coincide = false;
+
+            // Si el filtro está vacío, añadir directamente
+            if (filtro.isEmpty()) {
+                coincide = true;
+            } else {
+                for (TableColumn<Reservas, ?> col : tablaReservas.getColumns()) {
+
+                    Object cellValue = col.getCellObservableValue(reserva).getValue();
+                    if (cellValue != null) {
+
+                        String valorNormalizado = Normalizer.normalize(cellValue.toString(), Normalizer.Form.NFD)
+                                .replaceAll("\\p{M}", "")
+                                .toLowerCase();
+
+                        // Marcar coincidencia si contiene el filtro
+                        coincide = coincide || valorNormalizado.contains(filtroNormalizado);
+                    }
+                }
+            }
+
+            // Añadir a la lista filtrada si coincide
+            if (coincide) {
+                filtrados.add(reserva);
+            }
+        }
+
+        tablaReservas.setItems(FXCollections.observableArrayList(filtrados));
     }
 }
