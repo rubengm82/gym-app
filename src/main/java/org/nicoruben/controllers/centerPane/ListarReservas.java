@@ -58,6 +58,9 @@ public class ListarReservas {
     private ComboBox<String> combobox_dia;
 
     @FXML
+    private TableColumn<Reservas, String> campoConfirmacion;
+
+    @FXML
     private TextField searchBar;
 
     public void initialize() {
@@ -70,12 +73,18 @@ public class ListarReservas {
         campoHoraInicio.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
         campoHoraFin.setCellValueFactory(new PropertyValueFactory<>("horaFin"));
 
+        campoConfirmacion.setCellValueFactory(cellData -> {
+            Reservas reserva = cellData.getValue();
+            String confirmacion = (reserva.getEstado() == 1) ? "NO" : (reserva.getEstado() == 2 ? "SI" : "");
+            return new javafx.beans.property.SimpleStringProperty(confirmacion);
+        });
+
         // Cargar todas las reservas ACTIVAS
         List<Reservas> reservas = Reservas.obtenerTodasReservas();
         List<Reservas> activas = new ArrayList<>();
 
         for (Reservas r : reservas) {
-            if (r.getEstado() == 1) {
+            if (r.getEstado() == 1 || r.getEstado() == 2) {
                 activas.add(r);
             }
         }

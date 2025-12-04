@@ -15,17 +15,18 @@
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
-      <TableView fx:id="tablaReservas" layoutX="12.0" layoutY="78.0" prefHeight="680.0" prefWidth="1355.0">
-        <columns>
-          <TableColumn fx:id="campoID" prefWidth="66.0" text="ID" />
-          <TableColumn fx:id="campoCliente" prefWidth="403.0" text="CLIENTE" />
-            <TableColumn fx:id="campoClase" minWidth="0.0" prefWidth="264.0" text="CLASE" />
-            <TableColumn fx:id="campoHoraInicio" prefWidth="223.0" text="HORA INCIO" />
-            <TableColumn fx:id="campoHoraFin" prefWidth="201.0" text="HORA FIN" />
-            <TableColumn fx:id="campoDia" prefWidth="176.0" text="DIA" />
-            <TableColumn fx:id="campoFechaReserva" minWidth="6.0" prefWidth="15.0" text=" FECHA_RESERVA" visible="false" />
-        </columns>
-      </TableView>
+        <TableView fx:id="tablaReservas" layoutX="12.0" layoutY="78.0" prefHeight="680.0" prefWidth="1355.0">
+           <columns>
+               <TableColumn fx:id="campoID" prefWidth="66.0" text="ID" />
+               <TableColumn fx:id="campoCliente" prefWidth="403.0" text="CLIENTE" />
+               <TableColumn fx:id="campoClase" minWidth="0.0" prefWidth="235.0" text="CLASE" />
+               <TableColumn fx:id="campoHoraInicio" prefWidth="216.0" text="HORA INCIO" />
+               <TableColumn fx:id="campoHoraFin" prefWidth="161.0" text="HORA FIN" />
+               <TableColumn fx:id="campoDia" prefWidth="100.0" text="DIA" />
+               <TableColumn fx:id="campoFechaReserva" minWidth="6.0" prefWidth="15.0" text="FECHA_RESERVA" visible="false" />
+               <TableColumn fx:id="campoConfirmacion" prefWidth="152.0" text="CONFIRMADA" />
+           </columns>
+        </TableView>
       <Label layoutX="539.0" layoutY="33.0" />
       <Button fx:id="buttonBorrar" layoutX="1197.0" layoutY="24.0" mnemonicParsing="false" onAction="#onClickBajaAlta" prefHeight="36.0" prefWidth="169.0" styleClass="danger" text="CANCELAR RESERVA" />
       <ComboBox fx:id="combobox_dia" layoutX="985.0" layoutY="25.0" onAction="#onclickComboboxDia" prefHeight="36.0" prefWidth="191.0" />
