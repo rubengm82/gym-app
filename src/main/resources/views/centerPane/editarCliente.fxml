@@ -13,18 +13,19 @@
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
-      <TextField fx:id="input_nombre" layoutX="509.0" layoutY="237.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Nombre" />
-      <TextField fx:id="input_apellido1" layoutX="509.0" layoutY="285.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Apellido Primero" />
-      <TextField fx:id="input_apellido2" layoutX="509.0" layoutY="332.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Apellido Segundo" />
-      <TextField fx:id="input_IBAN" layoutX="509.0" layoutY="378.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="IBAN" />
-      <TextField fx:id="input_mail" layoutX="509.0" layoutY="426.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Email" />
-      <TextField fx:id="input_telefono" layoutX="509.0" layoutY="471.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Telefono" />
+      <TextField fx:id="input_nombre" layoutX="509.0" layoutY="217.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Nombre" />
+      <TextField fx:id="input_apellido1" layoutX="509.0" layoutY="265.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Apellido Primero" />
+      <TextField fx:id="input_apellido2" layoutX="509.0" layoutY="312.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Apellido Segundo" />
+      <TextField fx:id="input_IBAN" layoutX="509.0" layoutY="358.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="IBAN" />
+      <TextField fx:id="input_mail" layoutX="509.0" layoutY="406.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Email" />
+      <TextField fx:id="input_telefono" layoutX="509.0" layoutY="451.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Telefono" />
       <Button fx:id="btn_actualizar" layoutX="509.0" layoutY="631.0" mnemonicParsing="false" onAction="#onClickActualizar" styleClass="success" text="Actualizar" />
       <Button fx:id="btn_cancelar" layoutX="850.0" layoutY="631.0" mnemonicParsing="false" onAction="#onClickCancelar" text="Atrás" />
-      <StackPane layoutY="537.0" minHeight="25.0" minWidth="1380.0">
+      <StackPane layoutY="541.0" minHeight="25.0" minWidth="1380.0">
          <children>
             <Label fx:id="input_error" alignment="CENTER" minHeight="18.0" minWidth="190.0" styleClass="danger" textAlignment="CENTER" />
          </children>
       </StackPane>
+      <TextField fx:id="input_password" layoutX="509.0" layoutY="499.0" maxHeight="34.0" maxWidth="400.0" prefHeight="34.0" prefWidth="400.0" promptText="Password... (escribir aqui para nuevo password)" />
    </children>
 </AnchorPane>

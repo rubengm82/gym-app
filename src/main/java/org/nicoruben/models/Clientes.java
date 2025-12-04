@@ -101,17 +101,27 @@ public class Clientes {
     // ///////////////////
     // METODOS PROPIOS ///
     // ///////////////////
-    public static void insertarCliente(String nombre, String apellido1, String apellido2, String IBAN, String mail, String telefono, int estado) {
-        String sql = "INSERT INTO Clientes (id_cliente, nombre, apellido1, apellido2, IBAN, mail, telefono, estado) " +
-                     "VALUES (NULL, '" + nombre + "', '" + apellido1 + "', '" + apellido2 + "', '" + IBAN + "', '" + mail + "', '" + telefono + "', " + estado + ")";
+    public static void insertarCliente(String nombre, String apellido1, String apellido2, String IBAN, String mail, String telefono, int estado, String hashedPassword) {
+        String sql = "INSERT INTO Clientes (id_cliente, nombre, apellido1, apellido2, IBAN, mail, telefono, estado, password) " +
+                "VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = ConexionBD.conectar();
-             Statement stmt = connection.createStatement()
-        ) {
-            stmt.executeUpdate(sql);
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, nombre);
+            stmt.setString(2, apellido1);
+            stmt.setString(3, apellido2);
+            stmt.setString(4, IBAN);
+            stmt.setString(5, mail);
+            stmt.setString(6, telefono);
+            stmt.setInt(7, estado);
+            stmt.setString(8, hashedPassword);
+
+            stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error al insertar cliente: " + e.getMessage());
         }
     }
+
 
     // Comprobar si exite el email
     public static boolean existeMail(String mail) {
@@ -199,6 +209,35 @@ public class Clientes {
         return exito;
     }
 
+    // EDITAR - UPDATE CON CONTRASEÑA
+    public static boolean actualizarClienteConPassword(Clientes cliente, String hashedPassword) {
+        boolean exito = false;
+
+        String sql = "UPDATE Clientes SET nombre = ?, apellido1 = ?, apellido2 = ?, IBAN = ?, mail = ?, telefono = ?, estado = ?, password = ? " +
+                "WHERE id_cliente = ?";
+
+        try (Connection connection = ConexionBD.conectar();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, cliente.getNombre());
+            ps.setString(2, cliente.getApellido1());
+            ps.setString(3, cliente.getApellido2());
+            ps.setString(4, cliente.getIBAN());
+            ps.setString(5, cliente.getMail());
+            ps.setString(6, cliente.getTelefono());
+            ps.setInt(7, cliente.getEstado());
+            ps.setString(8, hashedPassword);
+            ps.setInt(9, cliente.getId_cliente());
+
+            exito = ps.executeUpdate() > 0; // true si se actualizó al menos una fila
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar cliente con contraseña: " + e.getMessage());
+        }
+
+        return exito;
+    }
+
     public static int contarClientesPorEstado(int estado) {
         int total = 0;
 
@@ -220,6 +259,5 @@ public class Clientes {
 
         return total;
     }
-
 
 }

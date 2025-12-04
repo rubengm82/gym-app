@@ -34,6 +34,9 @@ public class NuevoCliente {
     @FXML
     private Label input_error;
 
+    @FXML
+    private TextField input_password;
+
 
     @FXML
     void onClickAceptar(ActionEvent event) {
@@ -45,6 +48,7 @@ public class NuevoCliente {
         String IBAN = IBANInput.replaceAll("\\s+", "").toUpperCase();
         String mail = input_mail.getText().trim();
         String telefono = input_telefono.getText().trim();
+        String password = input_password.getText().trim(); // <- Contraseña
         int estado = 1;
 
         // Variable para almacenar errores
@@ -69,6 +73,11 @@ public class NuevoCliente {
             errores += "·El IBAN no es válido\n";
         }
 
+        // Validar contraseña
+        if (password.isEmpty()) {
+            errores += "·Debe ingresar una contraseña\n";
+        }
+
         // Mostrar errores si hay alguno
         if (!errores.isEmpty()) {
             input_error.setText(errores.trim());
@@ -77,8 +86,16 @@ public class NuevoCliente {
                 input_error.getStyleClass().add("danger");
             }
         } else {
-            // No hay errores, insertar cliente
-            Clientes.insertarCliente(nombre, apellido1, apellido2, IBAN, mail, telefono, estado);
+            // Generar hash bcrypt de la contraseña
+            String hashedPassword = org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt(12));
+
+            // Opcional: unificar con prefijo $2y$ como Laravel
+            if (hashedPassword.startsWith("$2a$")) {
+                hashedPassword = "$2y$" + hashedPassword.substring(4);
+            }
+
+            // Insertar cliente incluyendo el hash en la BD
+            Clientes.insertarCliente(nombre, apellido1, apellido2, IBAN, mail, telefono, estado, hashedPassword);
 
             // Limpiar errores y estilos
             input_error.setText("");
@@ -100,6 +117,7 @@ public class NuevoCliente {
     }
 
 
+
     @FXML
     void onClickReset(ActionEvent event) {
         input_nombre.clear();
@@ -108,6 +126,7 @@ public class NuevoCliente {
         input_IBAN.clear();
         input_mail.clear();
         input_telefono.clear();
+        input_password.clear();
 
         input_error.setText("");
         input_error.getStyleClass().removeAll("danger");

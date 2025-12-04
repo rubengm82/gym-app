@@ -35,11 +35,14 @@ public class EditarCliente {
     @FXML
     private Label input_error;
 
+    @FXML
+    private TextField input_password;
+
     private Clientes clienteActual;
 
     @FXML
     void onClickActualizar(ActionEvent event) {
-        // Recoger datos
+
         String nombre = input_nombre.getText().trim();
         String apellido1 = input_apellido1.getText().trim();
         String apellido2 = input_apellido2.getText().trim();
@@ -47,38 +50,43 @@ public class EditarCliente {
         String IBAN = IBANInput.replaceAll("\\s+", "").toUpperCase();
         String mail = input_mail.getText().trim();
         String telefono = input_telefono.getText().trim();
-        int estado = 1; // Mantener activo
+        String password = input_password.getText().trim();
+        int estado = 1;
 
-        String errores = "";
+        StringBuilder errores = new StringBuilder();
+        boolean puedeActualizar = true;
 
-        // Validar nombre y primer apellido
+        // Validaciones
         if (nombre.isEmpty() || apellido1.isEmpty()) {
-            errores += "·Debe ingresar al menos nombre y primer apellido\n";
+            errores.append("·Debe ingresar al menos nombre y primer apellido\n");
+            puedeActualizar = false;
         }
 
-        // Validar correo
         if (mail.isEmpty()) {
-            errores += "·Debe ingresar al menos un correo\n";
+            errores.append("·Debe ingresar al menos un correo\n");
+            puedeActualizar = false;
         } else if (!mail.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
-            errores += "·El correo no es válido\n";
+            errores.append("·El correo no es válido\n");
+            puedeActualizar = false;
         } else if (!mail.equals(clienteActual.getMail()) && Clientes.existeMail(mail)) {
-            errores += "·El correo ya está registrado\n";
+            errores.append("·El correo ya está registrado\n");
+            puedeActualizar = false;
         }
 
-        // Validar IBAN si se ingresó
         if (!IBAN.isEmpty() && !IBAN.matches("[A-Z]{2}[0-9]{22}")) {
-            errores += "·El IBAN no es válido\n";
+            errores.append("·El IBAN no es válido\n");
+            puedeActualizar = false;
         }
 
-        // Mostrar errores si los hay
-        if (!errores.isEmpty()) {
-            input_error.setText(errores.trim());
+        // Si NO se puede actualizar → mostrar errores
+        if (!puedeActualizar) {
+            input_error.setText(errores.toString().trim());
             input_error.getStyleClass().removeAll("success");
             if (!input_error.getStyleClass().contains("danger")) {
                 input_error.getStyleClass().add("danger");
             }
         } else {
-            // Solo actualizamos si no hay errores
+            // Actualizar datos
             clienteActual.setNombre(nombre);
             clienteActual.setApellido1(apellido1);
             clienteActual.setApellido2(apellido2);
@@ -87,36 +95,45 @@ public class EditarCliente {
             clienteActual.setTelefono(telefono);
             clienteActual.setEstado(estado);
 
-            boolean exito = Clientes.actualizarCliente(clienteActual);
+            boolean exito;
+
+            // Si hay nueva contraseña
+            if (!password.isEmpty()) {
+                String hashedPassword = org.mindrot.jbcrypt.BCrypt.hashpw(password,
+                        org.mindrot.jbcrypt.BCrypt.gensalt(12));
+
+                if (hashedPassword.startsWith("$2a$")) {
+                    hashedPassword = "$2y$" + hashedPassword.substring(4);
+                }
+
+                exito = Clientes.actualizarClienteConPassword(clienteActual, hashedPassword);
+            } else {
+                exito = Clientes.actualizarCliente(clienteActual);
+            }
 
             if (exito) {
-                // Limpiar errores y aplicar estilo success
                 input_error.setText("");
                 input_error.getStyleClass().removeAll("danger");
                 if (!input_error.getStyleClass().contains("success")) {
                     input_error.getStyleClass().add("success");
                 }
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                new Alert(Alert.AlertType.INFORMATION,
                         "Cliente/a actualizado/a correctamente!",
-                        new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
-                alert.setHeaderText(null);
-                alert.showAndWait();
+                        new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE)).showAndWait();
             } else {
-                // Mostrar error de actualización
                 input_error.getStyleClass().removeAll("success");
                 if (!input_error.getStyleClass().contains("danger")) {
                     input_error.getStyleClass().add("danger");
                 }
 
-                Alert alert = new Alert(Alert.AlertType.ERROR,
+                new Alert(Alert.AlertType.ERROR,
                         "Error al actualizar el cliente/a",
-                        new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE));
-                alert.setHeaderText(null);
-                alert.showAndWait();
+                        new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE)).showAndWait();
             }
         }
     }
+
 
     @FXML
     void onClickCancelar(ActionEvent event) {
