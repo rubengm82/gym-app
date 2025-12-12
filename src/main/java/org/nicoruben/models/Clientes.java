@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Clientes {
 
-    private int id_cliente;
+    private int id;
     private String nombre;
     private String apellido1;
     private String apellido2;
@@ -18,8 +18,8 @@ public class Clientes {
     private int estado;
 
     // CONSTRUCTORES
-    public Clientes(int id_cliente, String nombre, String apellido1, String apellido2, String IBAN, String mail, String telefono, int estado) {
-        this.id_cliente = id_cliente;
+    public Clientes(int id, String nombre, String apellido1, String apellido2, String IBAN, String mail, String telefono, int estado) {
+        this.id = id;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
@@ -33,12 +33,12 @@ public class Clientes {
 
 
     // SETTER & GETTERS
-    public int getId_cliente() {
-        return id_cliente;
+    public int getId() {
+        return id;
     }
 
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -102,7 +102,7 @@ public class Clientes {
     // METODOS PROPIOS ///
     // ///////////////////
     public static void insertarCliente(String nombre, String apellido1, String apellido2, String IBAN, String mail, String telefono, int estado, String hashedPassword) {
-        String sql = "INSERT INTO Clientes (id_cliente, nombre, apellido1, apellido2, IBAN, mail, telefono, estado, password) " +
+        String sql = "INSERT INTO Clientes (id, nombre, apellido1, apellido2, IBAN, mail, telefono, estado, password) " +
                 "VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = ConexionBD.conectar();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -150,7 +150,7 @@ public class Clientes {
         ) {
             while (rs.next()) {
                 Clientes cliente = new Clientes(
-                        rs.getInt("id_cliente"),
+                        rs.getInt("id"),
                         rs.getString("nombre"),
                         rs.getString("apellido1"),
                         rs.getString("apellido2"),
@@ -167,13 +167,13 @@ public class Clientes {
     }
 
     // EDITAR - UPDATE ESTADO OCULTO
-    public static void actualizarEstado(int id_cliente, int nuevoEstado) {
+    public static void actualizarEstado(int id, int nuevoEstado) {
         try (Connection connection = ConexionBD.conectar();
-             PreparedStatement stmt = connection.prepareStatement(
-                     "UPDATE Clientes SET estado = ? WHERE id_cliente = ?")) {
+              PreparedStatement stmt = connection.prepareStatement(
+                      "UPDATE Clientes SET estado = ? WHERE id = ?")) {
 
             stmt.setInt(1, nuevoEstado);
-            stmt.setInt(2, id_cliente);
+            stmt.setInt(2, id);
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -186,10 +186,10 @@ public class Clientes {
         boolean exito = false;
 
         String sql = "UPDATE Clientes SET nombre = ?, apellido1 = ?, apellido2 = ?, IBAN = ?, mail = ?, telefono = ?, estado = ? " +
-                       "WHERE id_cliente = ?";
+                        "WHERE id = ?";
 
         try (Connection connection = ConexionBD.conectar();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, cliente.getNombre());
             ps.setString(2, cliente.getApellido1());
@@ -198,7 +198,7 @@ public class Clientes {
             ps.setString(5, cliente.getMail());
             ps.setString(6, cliente.getTelefono());
             ps.setInt(7, cliente.getEstado());
-            ps.setInt(8, cliente.getId_cliente());
+            ps.setInt(8, cliente.getId());
 
             exito = ps.executeUpdate() > 0; // true si se actualizó al menos una fila
 
@@ -214,10 +214,10 @@ public class Clientes {
         boolean exito = false;
 
         String sql = "UPDATE Clientes SET nombre = ?, apellido1 = ?, apellido2 = ?, IBAN = ?, mail = ?, telefono = ?, estado = ?, password = ? " +
-                "WHERE id_cliente = ?";
+                "WHERE id = ?";
 
         try (Connection connection = ConexionBD.conectar();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, cliente.getNombre());
             ps.setString(2, cliente.getApellido1());
@@ -227,7 +227,7 @@ public class Clientes {
             ps.setString(6, cliente.getTelefono());
             ps.setInt(7, cliente.getEstado());
             ps.setString(8, hashedPassword);
-            ps.setInt(9, cliente.getId_cliente());
+            ps.setInt(9, cliente.getId());
 
             exito = ps.executeUpdate() > 0; // true si se actualizó al menos una fila
 

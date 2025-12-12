@@ -54,7 +54,7 @@ public class ListarClientes {
 
     /* AUTO-LOAD al cargar la vista */
     public void initialize() {
-        campoID.setCellValueFactory(new PropertyValueFactory<>("id_cliente"));
+        campoID.setCellValueFactory(new PropertyValueFactory<>("id"));
         campoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         campoApellido1.setCellValueFactory(new PropertyValueFactory<>("apellido1"));
         campoApellido2.setCellValueFactory(new PropertyValueFactory<>("apellido2"));
@@ -117,7 +117,7 @@ public class ListarClientes {
                     clienteSeleccionado.setEstado(nuevoEstado);
 
                     // Actualizar en la base de datos
-                    Clientes.actualizarEstado(clienteSeleccionado.getId_cliente(), nuevoEstado);
+                    Clientes.actualizarEstado(clienteSeleccionado.getId(), nuevoEstado);
 
                     // Refrescar la tabla según el toggle
                     if (buttonToggleVerBajas.isSelected()) {

@@ -75,7 +75,7 @@ public class ListarClases {
                     claseSeleccionada.setEstado(nuevoEstado);
 
                     // Actualizar en la base de datos
-                    Clases.actualizarEstado(claseSeleccionada.getId_clase(), nuevoEstado);
+                    Clases.actualizarEstado(claseSeleccionada.getId(), nuevoEstado);
 
                     // Refrescar la tabla según el toggle
                     if (buttonToggleVerBajas.isSelected()) {
@@ -133,7 +133,7 @@ public class ListarClases {
         todasClases = Clases.obtenerTodasClases();
 
         // Configurar columnas
-        campoID.setCellValueFactory(new PropertyValueFactory<>("id_clase"));
+        campoID.setCellValueFactory(new PropertyValueFactory<>("id"));
         campoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         campoAforo.setCellValueFactory(new PropertyValueFactory<>("aforo"));
         campoDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));

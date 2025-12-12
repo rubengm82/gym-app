@@ -102,7 +102,7 @@ public class EditarPlanificaciones {
             int min_inicio = input_ini_m.getValue();
             int min_fin = input_fin_m.getValue();
             int instructor = combo_instructor.getSelectionModel().getSelectedItem().getId();
-            int classe = combo_act.getSelectionModel().getSelectedItem().getId_clase();
+            int classe = combo_act.getSelectionModel().getSelectedItem().getId();
             String dia = combo_dia.getSelectionModel().getSelectedItem();
 
             LocalTime inicio = LocalTime.of(hora_inicio, min_inicio);
@@ -147,13 +147,13 @@ public class EditarPlanificaciones {
 
             confirmacion.showAndWait().ifPresent(respuesta ->{
                 if(respuesta == btnAceptar){
-                    Planificaciones.delPlanificacion(planificacionDel.getId_planificacion());
+                    Planificaciones.delPlanificacion(planificacionDel.getId());
                     cargarPlanificacionesEnTabla(combo_dia.getSelectionModel().getSelectedItem());
                 }
             });
 
 
-            //Planificaciones.delPlanificacion(planificacionDel.getId_planificacion());
+            //Planificaciones.delPlanificacion(planificacionDel.getId());
             //cargarPlanificacionesEnTabla(combo_dia.getSelectionModel().getSelectedItem());
         }else{
             Alert alerta = new Alert(Alert.AlertType.WARNING);

@@ -65,7 +65,7 @@ public class ListarReservas {
 
     public void initialize() {
         // Columnas de la tabla
-        campoID.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
+        campoID.setCellValueFactory(new PropertyValueFactory<>("id"));
         campoCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
         campoClase.setCellValueFactory(new PropertyValueFactory<>("nombreClase"));
         campoDia.setCellValueFactory(new PropertyValueFactory<>("dia"));
@@ -89,7 +89,7 @@ public class ListarReservas {
             }
         }
 
-        activas.sort((r1, r2) -> Integer.compare(r2.getIdReserva(), r1.getIdReserva()));
+        activas.sort((r1, r2) -> Integer.compare(r2.getId(), r1.getId()));
         todasReservas = FXCollections.observableArrayList(activas);
         tablaReservas.setItems(todasReservas);
 
@@ -165,7 +165,7 @@ public class ListarReservas {
             boolean confirmo = (confirmacion.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK);
 
             if (confirmo) {
-                boolean exito = Reservas.cancelarReserva(seleccionada.getIdReserva());
+                boolean exito = Reservas.cancelarReserva(seleccionada.getId());
 
                 if (exito) {
                     todasReservas.remove(seleccionada);

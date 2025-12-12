@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Reservas {
 
-    private int idReserva;
+    private int id;
     private Planificaciones planificacion;
     private Clientes cliente;
     private LocalDate fechaReserva;
@@ -23,8 +23,8 @@ public class Reservas {
     // 2 RESERVA VERIFICADA
 
     // CONSTRUCTORES
-    public Reservas(int idReserva, Planificaciones planificacion, Clientes cliente, LocalDate fechaReserva, int estado) {
-        this.idReserva = idReserva;
+    public Reservas(int id, Planificaciones planificacion, Clientes cliente, LocalDate fechaReserva, int estado) {
+        this.id = id;
         this.planificacion = planificacion;
         this.cliente = cliente;
         this.fechaReserva = fechaReserva;
@@ -35,8 +35,8 @@ public class Reservas {
 
 
     // SETTER & GETTERS
-    public int getIdReserva() { return idReserva; }
-    public void setIdReserva(int idReserva) { this.idReserva = idReserva; }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
     public Planificaciones getPlanificacion() { return planificacion; }
     public void setPlanificacion(Planificaciones planificacion) { this.planificacion = planificacion; }
@@ -80,16 +80,16 @@ public class Reservas {
     // Obtener todas las reservas
     public static List<Reservas> obtenerTodasReservas() {
         List<Reservas> reservas = new ArrayList<>();
-        String sql = "SELECT r.id_reserva, r.fecha_reserva, r.estado, " +
-                "c.id_cliente, c.nombre, c.apellido1, c.apellido2, c.IBAN, c.mail, c.telefono, c.estado AS estado_cliente, " +
-                "p.id_planificacion, p.dia, p.hora_inicio, p.hora_fin, p.estado AS estado_plan, " +
-                "cl.id_clase, cl.nombre AS nombre_clase, " +
-                "i.id_inst, i.nombre AS nombre_instructor " +
+        String sql = "SELECT r.id AS reserva_id, r.fecha_reserva, r.estado, " +
+                "c.id AS cliente_id, c.nombre, c.apellido1, c.apellido2, c.IBAN, c.mail, c.telefono, c.estado AS estado_cliente, " +
+                "p.id AS plan_id, p.dia, p.hora_inicio, p.hora_fin, p.estado AS estado_plan, " +
+                "cl.id AS clase_id, cl.nombre AS nombre_clase, " +
+                "i.id AS inst_id, i.nombre AS nombre_instructor " +
                 "FROM Reservas r " +
-                "JOIN Clientes c ON r.fk_id_cliente = c.id_cliente " +
-                "JOIN Planificaciones p ON r.fk_id_planificacion = p.id_planificacion " +
-                "JOIN Clases cl ON p.fk_id_clase = cl.id_clase " +
-                "JOIN Instructores i ON p.fk_id_inst = i.id_inst";
+                "JOIN Clientes c ON r.fk_id_cliente = c.id " +
+                "JOIN Planificaciones p ON r.fk_id_planificacion = p.id " +
+                "JOIN Clases cl ON p.fk_id_clase = cl.id " +
+                "JOIN Instructores i ON p.fk_id_inst = i.id";
 
         try (Connection con = ConexionBD.conectar();
              Statement stmt = con.createStatement();
@@ -98,7 +98,7 @@ public class Reservas {
             while (rs.next()) {
                 // Cliente
                 Clientes cliente = new Clientes(
-                        rs.getInt("id_cliente"),
+                        rs.getInt("cliente_id"),
                         rs.getString("nombre"),
                         rs.getString("apellido1"),
                         rs.getString("apellido2"),
@@ -110,17 +110,17 @@ public class Reservas {
 
                 // Clase
                 Clases clase = new Clases();
-                clase.setId_clase(rs.getInt("id_clase"));
+                clase.setId(rs.getInt("clase_id"));
                 clase.setNombre(rs.getString("nombre_clase"));
 
                 // Instructor
                 Instructores instructor = new Instructores();
-                instructor.setId(rs.getInt("id_inst"));
+                instructor.setId(rs.getInt("inst_id"));
                 instructor.setNombre(rs.getString("nombre_instructor"));
 
                 // Planificación
                 Planificaciones planificacion = new Planificaciones(
-                        rs.getInt("id_planificacion"),
+                        rs.getInt("plan_id"),
                         rs.getString("dia"),
                         rs.getString("hora_inicio"),
                         rs.getString("hora_fin"),
@@ -131,7 +131,7 @@ public class Reservas {
 
                 // Reserva
                 Reservas reserva = new Reservas(
-                        rs.getInt("id_reserva"),
+                        rs.getInt("reserva_id"),
                         planificacion,
                         cliente,
                         rs.getDate("fecha_reserva").toLocalDate(),
@@ -149,14 +149,14 @@ public class Reservas {
     }
 
     // Cancelar reserva
-    public static boolean cancelarReserva(int idReserva) {
+    public static boolean cancelarReserva(int id) {
         boolean exito = false;
-        String sql = "UPDATE Reservas SET estado = 0 WHERE id_reserva = ?";
+        String sql = "UPDATE Reservas SET estado = 0 WHERE id = ?";
 
         try (Connection con = ConexionBD.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, idReserva);
+            ps.setInt(1, id);
             exito = ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
@@ -172,10 +172,10 @@ public class Reservas {
         String sql = "INSERT INTO Reservas (fk_id_cliente, fk_id_planificacion, fecha_reserva, estado) " +
                 "VALUES (?, ?, ?, ?)";
         try (Connection con = ConexionBD.conectar();
-             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+              PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            ps.setInt(1, cliente.getId_cliente());
-            ps.setInt(2, planificacion.getId_planificacion());
+            ps.setInt(1, cliente.getId());
+            ps.setInt(2, planificacion.getId());
             ps.setDate(3, Date.valueOf(LocalDate.now())); // fecha_reserva = hoy
             ps.setInt(4, 1); // estado por defecto = 1
 

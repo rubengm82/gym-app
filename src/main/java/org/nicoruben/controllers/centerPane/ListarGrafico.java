@@ -131,7 +131,7 @@ public class ListarGrafico implements Initializable {
             serie.setName("Reservas del " + dia);
 
             for (Planificaciones p : planificaciones) {
-                int reservas = Reservas.contarReservasPorPlanificacionParaGrafica(p.getId_planificacion(), 1);
+                int reservas = Reservas.contarReservasPorPlanificacionParaGrafica(p.getId(), 1);
                 String nombreClase = (p.getClase() != null && p.getClase().getNombre() != null) ? p.getClase().getNombre() : "Clase sin nombre";
                 String etiqueta = nombreClase + " (" + p.getHora_inicio() + ")";
                 serie.getData().add(new XYChart.Data<>(etiqueta, reservas));

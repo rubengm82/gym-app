@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Clases {
-    private int id_clase;
+    private int id;
     private String nombre;
     private int aforo;
     private String descripcion;
@@ -16,8 +16,8 @@ public class Clases {
     private String nombreInstructorCompleto;
 
     // CONSTRUCTORES
-    public Clases(int id_clase, String nombre, int aforo, String descripcion, int estado) {
-        this.id_clase = id_clase;
+    public Clases(int id, String nombre, int aforo, String descripcion, int estado) {
+        this.id = id;
         this.nombre = nombre;
         this.aforo = aforo;
         this.descripcion = descripcion;
@@ -27,8 +27,8 @@ public class Clases {
     public Clases() {}
 
     // SETTERS & GETTERS
-    public int getId_clase() { return id_clase; }
-    public void setId_clase(int id_clase) { this.id_clase = id_clase; }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public int getAforo() { return aforo; }
@@ -67,7 +67,7 @@ public class Clases {
         ) {
             while (rs.next()) {
                 Clases clase = new Clases(
-                        rs.getInt("id_clase"),
+                        rs.getInt("id"),
                         rs.getString("nombre"),
                         rs.getInt("aforo"),
                         rs.getString("descripcion"),
@@ -81,13 +81,13 @@ public class Clases {
     }
 
     // EDITAR - UPDATE ESTADO OCULTO
-    public static void actualizarEstado(int id_clase, int nuevoEstado) {
+    public static void actualizarEstado(int id, int nuevoEstado) {
         try (Connection connection = ConexionBD.conectar();
-             PreparedStatement stmt = connection.prepareStatement(
-                     "UPDATE Clases SET estado = ? WHERE id_clase = ?")) {
+              PreparedStatement stmt = connection.prepareStatement(
+                      "UPDATE Clases SET estado = ? WHERE id = ?")) {
 
             stmt.setInt(1, nuevoEstado);
-            stmt.setInt(2, id_clase);
+            stmt.setInt(2, id);
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -120,16 +120,16 @@ public class Clases {
         boolean exito = false;
 
         // SQL para actualizar la tabla Clases
-        String sql = "UPDATE Clases SET nombre = ?, aforo = ?, descripcion = ?, estado = ? WHERE id_clase = ?";
+        String sql = "UPDATE Clases SET nombre = ?, aforo = ?, descripcion = ?, estado = ? WHERE id = ?";
 
         try (Connection connection = ConexionBD.conectar();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, clase.getNombre());
             ps.setInt(2, clase.getAforo());
             ps.setString(3, clase.getDescripcion());
             ps.setInt(4, clase.getEstado());
-            ps.setInt(5, clase.getId_clase());
+            ps.setInt(5, clase.getId());
 
             exito = ps.executeUpdate() > 0;
 
@@ -140,13 +140,13 @@ public class Clases {
         return exito;
     }
 
-    public static int obtenerAforoPorIdClase(int idClase) {
+    public static int obtenerAforoPorId(int id) {
         int aforo = 0;
-        String sql = "SELECT aforo FROM Clases WHERE id_clase = ?";
+        String sql = "SELECT aforo FROM Clases WHERE id = ?";
 
         try (Connection con = ConexionBD.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, idClase);
+              PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 aforo = rs.getInt("aforo");

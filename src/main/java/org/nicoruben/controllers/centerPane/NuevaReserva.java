@@ -116,8 +116,8 @@ public class NuevaReserva {
         // 2. Validar si ya tiene reserva
         if (mensajeError == null) {
             boolean yaReservado = Reservas.existeReservaClienteEnPlanificacion(
-                    cliente.getId_cliente(),
-                    planificacion.getId_planificacion()
+                    cliente.getId(),
+                    planificacion.getId()
             );
             if (yaReservado) {
                 mensajeError = "Este cliente ya tiene una reserva en esta planificación.";
@@ -126,9 +126,9 @@ public class NuevaReserva {
 
         // 3. Validar aforo
         if (mensajeError == null) {
-            int idPlan = planificacion.getId_planificacion();
+            int idPlan = planificacion.getId();
             int reservasActuales = Reservas.contarReservasPorPlanificacion(idPlan);
-            int aforoMaximo = Clases.obtenerAforoPorIdClase(planificacion.getClase().getId_clase());
+            int aforoMaximo = Clases.obtenerAforoPorId(planificacion.getClase().getId());
 
             if (reservasActuales >= aforoMaximo) {
                 mensajeError = "No se pudo crear la reserva: aforo completo.";

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Instructores {
 
-    private int id_inst;
+    private int id;
     private String nombre;
     private String apellido1;
     private String apellido2;
@@ -18,8 +18,8 @@ public class Instructores {
 
 
     // CONSTRUCTORES
-    public Instructores(int id_inst, String nombre, String apellido1, String apellido2, String DNI, String telefono, int estado) {
-        this.id_inst = id_inst;
+    public Instructores(int id, String nombre, String apellido1, String apellido2, String DNI, String telefono, int estado) {
+        this.id = id;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
@@ -42,11 +42,11 @@ public class Instructores {
 
     // SETTER & GETTERS
     public int getId() {
-        return id_inst;
+        return id;
     }
 
-    public void setId(int id_inst) {
-        this.id_inst = id_inst;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -143,7 +143,7 @@ public class Instructores {
 
             while (rs.next()) {
                 Instructores instructor = new Instructores(
-                        rs.getInt("id_inst"),
+                        rs.getInt("id"),
                         rs.getString("nombre"),
                         rs.getString("apellido1"),
                         rs.getString("apellido2"),
@@ -162,14 +162,14 @@ public class Instructores {
     }
 
     // ACTUALIZAR ESTADO (BAJA / ALTA)
-    public static void actualizarEstado(int id_inst, int nuevoEstado) {
-        String sql = "UPDATE Instructores SET estado = ? WHERE id_inst = ?";
+    public static void actualizarEstado(int id, int nuevoEstado) {
+        String sql = "UPDATE Instructores SET estado = ? WHERE id = ?";
 
         try (Connection connection = ConexionBD.conectar();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, nuevoEstado);
-            ps.setInt(2, id_inst);
+            ps.setInt(2, id);
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -181,10 +181,10 @@ public class Instructores {
     public static boolean actualizarInstructor(Instructores instructor) {
         boolean exito = false;
         String sql = "UPDATE Instructores SET nombre = ?, apellido1 = ?, apellido2 = ?, DNI = ?, telefono = ?, estado = ? " +
-                "WHERE id_inst = ?";
+                "WHERE id = ?";
 
         try (Connection connection = ConexionBD.conectar();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, instructor.getNombre());
             ps.setString(2, instructor.getApellido1());

@@ -14,15 +14,15 @@ import java.sql.PreparedStatement;
 
 public class Administradores {
 
-    private int id_user;
+    private int id;
     private String mail;
     private String rol;
     private String password;
     private int estado;
 
     // CONSTRUCTORES
-    public Administradores(int id_user, String mail, String rol, String password, int estado) {
-        this.id_user = id_user;
+    public Administradores(int id, String mail, String rol, String password, int estado) {
+        this.id = id;
         this.mail = mail;
         this.rol = rol;
         this.password = password;
@@ -33,12 +33,12 @@ public class Administradores {
 
 
     // SETTER & GETTERS
-    public int getId_user() {
-        return id_user;
+    public int getId() {
+        return id;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getMail() {
@@ -85,7 +85,7 @@ public class Administradores {
         ) {
             while (rs.next()) {
                 Administradores administrador = new Administradores(
-                        rs.getInt("id_user"),
+                        rs.getInt("id"),
                         rs.getString("mail"),
                         rs.getString("rol"),
                         rs.getString("password"),
